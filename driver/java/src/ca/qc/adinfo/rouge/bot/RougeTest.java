@@ -1,11 +1,3 @@
-package ca.qc.adinfo.rouge.bot;
-
-import org.apache.log4j.Logger;
-
-import ca.qc.adinfo.rouge.RougeDriver;
-import ca.qc.adinfo.rouge.RougeListener;
-import ca.qc.adinfo.rouge.data.RougeObject;
-
 /*
  * Copyright [2011] [ADInfo, Alexandre Denault]
  *
@@ -22,6 +14,14 @@ import ca.qc.adinfo.rouge.data.RougeObject;
  * limitations under the License.
  */
 
+package ca.qc.adinfo.rouge.bot;
+
+import org.apache.log4j.Logger;
+
+import ca.qc.adinfo.rouge.RougeDriver;
+import ca.qc.adinfo.rouge.RougeListener;
+import ca.qc.adinfo.rouge.data.RougeObject;
+
 public class RougeTest implements RougeListener {
 
 	private final static Logger log = Logger.getLogger(RougeTest.class);
@@ -31,7 +31,7 @@ public class RougeTest implements RougeListener {
 	public RougeTest() {
 		
 		log.trace("Starting test program ...");
-		this.driver = new RougeDriver("localhost", 6612, this, true);
+		this.driver = new RougeDriver("localhost", 6611, this, false);
 		log.trace("Connecting ...");
 		this.driver.connect();		
 		
