@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-servlet"/>
+	<classpathentry kind="src" path="conf"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/apache/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/apache/commons-beanutils-bean-collections-1.8.3.jar"/>
@@ -23,5 +24,9 @@
 	<classpathentry kind="lib" path="lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.15-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jsp-2.1-jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jsp-api-2.1-glassfish-2.1.v20091210.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jsp-2.1-glassfish-2.1.v20091210.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/core-3.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
