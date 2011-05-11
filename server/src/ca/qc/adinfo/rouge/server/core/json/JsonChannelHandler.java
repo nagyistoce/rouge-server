@@ -19,7 +19,6 @@ package ca.qc.adinfo.rouge.server.core.json;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
-import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
@@ -30,7 +29,6 @@ import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.core.ServerHandler;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
-import ca.qc.adinfo.rouge.user.UserManager;
 
 public class JsonChannelHandler extends ServerHandler {
 
