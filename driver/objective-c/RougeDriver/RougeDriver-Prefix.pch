@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'RougeDriver' target in the 'RougeDriver' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
