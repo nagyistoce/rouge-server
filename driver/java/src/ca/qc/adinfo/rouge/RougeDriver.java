@@ -106,20 +106,53 @@ public class RougeDriver {
 
 		this.listener = listener;
 	}
-
-	public void execute(String command, RougeObject payload) {
-
+	
+	public void createRoom(String name) {
 		
+		RougeObject payload = new RougeObject();
+		payload.putString("name", name);
 		
+		this.send("room.create", payload);
+	}
+	
+	public void joinRoom(String name) {
+		
+		RougeObject payload = new RougeObject();
+		payload.putString("name", name);
+		
+		this.send("room.join", payload);
+	}
+	
+	public void leaveRoom(String name) {
+		
+		RougeObject payload = new RougeObject();
+		payload.putString("name", name);
+		
+		this.send("room.leave", payload);
+	}
+	
+	public void destroyRoom(String name) {
+		
+		RougeObject payload = new RougeObject();
+		payload.putString("name", name);
+		
+		this.send("room.destroy", payload);
+	}
+	
+	public void sayInRoom(String name, RougeObject message) {
+		
+		RougeObject payload = new RougeObject();
+		payload.putString("name", name);
+		payload.putNovaObject("message", message);
+		
+		this.send("room.say", payload);
+	}
+
+	public void send(String command, RougeObject payload) {
+
 		if (channel != null) {
 			
-			this.channelWriter.send(channel, command, payload);
-//			JSONObject jsonObj = new JSONObject();
-//			jsonObj.put("command", command);
-//			jsonObj.put("payload", payload.toJSON());
-//
-//			ChannelFuture future = channel.write(jsonObj.toString() + "|\n");
-			
+			this.channelWriter.send(channel, command, payload);		
 			log.trace("Sent " + command);			
 		}
 	}

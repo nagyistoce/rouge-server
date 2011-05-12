@@ -54,10 +54,10 @@ public class RougeTest implements RougeListener {
 			
 			RougeObject newPayload = new RougeObject();
 			newPayload.putString("name", "testRoom");
-			this.driver.execute("room.create", newPayload);
+			this.driver.send("room.create", newPayload);
 			
 			newPayload.putString("message", "hello");
-			this.driver.execute("room.say", newPayload);
+			this.driver.send("room.say", newPayload);
 			
 		}
 	}
@@ -71,7 +71,7 @@ public class RougeTest implements RougeListener {
 		payload.putString("username", "bob" + System.currentTimeMillis());
 		payload.putString("password", "password");
 				
-		this.driver.execute("login", payload);
+		this.driver.send("login", payload);
 	}
 
 	@Override

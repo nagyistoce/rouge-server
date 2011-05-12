@@ -60,8 +60,8 @@ public class RougeBot implements RougeListener, Runnable  {
 
 			RougeObject newPayload = new RougeObject();
 			newPayload.putString("name", roomName);
-			this.driver.execute("room.create", newPayload);
-			this.driver.execute("room.join", newPayload);
+			this.driver.send("room.create", newPayload);
+			this.driver.send("room.join", newPayload);
 			
 		} else if (command.equals("room.join")) {
 			
@@ -78,7 +78,7 @@ public class RougeBot implements RougeListener, Runnable  {
 		payload.putString("username", roomName + System.currentTimeMillis());
 		payload.putString("password", "password");
 
-		this.driver.execute("login", payload);
+		this.driver.send("login", payload);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class RougeBot implements RougeListener, Runnable  {
 					RougeObject payload = new RougeObject();
 					payload.putString("name", this.roomName);
 					payload.putString("message", "hello");
-					this.driver.execute("room.say", payload);
+					this.driver.send("room.say", payload);
 				}
 			}
 
