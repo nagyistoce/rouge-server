@@ -13,51 +13,65 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
- 	
- <project name="NovaDriver" default="dist" basedir=".">
-	
-    <description>
+
+<project name="NovaDriver" default="dist" basedir=".">
+
+	<description>
         simple example build file
     </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="lib" location="lib"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="lib" location="lib" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
 
-  <path id="classpath">
-    <fileset dir="${lib}" includes="**/*.jar"/>
-  </path>	
-	
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-  </target>
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
 
-  <target name="compile" depends="init">
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}">
-    	<src path="${src}"/>
-    	<classpath>
-    	  <path refid="classpath"/>
-    	</classpath>
-  	</javac>
-  </target>
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
 
-  <target name="dist" depends="compile">
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"/>
+	<target name="compile" depends="init">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac destdir="${build}">
+			<src path="${src}" />
+			<classpath>
+				<path refid="classpath" />
+			</classpath>
+		</javac>
+	</target>
 
-    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/NovaDriver.jar" basedir="${build}"/>
-  </target>
+	<target name="dist" depends="compile, javadoc">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}/lib" />
+		<mkdir dir="${dist}/demo" />
 
-  <target name="clean">
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-  </target>
-	
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/lib/NovaDriver.jar" basedir="${build}" />
+
+		<copy todir="${dist}/demo">
+			<fileset dir="src-demo" includes="**/*.java" />
+		</copy>
+	</target>
+
+	<target name="javadoc" depends="init">
+		<javadoc destdir="${dist}/api" author="true" version="true" use="true" windowtitle="Rouge Driver API">
+			<packageset dir="${src}" defaultexcludes="yes" />
+			<classpath>
+				<path refid="classpath" />
+			</classpath>
+		</javadoc>
+	</target>
+
+	<target name="clean">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
 </project>
