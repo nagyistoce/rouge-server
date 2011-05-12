@@ -16,12 +16,13 @@
 
 package ca.qc.adinfo.rouge;
 
+import java.io.File;
 import java.io.FileReader;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.command.RougeCommandProcessor;
@@ -35,6 +36,7 @@ import ca.qc.adinfo.rouge.user.UserManager;
 
 public class RougeServer {
 
+	
 	private final static Logger log = Logger.getLogger(RougeServer.class);
 
 	private static RougeServer instance;
@@ -56,14 +58,15 @@ public class RougeServer {
 
 	private RougeServer() throws Exception {
 
+		PropertyConfigurator.configure("./conf/log4j.properties");
+		
 		running = false;
 
 		attachements = new HashMap<String, Object>();
 		modules = new HashMap<String, Object>();
 
 		serverProperties = new Properties();
-		URL url = Thread.currentThread().getContextClassLoader().getResource("config.properties");
-		serverProperties.load(new FileReader(url.getFile()));
+		serverProperties.load(new FileReader(new File("./conf/config.properties")));
 
 		log.trace("Properties were loaded.");
 

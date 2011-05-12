@@ -81,7 +81,7 @@ public class CoreServer {
 				.get("server.core.binary.port"));
 
 		if (jsonServerEnabled) {
-			log.trace("Starting JSon Listener on port " + jsonServerPort);
+			log.info("Starting JSon Listener on port " + jsonServerPort);
 			ServerBootstrap bootstrap = new ServerBootstrap(factory);
 
 			JsonChannelHandler handler = new JsonChannelHandler(
@@ -98,7 +98,7 @@ public class CoreServer {
 		}
 
 		if (binaryServerEnabled) {
-			log.trace("Starting BEncode Listener on port " + binaryServerPort);
+			log.info("Starting BEncode Listener on port " + binaryServerPort);
 			ServerBootstrap bootstrap = new ServerBootstrap(factory);
 
 			bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
