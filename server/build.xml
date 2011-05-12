@@ -13,18 +13,24 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
-   	
+
 <project name="RougeServer" default="dist" basedir=".">
 
 	<description>
         simple example build file
     </description>
 	<!-- set global properties for this build -->
+
+	<property name="version" value="0.1"/>
+
 	<property name="src" location="src"/>
 	<property name="src-servlet" location="src-servlet"/>
 	<property name="lib" location="lib"/>
 	<property name="build" location="build"/>
 	<property name="dist"  location="dist"/>
+
+	<property name="driver.java" location="../driver-java"/>
+	<property name="driver.objc" location="../driver-objc"/>
 
 	<path id="classpath">
 		<fileset dir="${lib}" includes="**/*.jar"/>
@@ -32,7 +38,7 @@
 
 	<path id="classpath.runtime">
 		<fileset dir="${lib}" includes="**/*.jar"/>
-		<fileset dir="${dist}/lib" includes="**/*.jar"/>		
+		<fileset dir="${dist}/lib" includes="**/*.jar"/>
 		<pathelement location="conf/"/>
 	</path>
 
@@ -54,12 +60,64 @@
 		</javac>
 	</target>
 
-	<target name="dist" depends="compile">
+	<target name="jar" depends="compile">
 		<!-- Create the distribution directory -->
 		<mkdir dir="${dist}/lib"/>
 
 		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/lib/RougeServer.jar" basedir="${build}"/>
+		<jar jarfile="${dist}/lib/rouge-server-${version}.jar" basedir="${build}">
+			<manifest>
+				<!-- Who is building this jar? -->
+				<attribute name="Built-By" value="${user.name}"/>
+				<!-- Information about the program itself -->
+				<attribute name="Implementation-Vendor" value="ADInfo"/>
+				<attribute name="Implementation-Title" value="Rouge Server"/>
+				<attribute name="Implementation-Version" value="${version}"/>
+				<attribute name="Main-Class"
+			            value="ca.qc.adinfo.rouge.RougeServer"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="jar">
+
+		<mkdir dir="${dist}/conf"/>
+		<mkdir dir="${dist}/driver"/>
+		<mkdir dir="${dist}/driver/java"/>
+		<mkdir dir="${dist}/driver/objc"/>
+		<mkdir dir="${dist}/licenses"/>
+		<mkdir dir="${dist}/scripts"/>
+
+		<copy todir="${dist}">
+			<fileset dir="." includes="*.sh"/>
+			<fileset dir="." includes="*.bat"/>
+			<fileset dir="." includes="*.txt"/>
+		</copy>
+
+		<copy todir="${dist}/licenses">
+			<fileset dir="licenses" includes="**/*"/>
+		</copy>
+
+		<copy todir="${dist}/scripts">
+			<fileset dir="scripts" includes="**/*"/>
+		</copy>
+
+		<copy todir="${dist}/conf">
+			<fileset dir="conf" includes="**/*"/>
+		</copy>
+
+		<copy todir="${dist}/lib">
+			<flattenmapper />
+			<fileset dir="${lib}" includes="**/*.jar"/>
+		</copy>
+
+		<copy todir="${dist}/driver/java">
+			<fileset dir="${driver.java}/dist" includes="**/*"/>
+		</copy>
+
+		<copy todir="${dist}/driver/objc">
+			<fileset dir="${driver.objc}/RougeDriver" includes="**/*"/>
+		</copy>
 	</target>
 
 	<target name="run" depends="dist">
