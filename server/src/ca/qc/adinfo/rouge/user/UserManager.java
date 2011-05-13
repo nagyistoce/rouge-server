@@ -19,7 +19,9 @@ package ca.qc.adinfo.rouge.user;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class UserManager {
+import ca.qc.adinfo.rouge.module.RougeModule;
+
+public class UserManager extends RougeModule {
 	
 	private HashMap<String, User> users;
 	
@@ -54,6 +56,12 @@ public class UserManager {
 		synchronized (users) {
 			return this.users.values();
 		}
+	}
+
+	@Override
+	public void tick(long time) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

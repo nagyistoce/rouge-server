@@ -26,6 +26,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.command.RougeCommandProcessor;
+import ca.qc.adinfo.rouge.module.RougeModule;
 import ca.qc.adinfo.rouge.monitor.ResourceMonitor;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.CoreServer;
@@ -36,7 +37,6 @@ import ca.qc.adinfo.rouge.user.UserManager;
 
 public class RougeServer {
 
-	
 	private final static Logger log = Logger.getLogger(RougeServer.class);
 
 	private static RougeServer instance;
@@ -52,10 +52,12 @@ public class RougeServer {
 	private RougeCommandProcessor commandProcessor;
 
 	private HashMap<String, Object> attachements;
-	private HashMap<String, Object> modules;
+	private HashMap<String, RougeModule> modules;
 	
 	private ResourceMonitor resourceMonitor;
 
+	private long timeTick;
+	
 	private RougeServer() throws Exception {
 
 		PropertyConfigurator.configure("./conf/log4j.properties");
@@ -63,7 +65,7 @@ public class RougeServer {
 		running = false;
 
 		attachements = new HashMap<String, Object>();
-		modules = new HashMap<String, Object>();
+		modules = new HashMap<String, RougeModule>();
 
 		serverProperties = new Properties();
 		serverProperties.load(new FileReader(new File("./conf/config.properties")));
@@ -72,6 +74,8 @@ public class RougeServer {
 
 		dbManager = new DBManager(serverProperties);
 		
+		
+		this.timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
 	}
 	
 	public void init() throws Exception {
@@ -110,7 +114,7 @@ public class RougeServer {
 
 			try {
 				Class<?> cls = Class.forName(moduleClass);
-				modules.put(moduleName.trim(), cls.newInstance());
+				modules.put(moduleName.trim(), (RougeModule)cls.newInstance());
 			} catch(Exception e) {
 				log.error("Could not load module " + moduleName + " " + moduleClass);
 				throw e;
@@ -156,14 +160,26 @@ public class RougeServer {
 
 		dbManager.connect();
 
+		long timeStartLoop = System.currentTimeMillis();
+		
 		while(this.running) {
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(timeTick);
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			
+			long currentTime = System.currentTimeMillis();
+			long interval = currentTime - timeStartLoop;
+			timeStartLoop = currentTime;
+			
+			// I can loop over this safely since modules shouldn't be added
+			// at run time.
+			for (RougeModule module: this.modules.values()) {
+				module.tick(interval);
 			}
 		}
 

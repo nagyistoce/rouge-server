@@ -19,6 +19,7 @@ package ca.qc.adinfo.servlet.rouge;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +39,17 @@ import ca.qc.adinfo.rouge.user.UserManager;
 public class IndexServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	private String username;
+	private String password;
+	
+	public IndexServlet() {
+		
+		Properties props = RougeServer.getInstance().getProperties();
+		
+		this.username = props.getProperty("server.web.username ").trim();
+		this.password = props.getProperty("server.web.password").trim();
+	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
@@ -52,8 +64,8 @@ public class IndexServlet extends HttpServlet {
 
 		if (request.getParameter("username") != null) {
 
-			if (request.getParameter("username").equals("admin") && 
-					request.getParameter("password").equals("admin")) {
+			if (request.getParameter("username").equals(this.username) && 
+					request.getParameter("password").equals(this.password)) {
 
 				session.setAttribute("auth", true);
 			}

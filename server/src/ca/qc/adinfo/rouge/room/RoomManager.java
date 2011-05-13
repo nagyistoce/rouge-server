@@ -22,9 +22,10 @@ import java.util.Properties;
 
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.data.RougeObject;
+import ca.qc.adinfo.rouge.module.RougeModule;
 import ca.qc.adinfo.rouge.user.User;
 
-public class RoomManager {
+public class RoomManager extends RougeModule {
 
 	private Hashtable<String, Room> rooms;
 	
@@ -92,6 +93,12 @@ public class RoomManager {
 		synchronized(this.rooms) {
 			return this.rooms.values();
 		}
+	}
+
+	@Override
+	public void tick(long time) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

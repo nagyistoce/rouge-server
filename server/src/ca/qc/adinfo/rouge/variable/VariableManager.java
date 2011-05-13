@@ -18,7 +18,9 @@ package ca.qc.adinfo.rouge.variable;
 
 import java.util.HashMap;
 
-public class VariableManager {
+import ca.qc.adinfo.rouge.module.RougeModule;
+
+public class VariableManager extends RougeModule {
 	
 	private HashMap<String, Variable> variables;
 	
@@ -38,6 +40,12 @@ public class VariableManager {
 				return variable;
 			}
 		}
+	}
+
+	@Override
+	public void tick(long time) {
+		// TODO Auto-generated method stub
+		
 	}	 
 
 }
