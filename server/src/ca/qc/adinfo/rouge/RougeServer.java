@@ -33,6 +33,7 @@ import ca.qc.adinfo.rouge.server.CoreServer;
 import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.WebServer;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
+import ca.qc.adinfo.rouge.server.servlet.RougePage;
 import ca.qc.adinfo.rouge.user.UserManager;
 
 public class RougeServer {
@@ -53,6 +54,7 @@ public class RougeServer {
 
 	private HashMap<String, Object> attachements;
 	private HashMap<String, RougeModule> modules;
+	private HashMap<String, RougePage> pages;
 	
 	private ResourceMonitor resourceMonitor;
 
@@ -74,8 +76,9 @@ public class RougeServer {
 
 		dbManager = new DBManager(serverProperties);
 		
+		pages = new HashMap<String, RougePage>();
 		
-		this.timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
+		timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
 	}
 	
 	public void init() throws Exception {
@@ -119,6 +122,29 @@ public class RougeServer {
 				log.error("Could not load module " + moduleName + " " + moduleClass);
 				throw e;
 			}
+		}
+		
+		String pagesFromConfig = serverProperties.getProperty("page.load");
+		String[] pagesToLoad = pagesFromConfig.split(",");
+
+		for(String pageName: pagesToLoad) {
+
+			String pageClass = serverProperties.getProperty("page." + pageName.trim());
+
+			try {
+				Class<?> cls = Class.forName(pageClass);
+				pages.put(pageName.trim(), (RougePage)cls.newInstance());
+			} catch(Exception e) {
+				log.error("Could not load page " + pageName + " " + pageClass);
+				throw e;
+			}
+		}
+		
+		String pagesForMenu = serverProperties.getProperty("page.menu");
+		String[] menuItems = pagesForMenu.split(",");
+
+		for(String menuItem: menuItems) {
+			RougePage.addToMenu(menuItem.trim());
 		}
 	}
 
@@ -201,6 +227,16 @@ public class RougeServer {
 		synchronized (this.attachements) {
 			this.attachements.put(key, value);
 		}
+	}
+	
+	public void registerPage(String action, RougePage page) {
+		
+		this.pages.put(action, page);
+	}
+	
+	public RougePage getPage(String action) {
+		
+		return this.pages.get(action);
 	}
 
 	public DBManager getDbManager() {
