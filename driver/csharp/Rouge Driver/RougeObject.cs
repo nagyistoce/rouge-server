@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rouge_Driver
+namespace Rouge
 {
     public class RougeObject
     {

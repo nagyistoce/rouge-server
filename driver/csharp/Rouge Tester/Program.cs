@@ -9,6 +9,8 @@ namespace Rouge_Tester
     {
         static void Main(string[] args)
         {
+            Rouge.RougeObject rougeObject = new Rouge.RougeObject();
+            
             Console.WriteLine("Hello World");
         }
     }

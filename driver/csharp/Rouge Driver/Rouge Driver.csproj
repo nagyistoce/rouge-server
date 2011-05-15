@@ -8,10 +8,11 @@
     <ProjectGuid>{C615A4E8-D4AD-43C0-8289-47A69645C0E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rouge_Driver</RootNamespace>
+    <RootNamespace>Rouge</RootNamespace>
     <AssemblyName>Rouge Driver</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
