@@ -14,35 +14,28 @@
  * limitations under the License.
  */
 
-package ca.qc.adinfo.rouge.room.command;
+package ca.qc.adinfo.rouge.variable.command;
 
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.user.User;
+import ca.qc.adinfo.rouge.variable.VariableManager;
 
-public class DeleteRoom extends RougeCommand {
+public class UnsubscribeVariable extends RougeCommand {
 	
-	public DeleteRoom() {
+	public UnsubscribeVariable() {
 		
 	}
 
 	@Override
 	public void execute(RougeObject data, SessionContext session, User user) {
 
-		RoomManager roomManager = (RoomManager)RougeServer.getInstance().getModule("room.manager");
+		VariableManager variableManager = (VariableManager)RougeServer.getInstance().getModule("variable.manager");
 		
-		String roomName = data.getString("name");
 		
-		if (roomManager.roomExists(roomName)) {
-			roomManager.deleteRoom(roomName, user);
-			sendSuccess(session);
-		} else {
-			sendFailure(session);
-		}
-
+		sendSuccess(session);
 	}
 
 }

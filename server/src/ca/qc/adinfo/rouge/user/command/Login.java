@@ -33,7 +33,6 @@ public class Login extends RougeCommand {
 	private static long count = 0;
 	
 	public Login() {
-		super("login");
 		
 	}
 

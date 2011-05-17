@@ -24,7 +24,6 @@ import ca.qc.adinfo.rouge.user.User;
 public class Echo extends RougeCommand {
 
 	public Echo() {
-		super("echo");
 		
 	}
 

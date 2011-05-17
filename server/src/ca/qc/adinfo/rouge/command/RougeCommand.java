@@ -37,9 +37,8 @@ public abstract class RougeCommand {
 		failureNovaObject.putBoolean("ret", false);
 	}
 	
-	public RougeCommand(String key) {
-		
-		this.key = key; 
+	public RougeCommand() {
+
 	}
 	
 	public abstract void execute(RougeObject data, SessionContext session, User user);
@@ -58,6 +57,11 @@ public abstract class RougeCommand {
 	public String getKey() {
 		
 		return this.key;
+	}
+	
+	public void setKey(String key) {
+		
+		this.key = key;
 	}
 	
 	public void sendSuccess(SessionContext session) {

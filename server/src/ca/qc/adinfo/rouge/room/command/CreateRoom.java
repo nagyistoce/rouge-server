@@ -26,7 +26,7 @@ import ca.qc.adinfo.rouge.user.User;
 public class CreateRoom extends RougeCommand {
 	
 	public CreateRoom() {
-		super("room.create");
+		
 	}
 
 	@Override

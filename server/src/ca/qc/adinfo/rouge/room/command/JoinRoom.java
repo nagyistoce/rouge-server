@@ -27,7 +27,7 @@ import ca.qc.adinfo.rouge.user.User;
 public class JoinRoom extends RougeCommand {
 	
 	public JoinRoom() {
-		super("room.join");
+		
 	}
 
 	@Override

@@ -24,9 +24,10 @@
 	<property name="version" value="0.1"/>
 
 	<property name="src" location="src"/>
-	<property name="src-servlet" location="src-servlet"/>
+	<property name="src.extension" location="src-extension"/>
 	<property name="lib" location="lib"/>
 	<property name="build" location="build"/>
+	<property name="build.extension" location="build-extension"/>
 	<property name="dist"  location="dist"/>
 
 	<property name="driver.java" location="../driver-java"/>
@@ -35,10 +36,14 @@
 	<path id="classpath">
 		<fileset dir="${lib}" includes="**/*.jar"/>
 	</path>
-
-	<path id="classpath.runtime">
+	
+	<path id="classpath.extension">
 		<fileset dir="${lib}" includes="**/*.jar"/>
-		<pathelement location="conf/"/>
+		<pathelement location="${build}"/>
+	</path>
+	
+	<path id="classpath.runtime">
+		<fileset dir="${dist}/lib" includes="**/*.jar"/>
 	</path>
 	
 	<!-- create a property containing all .jar files, prefix lib/, and seperated with a space -->
@@ -66,17 +71,27 @@
 		<tstamp/>
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build}"/>
+		<mkdir dir="${build.extension}"/>
 	</target>
 
 	<target name="compile" depends="init">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac destdir="${build}" debug="true">
 			<src path="${src}"/>
-			<src path="${src-servlet}"/>
 			<classpath>
 				<path refid="classpath"/>
 			</classpath>
 		</javac>
+	</target>
+	
+	<target name="compile.extension" depends="compile">
+			<!-- Compile the java code from ${src} into ${build} -->
+			<javac destdir="${build.extension}" debug="true">
+				<src path="${src.extension}"/>
+				<classpath>
+					<path refid="classpath.extension"/>
+				</classpath>
+			</javac>
 	</target>
 
 	<target name="jar" depends="compile">
@@ -98,10 +113,28 @@
 			</manifest>
 		</jar>
 	</target>
+	
+	<target name="jar.extension" depends="compile.extension">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}/extension"/>
 
-	<target name="dist" depends="jar">
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/extension/rouge-server-extension-${version}.jar" basedir="${build.extension}">
+			<manifest>
+				<!-- Who is building this jar? -->
+				<attribute name="Built-By" value="${user.name}"/>
+				<!-- Information about the program itself -->
+				<attribute name="Implementation-Vendor" value="ADInfo"/>
+				<attribute name="Implementation-Title" value="Rouge Server"/>
+				<attribute name="Implementation-Version" value="${version}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="jar,jar.extension">
 
 		<mkdir dir="${dist}/conf"/>
+		<mkdir dir="${dist}/extension"/>
 		<mkdir dir="${dist}/driver"/>
 		<mkdir dir="${dist}/driver/java"/>
 		<mkdir dir="${dist}/driver/objc"/>
@@ -130,6 +163,10 @@
 		<copy todir="${dist}/conf">
 			<fileset dir="conf" includes="**/*"/>
 		</copy>
+		
+		<copy todir="${dist}/extension">
+			<fileset dir="extension" includes="**/*"/>
+		</copy>
 
 		<copy todir="${dist}/lib">
 			<flattenmapper />
@@ -148,7 +185,7 @@
 	</target>
 
 	<target name="run" depends="dist">
-		<java classname="ca.qc.adinfo.rouge.RougeServer" fork="true" >
+		<java classname="ca.qc.adinfo.rouge.RougeServer" fork="true" dir="${dist}" >
 			<jvmarg value="-Djava.lib.path=lib/sigar" />
 			<classpath>
 				<path refid="classpath.runtime"/>

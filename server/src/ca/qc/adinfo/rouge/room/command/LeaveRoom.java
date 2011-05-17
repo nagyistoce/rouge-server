@@ -27,7 +27,7 @@ import ca.qc.adinfo.rouge.user.User;
 public class LeaveRoom extends RougeCommand {
 	
 	public LeaveRoom() {
-		super("room.leave");
+		
 	}
 
 	@Override

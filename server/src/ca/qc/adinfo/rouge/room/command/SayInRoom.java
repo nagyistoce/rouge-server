@@ -31,7 +31,7 @@ public class SayInRoom extends RougeCommand {
 	private final static Logger log = Logger.getLogger(SayInRoom.class);
 
 	public SayInRoom() {
-		super("room.say");
+		
 	}
 
 	@Override

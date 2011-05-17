@@ -18,6 +18,7 @@ package ca.qc.adinfo.rouge;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -35,6 +36,7 @@ import ca.qc.adinfo.rouge.server.WebServer;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
 import ca.qc.adinfo.rouge.user.UserManager;
+import ca.qc.adinfo.rouge.util.JarLoader;
 
 public class RougeServer {
 
@@ -50,6 +52,7 @@ public class RougeServer {
 	private SessionManager sessionManager;
 
 	private Properties serverProperties;
+	private HashMap<String,Properties> moduleProperties;
 	private RougeCommandProcessor commandProcessor;
 
 	private HashMap<String, Object> attachements;
@@ -68,20 +71,15 @@ public class RougeServer {
 
 		attachements = new HashMap<String, Object>();
 		modules = new HashMap<String, RougeModule>();
-
-		serverProperties = new Properties();
-		serverProperties.load(new FileReader(new File("./conf/config.properties")));
-
-		log.trace("Properties were loaded.");
-
-		dbManager = new DBManager(serverProperties);
-		
 		pages = new HashMap<String, RougePage>();
+		moduleProperties = new HashMap<String, Properties>();
 		
-		timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
 	}
 	
 	public void init() throws Exception {
+		
+		serverProperties = new Properties();
+		serverProperties.load(new FileReader(new File("./conf/config.properties")));
 		
 		userManager = new UserManager();
 		roomManager = new RoomManager();
@@ -92,28 +90,88 @@ public class RougeServer {
 		commandProcessor = new  RougeCommandProcessor(dbManager, userManager, roomManager);
 		resourceMonitor = new ResourceMonitor();
 
-		String commandsFromConfig = serverProperties.getProperty("command.load");
+		dbManager = new DBManager(serverProperties);
+		
+		timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
+		
+		loadPropertiesFile(this.serverProperties);
+		
+		File extensionDir = new File("extension");
+		
+		loadJars(extensionDir);
+		loadExtension(extensionDir);
+		
+		log.trace("Everything loaded.");
+	}
+	
+	private void loadExtension(File extensionDir) throws Exception {
+		
+		File[] propertyFiles = extensionDir.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				
+				return name.endsWith(".properties");
+			}
+		});
+		
+		for(File propertyFile: propertyFiles) {
+			log.debug("Loading property file: " + propertyFile.getAbsoluteFile());
+			
+			Properties props = new Properties();
+			props.load(new FileReader(propertyFile));
+			
+			String moduleName = props.getProperty("extension.name");
+			
+			moduleProperties.put(moduleName, props);
+			loadPropertiesFile(props);
+		}
+		
+	}
+	
+	private void loadJars(File extensionDir) throws Exception {
+		
+		File[] jarFiles = extensionDir.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				
+				return name.endsWith(".jar");
+			}
+		});
+		
+		for(File jarFile: jarFiles) {
+			log.debug("Loading jar file: " + jarFile.getAbsoluteFile());
+			JarLoader.loadJar(jarFile);
+		}
+	}
+
+	private void loadPropertiesFile(Properties props) throws Exception {
+		
+		String commandsFromConfig = props.getProperty("command.load");
 		String[] commandsToLoad = commandsFromConfig.split(",");
 
 		for(String commandName: commandsToLoad) {
 
-			String commandClass = serverProperties.getProperty("command." + commandName.trim());
+			String commandClass = props.getProperty("command." + commandName.trim());
 
 			try {
 				Class<?> cls = Class.forName(commandClass);
-				commandProcessor.registerCommand((RougeCommand) cls.newInstance());
+				RougeCommand command = (RougeCommand) cls.newInstance();
+				command.setKey(commandClass);
+				commandProcessor.registerCommand(command);
 			} catch(Exception e) {
-				log.error("Could not load module " + commandName + " " + commandClass);
+				log.error("Could not load command " + commandName + " " + commandClass);
 				throw e;
 			}
 		}
 
-		String modulesFromConfig = serverProperties.getProperty("module.load");
+		String modulesFromConfig = props.getProperty("module.load");
 		String[] modulesToLoad = modulesFromConfig.split(",");
 
 		for(String moduleName: modulesToLoad) {
 
-			String moduleClass = serverProperties.getProperty("module." + moduleName.trim());
+			String moduleClass = props.getProperty("module." + moduleName.trim());
 
 			try {
 				Class<?> cls = Class.forName(moduleClass);
@@ -124,12 +182,12 @@ public class RougeServer {
 			}
 		}
 		
-		String pagesFromConfig = serverProperties.getProperty("page.load");
+		String pagesFromConfig = props.getProperty("page.load");
 		String[] pagesToLoad = pagesFromConfig.split(",");
 
 		for(String pageName: pagesToLoad) {
 
-			String pageClass = serverProperties.getProperty("page." + pageName.trim());
+			String pageClass = props.getProperty("page." + pageName.trim());
 
 			try {
 				Class<?> cls = Class.forName(pageClass);
@@ -140,14 +198,14 @@ public class RougeServer {
 			}
 		}
 		
-		String pagesForMenu = serverProperties.getProperty("page.menu");
+		String pagesForMenu = props.getProperty("page.menu");
 		String[] menuItems = pagesForMenu.split(",");
 
 		for(String menuItem: menuItems) {
 			RougePage.addToMenu(menuItem.trim());
 		}
 	}
-
+	
 	public static RougeServer getInstance() {
 
 		if (instance == null) {
@@ -249,6 +307,10 @@ public class RougeServer {
 
 	public Properties getServerProperties() {
 		return serverProperties;
+	}
+	
+	public Properties getModuleProperties(String key) {
+		return this.moduleProperties.get(key);
 	}
 
 	public ResourceMonitor getResourceMonitor() {

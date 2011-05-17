@@ -31,11 +31,8 @@ import ca.qc.adinfo.rouge.user.UserManager;
 public class Logoff extends RougeCommand {
 	
 	private static final Logger log = Logger.getLogger(Logoff.class);
-
-	private static long count = 0;
 	
 	public Logoff() {
-		super("logoff");
 		
 	}
 
