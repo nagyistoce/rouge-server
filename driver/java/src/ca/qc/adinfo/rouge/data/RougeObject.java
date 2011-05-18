@@ -92,7 +92,7 @@ public class RougeObject {
 		return (Double)this.content.get(key).getValue();
 	}
 	
-	public RougeArray getNovaArray(String key) {
+	public RougeArray getRougeArray(String key) {
 		return (RougeArray)this.content.get(key).getValue();
 	}
 	
@@ -132,11 +132,11 @@ public class RougeObject {
 		this.content.put(key, new RougeDataWrapper(value));
 	}
 	
-	public void putNovaArray(String key, RougeArray value) {
+	public void putRougeArray(String key, RougeArray value) {
 		this.content.put(key, new RougeDataWrapper(value));
 	}
 	
-	public void putNovaObject(String key, RougeObject value) {
+	public void putRougeObject(String key, RougeObject value) {
 		this.content.put(key, new RougeDataWrapper(value));
 	}
 	

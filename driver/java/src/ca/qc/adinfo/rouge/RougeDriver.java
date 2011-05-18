@@ -143,7 +143,7 @@ public class RougeDriver {
 		
 		RougeObject payload = new RougeObject();
 		payload.putString("name", name);
-		payload.putNovaObject("message", message);
+		payload.putRougeObject("message", message);
 		
 		this.send("room.say", payload);
 	}

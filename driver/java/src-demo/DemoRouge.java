@@ -5,7 +5,6 @@ import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class DemoRouge implements RougeListener {
 
-	
 	private final static String HOST = "127.0.0.1";
 	private final static int PORT = 6611;
 	private final static boolean USE_BENCODE = false;
