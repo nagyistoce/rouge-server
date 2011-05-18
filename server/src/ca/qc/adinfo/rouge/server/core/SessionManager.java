@@ -67,5 +67,10 @@ public class SessionManager {
 			return this.sessions.values();
 		}
 	}
+	
+	public int getNumberSession() {
+		
+		return this.sessions.size();
+	}
 
 }

@@ -52,17 +52,17 @@ public class Variable {
 	public void setValue(RougeObject value) {
 		
 		synchronized (this.subscribers) {
-			RougeObject novaObject = new RougeObject();
-			novaObject.putString("key", this.key);
-			novaObject.putNovaObject(key, value);
+			RougeObject rougeObject = new RougeObject();
+			rougeObject.putString("key", this.key);
+			rougeObject.putRougeObject(key, value);
 			
 			for(User user: this.subscribers) {
-				user.getSessionContext().send("var.up", novaObject);
+				user.getSessionContext().send("var.up", rougeObject);
 			}
 		}
 	}
 	
-	public Object getValue() {
+	public RougeObject getValue() {
 		
 		return this.value;
 	}

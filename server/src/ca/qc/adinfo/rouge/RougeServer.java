@@ -34,9 +34,11 @@ import ca.qc.adinfo.rouge.server.CoreServer;
 import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.WebServer;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
+import ca.qc.adinfo.rouge.server.db.ServerDb;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
 import ca.qc.adinfo.rouge.user.UserManager;
 import ca.qc.adinfo.rouge.util.JarLoader;
+import ca.qc.adinfo.rouge.util.NetUtils;
 
 public class RougeServer {
 
@@ -62,6 +64,11 @@ public class RougeServer {
 	private ResourceMonitor resourceMonitor;
 
 	private long timeTick;
+	
+	private String gameName;
+	private String instanceName;
+	
+	private ServerDb serverDb;
 	
 	private RougeServer() throws Exception {
 
@@ -92,6 +99,8 @@ public class RougeServer {
 
 		dbManager = new DBManager(serverProperties);
 		
+		instanceName = serverProperties.getProperty("server.name.instance").trim();
+		gameName = serverProperties.getProperty("server.name.game").trim();
 		timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
 		
 		loadPropertiesFile(this.serverProperties);
@@ -100,6 +109,8 @@ public class RougeServer {
 		
 		loadJars(extensionDir);
 		loadExtension(extensionDir);
+		
+		this.serverDb = new ServerDb(this.dbManager);
 		
 		log.trace("Everything loaded.");
 	}
@@ -246,6 +257,8 @@ public class RougeServer {
 
 		long timeStartLoop = System.currentTimeMillis();
 		
+		long serverUpdateIn = 0;
+		
 		while(this.running) {
 
 			try {
@@ -259,6 +272,13 @@ public class RougeServer {
 			long currentTime = System.currentTimeMillis();
 			long interval = currentTime - timeStartLoop;
 			timeStartLoop = currentTime;
+			
+			serverUpdateIn = serverUpdateIn - interval;
+			if (serverUpdateIn < 0) {
+				serverDb.updateServerInfo(instanceName, gameName, 
+						NetUtils.getHostname(), this.sessionManager.getNumberSession());
+				serverUpdateIn = 60000;
+			}
 			
 			// I can loop over this safely since modules shouldn't be added
 			// at run time.
@@ -323,6 +343,14 @@ public class RougeServer {
 	
 	public Properties getProperties() {
 		return this.serverProperties;
+	}
+	
+	public String getGameName() {
+		return gameName;
+	}
+
+	public String getInstanceName() {
+		return instanceName;
 	}
 
 	/**

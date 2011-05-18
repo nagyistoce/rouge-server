@@ -41,7 +41,7 @@ public class BEncodeChannelWriter implements ChannelWriter {
 		RougeObject message = new RougeObject();
 		
 		message.putString("command", command);
-		message.putNovaObject("payload", payload);
+		message.putRougeObject("payload", payload);
 		
 		byte[] msg = BEncoder.bencode(message);
 		

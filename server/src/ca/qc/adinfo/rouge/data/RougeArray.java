@@ -76,11 +76,11 @@ public class RougeArray {
 		return (Double)this.content.get(index).getValue();
 	}
 	
-	public RougeArray getNovaArray(int index) {
+	public RougeArray getRougeArray(int index) {
 		return (RougeArray)this.content.get(index).getValue();
 	}
 	
-	public RougeObject getNovaObject(int index) {
+	public RougeObject getRougeObject(int index) {
 		return (RougeObject)this.content.get(index).getValue();
 	}
 	
@@ -117,11 +117,11 @@ public class RougeArray {
 		this.content.add(new RougeDataWrapper(value));
 	}
 	
-	public void addNovaArray(RougeArray value) {
+	public void addRougeArray(RougeArray value) {
 		this.content.add(new RougeDataWrapper(value));
 	}
 	
-	public void addNovaObject(RougeObject value) {
+	public void addRougeObject(RougeObject value) {
 		this.content.add(new RougeDataWrapper(value));
 	}
 	

@@ -66,12 +66,25 @@ public abstract class RougeCommand {
 	
 	public void sendSuccess(SessionContext session) {
 
-		session.send(this.key, successNovaObject);
+		RougeObject payload = new RougeObject();
+		payload.putBoolean("ret", true);
+		
+		session.send(this.key, payload);
 	}
+	
+	public void sendSuccess(SessionContext session, RougeObject payload) {
+		
+		payload.putBoolean("ret", true);
+		session.send(this.key, payload);
+	}
+	
 	
 	public void sendFailure(SessionContext session) {
 		
-		session.send(this.key, failureNovaObject);
+		RougeObject payload = new RougeObject();
+		payload.putBoolean("ret", false);
+		
+		session.send(this.key, payload);
 	}
 	
 }
