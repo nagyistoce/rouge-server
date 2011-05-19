@@ -16,20 +16,122 @@
 
 package ca.qc.adinfo.rouge.bencode;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 
 import org.apache.log4j.Logger;
 
-import ca.qc.adinfo.rouge.data.RougeDataWrapper;
+import ca.qc.adinfo.rouge.bot.RougeTest;
+import ca.qc.adinfo.rouge.data.RougeArray;
+import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class BDecoder {
 
-	private static Logger log = Logger.getLogger(BDecoder.class);
+	//private static Logger log = Logger.getLogger(BDecoder.class);
 	
-	public static RougeDataWrapper bdecode(InputStream in) {
+	public static RougeObject bDecode(ByteArrayInputStream bytes) {
 		
-		return null;
+		Object o = bDecodeSomething(bytes);
+		
+		return (RougeObject)o;	
+	}
+	
+	private static Object bDecodeSomething(ByteArrayInputStream bytes) {
+	
+		return bDecodeSomething(bytes, bytes.read());
+	}
+	
+	private static Object bDecodeSomething(ByteArrayInputStream bytes, int i) {
+		
+		if (i == BConstant.DICTIONARY_START) {
+			return bDecodeDictionary(bytes);
+		} else if (i == BConstant.LIST_START) {
+			return bDecodeArray(bytes);
+		} else if (i == BConstant.NUMBER_START) {
+			return bDecodeNumber(bytes);
+		} else if ( Character.isDigit((char)i) ){
+			return bDecodeString(bytes, (char)i);
+		} else {
+			return null;
+		}
+	}
+	
+	private static RougeObject bDecodeDictionary(ByteArrayInputStream bytes) {
+		
+		RougeObject rougeObject = new RougeObject();
+		
+		int i = bytes.read();
+		
+		while(i != BConstant.DICTIONARY_END) {
+			
+			Object key = bDecodeSomething(bytes, i);
+			Object value = bDecodeSomething(bytes);
+			
+			rougeObject.put((String)key, value);
+			
+			i = bytes.read();
+		}
+		
+		return rougeObject;
+	}
+	
+	private static RougeArray bDecodeArray(ByteArrayInputStream bytes) {
+		
+		RougeArray rougeArray = new RougeArray();
+		
+		int i = bytes.read();
+		
+		while(i != BConstant.LIST_END) {
+			
+			Object value = bDecodeSomething(bytes, i);
+			
+			rougeArray.add(value);
+			
+			i = bytes.read();
+		}
+		
+		return rougeArray;
+	}
+	
+	private static long bDecodeNumber(ByteArrayInputStream bytes) {
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		
+		int i = bytes.read();
+		
+		while(i != BConstant.NUMBER_END) {
+			
+			stringBuffer.append(new Character((char)i));
+			i = bytes.read();
+		}
+		
+		return Long.parseLong(stringBuffer.toString());
+	}
+	
+	private static String bDecodeString(ByteArrayInputStream bytes, int firstCharacter) {
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(new Character((char)firstCharacter));
+		
+		int i = bytes.read();
+		
+		while( i != BConstant.STRING_SEPERATOR) {
+			
+			stringBuffer.append(new Character((char)i));
+			i = bytes.read();
+		}
+		
+		int strLen = Integer.parseInt(stringBuffer.toString());
+		
+		stringBuffer = new StringBuffer();
+		 
+		for(int j = 0; j < strLen; j++) {
+			char c = (char)bytes.read();
+			stringBuffer.append(c);
+		}
+		
+		return stringBuffer.toString();
 	}
 
+	
+	
 }

@@ -60,14 +60,15 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 
 		ChannelBuffer channelBuffer = (ChannelBuffer)e.getMessage();
 		
-		RougeObject resp = (RougeObject)BDecoder.bdecode(
-				new ByteArrayInputStream(channelBuffer.array())).getValue();
+		RougeObject resp = null;
+		//(RougeObject)BDecoder.bdecode(
+		//		new ByteArrayInputStream(channelBuffer.array())).getValue();
 
 		String command = resp.getString("command"); 
 		RougeObject payload = resp.getNovaObject("payload");
 
 		if (this.driver.listener != null) {
-			this.driver.listener.onMessage(command, payload);
+			this.driver.listener.onOtherMessage(command, payload);
 		}
 	}
 

@@ -23,12 +23,16 @@ import java.util.Set;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+import ca.qc.adinfo.rouge.bencode.BEncoder;
 
 public class RougeObject {
 
 	// Boolean, String, Integer, Long, Float, Double, NovaObject, NovaArray
 	
 	public HashMap<String, RougeDataWrapper> content;
+	
+	public int version;
+	
 	
 	public RougeObject() {
 		
@@ -39,7 +43,7 @@ public class RougeObject {
 		
 		this.content = new HashMap<String, RougeDataWrapper>();
 		
-		Iterator iterator = jSonObject.keys();
+		Iterator<?> iterator = jSonObject.keys();
 		
 		while(iterator.hasNext()) {
 			
@@ -53,7 +57,7 @@ public class RougeObject {
 		}
 	}
 	
-	public RougeObject(Map map) {
+	public RougeObject(Map<String,?> map) {
 		
 		this.content = new HashMap<String, RougeDataWrapper>();
 		
@@ -149,7 +153,7 @@ public class RougeObject {
 			
 			if (obj instanceof RougeObject) {
 				jObject.put(key, ((RougeObject)obj).toJSON() );
-			} else if (obj instanceof RougeObject) {
+			} else if (obj instanceof RougeArray) {
 				jObject.put(key, ((RougeArray)obj).toJSON() );
 			} else {
 				jObject.put(key, obj);
@@ -159,9 +163,24 @@ public class RougeObject {
 		return jObject;
 	}
 	
-	public Map toMap() {
+	public String toBEncode() {
 		
-		Map map = new HashMap();
+		StringBuffer stringBuffer = new StringBuffer();
+		 stringBuffer.append('d');
+		 
+		 for(String key: content.keySet()) {
+			 RougeDataWrapper value = content.get(key);
+			 stringBuffer.append(BEncoder.bencodeString(key));
+			 stringBuffer.append(BEncoder.bencodeSomething(value.getValue()));
+		 }
+		 stringBuffer.append('e');
+		 
+		 return stringBuffer.toString();
+	}
+	
+	public Map<String, Object> toMap() {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		for(String key: this.content.keySet()) {
 			Object obj = this.content.get(key).getValue();

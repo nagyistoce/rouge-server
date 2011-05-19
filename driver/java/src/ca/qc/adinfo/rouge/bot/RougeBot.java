@@ -52,7 +52,7 @@ public class RougeBot implements RougeListener, Runnable  {
 	}
 
 	@Override
-	public void onMessage(String command, RougeObject payload) {
+	public void onOtherMessage(String command, RougeObject payload) {
 
 		System.out.println(command + " " + payload.toJSON().toString());
 
@@ -140,6 +140,12 @@ public class RougeBot implements RougeListener, Runnable  {
 			}
 		}
 
+	}
+
+	@Override
+	public void onError(int seq, String command, RougeObject error) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

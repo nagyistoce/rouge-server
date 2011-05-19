@@ -46,7 +46,7 @@ public class RougeTest implements RougeListener {
 	}
 	
 	@Override
-	public void onMessage(String command, RougeObject payload) {
+	public void onOtherMessage(String command, RougeObject payload) {
 		
 		System.out.println(command + " " + payload.toJSON().toString());
 		
@@ -79,6 +79,12 @@ public class RougeTest implements RougeListener {
 		
 		log.trace("Disconnected ...");
 	}
+	
+	@Override
+	public void onError(int seq, String command, RougeObject error) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/**
 	 * @param args
@@ -88,5 +94,7 @@ public class RougeTest implements RougeListener {
 		 new RougeTest();
 
 	}
+
+
 	
 }

@@ -17,6 +17,7 @@
 package ca.qc.adinfo.rouge;
 
 import java.net.InetSocketAddress;
+import java.util.Collection;
 import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
@@ -29,7 +30,12 @@ import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import ca.qc.adinfo.rouge.bencode.BEncodeChannelHandler;
 import ca.qc.adinfo.rouge.bencode.BEncodeChannelWriter;
 import ca.qc.adinfo.rouge.bencode.BEncodePipelineFactory;
+import ca.qc.adinfo.rouge.data.RougeAchievement;
+import ca.qc.adinfo.rouge.data.RougeFriend;
+import ca.qc.adinfo.rouge.data.RougeLeaderboard;
+import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
+import ca.qc.adinfo.rouge.data.RougeVariable;
 import ca.qc.adinfo.rouge.json.JSonChannelHandler;
 import ca.qc.adinfo.rouge.json.JSonPipelineFactory;
 import ca.qc.adinfo.rouge.json.JsonChannelWriter;
@@ -147,7 +153,92 @@ public class RougeDriver {
 		
 		this.send("room.say", payload);
 	}
+	
+	public RougeVariable getVariable(String key) {
+		
+		return null;
+	}
+	
+	public void setVariable(String key, RougeVariable variable) {
+		
+	}
+	
+	public RougeVariable getPersistentVariable(String key) {
+		
+		return null;
+	}
+	
+	public void setPersistentVariable(String key, RougeVariable variable) {
+		
+	}
+	
+	public void addFriend(String username) {
+		
+	}
+	
+	public void removeFriend(String username) {
+		
+	}
+	
+	public Collection<RougeFriend> getFriendList() {
+		
+		return null;
+	}
+	
+	public String getFriendStatus(String username) {
+		
+		return null;
+	}
+	
+	public void sayToFriends(RougeObject message) {
+		
+	}
+	
+	public void sayToUser(String username, RougeObject message) {
+		
+	}
+	
+	public void sendMail(String username, RougeMail mail) {
+		
+	}
+	
+	public Collection<RougeObject> getAllMail() {
+	
+		return null;
+	}
+	
+	public Collection<RougeMail> getUnreadMail() {
+		
+		return null;
+	}
+	
+	public void markMailAsRead(RougeMail mail) {
+		
+		
+	}
+	
+	public void deleteMail(RougeMail mail) {
+		
+	}
+	
+	public RougeLeaderboard getLeaderboard(String key) {
+		
+		return null;
+	}
+	
+	public void submitScore(String key, long score) {
+		
+	}
+	
+	public Collection<RougeAchievement> getAchievements() {
+		
+		return null;
+	}
 
+	public void updateAchivementProgress(String key, float value) {
+		
+	}
+	
 	public void send(String command, RougeObject payload) {
 
 		if (channel != null) {
