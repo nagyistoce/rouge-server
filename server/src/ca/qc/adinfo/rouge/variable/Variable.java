@@ -26,13 +26,21 @@ public class Variable {
 	
 	private String key;
 	private RougeObject value;
+	private long version;
 	
 	private Collection<User> subscribers;
 	
-	protected Variable(String key) {
+	public Variable(String key) {
 		
 		this.key = key;
 		this.subscribers = new ArrayList<User>();
+	}
+	
+	public Variable(String key, RougeObject value, long version) {
+		
+		this.key = key;
+		this.subscribers = new ArrayList<User>();
+		this.version = version;
 	}
 	
 	public void subscribe(User user) {
@@ -65,6 +73,16 @@ public class Variable {
 	public RougeObject getValue() {
 		
 		return this.value;
+	}
+	
+	public long getVersion() {
+		
+		return this.version;
+	}
+	
+	public void setVersion(long value) {
+		
+		this.version = value;
 	}
 
 }

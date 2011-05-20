@@ -12,10 +12,10 @@ import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.monitor.ResourceTimePoint;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
-import ca.qc.adinfo.rouge.server.servlet.RougePage;
+import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 import ca.qc.adinfo.rouge.user.UserManager;
 
-public class DashboardPage extends RougePage {
+public class DashboardPage extends RougeServerPage {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -9,8 +9,8 @@ public class SuperEcho extends RougeCommand {
 
 	@Override
 	public void execute(RougeObject data, SessionContext session, User user) {
-		// TODO Auto-generated method stub
 
+		// TODO Implement SuperEcho command
 	}
 
 }

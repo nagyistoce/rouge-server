@@ -36,6 +36,7 @@ import ca.qc.adinfo.rouge.server.WebServer;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
 import ca.qc.adinfo.rouge.server.db.ServerDb;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
+import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 import ca.qc.adinfo.rouge.user.UserManager;
 import ca.qc.adinfo.rouge.util.JarLoader;
 import ca.qc.adinfo.rouge.util.NetUtils;
@@ -59,7 +60,7 @@ public class RougeServer {
 
 	private HashMap<String, Object> attachements;
 	private HashMap<String, RougeModule> modules;
-	private HashMap<String, RougePage> pages;
+	private HashMap<String, RougeServerPage> pages;
 	
 	private ResourceMonitor resourceMonitor;
 
@@ -78,7 +79,7 @@ public class RougeServer {
 
 		attachements = new HashMap<String, Object>();
 		modules = new HashMap<String, RougeModule>();
-		pages = new HashMap<String, RougePage>();
+		pages = new HashMap<String, RougeServerPage>();
 		moduleProperties = new HashMap<String, Properties>();
 		
 	}
@@ -202,7 +203,7 @@ public class RougeServer {
 
 			try {
 				Class<?> cls = Class.forName(pageClass);
-				pages.put(pageName.trim(), (RougePage)cls.newInstance());
+				pages.put(pageName.trim(), (RougeServerPage)cls.newInstance());
 			} catch(Exception e) {
 				log.error("Could not load page " + pageName + " " + pageClass);
 				throw e;
@@ -213,7 +214,7 @@ public class RougeServer {
 		String[] menuItems = pagesForMenu.split(",");
 
 		for(String menuItem: menuItems) {
-			RougePage.addToMenu(menuItem.trim());
+			RougeServerPage.addToMenu(menuItem.trim());
 		}
 	}
 	
@@ -265,8 +266,7 @@ public class RougeServer {
 				Thread.sleep(timeTick);
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Nothing to do
 			}
 			
 			long currentTime = System.currentTimeMillis();
@@ -307,7 +307,7 @@ public class RougeServer {
 		}
 	}
 	
-	public void registerPage(String action, RougePage page) {
+	public void registerPage(String action, RougeServerPage page) {
 		
 		this.pages.put(action, page);
 	}

@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.room.Room;
 import ca.qc.adinfo.rouge.room.RoomManager;
-import ca.qc.adinfo.rouge.server.servlet.RougePage;
+import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 import ca.qc.adinfo.rouge.user.User;
 
-public class RoomsPage extends RougePage {
+public class RoomsPage extends RougeServerPage {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

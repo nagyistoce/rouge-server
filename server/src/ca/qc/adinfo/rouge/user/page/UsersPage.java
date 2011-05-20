@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ca.qc.adinfo.rouge.RougeServer;
-import ca.qc.adinfo.rouge.server.servlet.RougePage;
+import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 
-public class UsersPage extends RougePage {
+public class UsersPage extends RougeServerPage {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

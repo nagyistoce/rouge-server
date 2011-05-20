@@ -1,4 +1,4 @@
-package ca.qc.adinfo.rouge.leaderboard.page;
+package ca.qc.adinfo.rouge.achievement.page;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,20 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 
-public class LeaderboardPage extends RougeServerPage {
+public class AchievementAdminPage extends RougeServerPage {
 
-	// TODO Build LeaderboardUser Page
+	// TODO Build Achievement Admin Page
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//LeaderboardManager leaderboardManager = (LeaderboardManager)RougeServer.getInstance().getModule("leaderboard.manager");
-
 		PrintWriter out = response.getWriter();
 
 		this.drawHeader(out);
-		this.startBox("Leaderboard", out);
+		this.startBox("Achievements", out);
 		
 		
 

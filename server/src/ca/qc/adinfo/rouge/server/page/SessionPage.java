@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
-import ca.qc.adinfo.rouge.server.servlet.RougePage;
+import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 
-public class SessionPage extends RougePage {
+public class SessionPage extends RougeServerPage {
 
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

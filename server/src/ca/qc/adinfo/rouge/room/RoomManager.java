@@ -97,7 +97,6 @@ public class RoomManager extends RougeModule {
 
 	@Override
 	public void tick(long time) {
-		// TODO Auto-generated method stub
 		
 	}
 	

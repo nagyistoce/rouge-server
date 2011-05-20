@@ -51,7 +51,6 @@ public class WebServer {
 		try {
 			server.start();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -61,7 +60,6 @@ public class WebServer {
 		try {
 			server.stop();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

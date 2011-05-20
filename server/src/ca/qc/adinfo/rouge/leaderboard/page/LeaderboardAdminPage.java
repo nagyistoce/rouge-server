@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 
-public class LeaderboardPage extends RougeServerPage {
+public class LeaderboardAdminPage extends RougeServerPage {
 
-	// TODO Build LeaderboardUser Page
+	// TODO Build LeaderboardAdmin Page
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

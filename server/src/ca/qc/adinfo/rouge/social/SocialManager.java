@@ -14,44 +14,16 @@
  * limitations under the License.
  */
 
-package ca.qc.adinfo.rouge.variable;
-
-import java.util.HashMap;
+package ca.qc.adinfo.rouge.social;
 
 import ca.qc.adinfo.rouge.module.RougeModule;
 
-public class VariableManager extends RougeModule {
-	
-	private HashMap<String, Variable> variables;
-	
-	public VariableManager() {
-		
-		this.variables = new HashMap<String, Variable>();
-	}
-	
-	public Variable getVariable(String key) {
-			
-		synchronized (this.variables) {
-			if (this.variables.containsKey(key)) {
-				return this.variables.get(key);
-			} else {
-				Variable variable = new Variable(key);
-				this.variables.put(key, variable);
-				return variable;
-			}
-		}
-	}
-	
-	public boolean isVariableExist(String key) {
-		
-		synchronized (this.variables) {
-			return this.variables.containsKey(key);
-		}
-	}
+public class SocialManager extends RougeModule {
 
+	// TODO Implement Social Manager
+	
 	@Override
 	public void tick(long time) {
 		
-	}	 
-
+	}
 }

@@ -6,6 +6,8 @@ import java.util.TreeSet;
 
 public class Leaderboard {
 	
+	// TODO Add Persistence to Scores
+	 
 	private TreeSet<Score> scores;
 	private int maxCapacity;
 	

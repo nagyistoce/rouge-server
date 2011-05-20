@@ -60,7 +60,6 @@ public class UserManager extends RougeModule {
 
 	@Override
 	public void tick(long time) {
-		// TODO Auto-generated method stub
 		
 	}
 
