@@ -17,7 +17,6 @@
 package ca.qc.adinfo.rouge.bencode;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;

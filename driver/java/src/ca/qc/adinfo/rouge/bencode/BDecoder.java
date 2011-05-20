@@ -18,9 +18,6 @@ package ca.qc.adinfo.rouge.bencode;
 
 import java.io.ByteArrayInputStream;
 
-import org.apache.log4j.Logger;
-
-import ca.qc.adinfo.rouge.bot.RougeTest;
 import ca.qc.adinfo.rouge.data.RougeArray;
 import ca.qc.adinfo.rouge.data.RougeObject;
 

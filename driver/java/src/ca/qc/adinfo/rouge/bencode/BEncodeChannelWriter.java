@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFuture;
 
 import ca.qc.adinfo.rouge.ChannelWriter;
 import ca.qc.adinfo.rouge.data.RougeObject;
@@ -41,7 +40,7 @@ public class BEncodeChannelWriter implements ChannelWriter {
 		ChannelBuffer buffer = ChannelBuffers.buffer(msg.length);
 		buffer.writeBytes(msg);
 		
-		ChannelFuture future = channel.write(buffer);
+		channel.write(buffer);
 		
 		log.debug ("Sent: " + new String(msg));
 					

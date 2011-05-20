@@ -40,9 +40,6 @@ public class RougeBot implements RougeListener, Runnable  {
 		try {
 		    InetAddress addr = InetAddress.getLocalHost();
 
-		    // Get IP Address
-		    byte[] ipAddr = addr.getAddress();
-
 		    // Get hostname
 		    this.roomName = addr.getHostName();
 		} catch (UnknownHostException e) {

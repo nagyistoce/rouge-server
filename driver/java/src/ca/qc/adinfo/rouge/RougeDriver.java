@@ -73,7 +73,7 @@ public class RougeDriver {
 						Executors.newCachedThreadPool()));
 
 		
-		if (bEncode) {
+		if (this.bEncode) {
 			channelWriter = new BEncodeChannelWriter();
 			handler = new BEncodeChannelHandler(this);
 			bootstrap.setPipelineFactory(new BEncodePipelineFactory(handler));		

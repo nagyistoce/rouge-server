@@ -1,9 +1,5 @@
 package ca.qc.adinfo.rouge.bencode;
 
-import java.beans.XMLEncoder;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
 import ca.qc.adinfo.rouge.data.RougeArray;
 import ca.qc.adinfo.rouge.data.RougeObject;
 

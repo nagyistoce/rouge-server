@@ -16,14 +16,7 @@
 
 package ca.qc.adinfo.rouge;
 
-import java.util.Collection;
-
-import ca.qc.adinfo.rouge.data.RougeAchievement;
-import ca.qc.adinfo.rouge.data.RougeFriend;
-import ca.qc.adinfo.rouge.data.RougeLeaderboard;
-import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.data.RougeVariable;
 
 public interface RougeListener {
 	

@@ -18,16 +18,14 @@ package ca.qc.adinfo.rouge.json;
 
 import net.sf.json.JSONObject;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFuture;
 
 import ca.qc.adinfo.rouge.ChannelWriter;
 import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class JsonChannelWriter implements ChannelWriter {
 
-	private static final Logger log = Logger.getLogger(JsonChannelWriter.class);
+	//private static final Logger log = Logger.getLogger(JsonChannelWriter.class);
 	
 	public void send(Channel channel, String command, RougeObject payload) {
 		
@@ -35,7 +33,7 @@ public class JsonChannelWriter implements ChannelWriter {
 			jsonObj.put("command", command);
 			jsonObj.put("payload", payload.toJSON());
 
-			ChannelFuture future = channel.write(jsonObj.toString() + "|\n");
+			channel.write(jsonObj.toString() + "|\n");
 			
 			//log.trace("Sent " + jsonObj.toString());					
 	}
