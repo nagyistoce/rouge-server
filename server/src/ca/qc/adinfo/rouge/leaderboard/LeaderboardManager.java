@@ -1,9 +1,7 @@
 package ca.qc.adinfo.rouge.leaderboard;
 
 import java.util.HashMap;
-import java.util.Properties;
 
-import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.module.RougeModule;
 
 public class LeaderboardManager extends RougeModule {

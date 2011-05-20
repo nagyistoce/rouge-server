@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ca.qc.adinfo.rouge.RougeServer;
-import ca.qc.adinfo.rouge.leaderboard.LeaderboardManager;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
 
 public class LeaderboardPage extends RougePage {
@@ -17,7 +15,7 @@ public class LeaderboardPage extends RougePage {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		LeaderboardManager leaderboardManager = (LeaderboardManager)RougeServer.getInstance().getModule("leaderboard.manager");
+		//LeaderboardManager leaderboardManager = (LeaderboardManager)RougeServer.getInstance().getModule("leaderboard.manager");
 
 		PrintWriter out = response.getWriter();
 

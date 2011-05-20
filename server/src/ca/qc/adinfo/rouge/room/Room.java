@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.user.User;
 
 public class Room {

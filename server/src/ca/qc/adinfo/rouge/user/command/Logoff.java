@@ -24,7 +24,6 @@ import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.room.Room;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
-import ca.qc.adinfo.rouge.user.InvalidLoginException;
 import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 

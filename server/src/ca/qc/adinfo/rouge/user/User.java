@@ -16,8 +16,6 @@
 
 package ca.qc.adinfo.rouge.user;
 
-import java.util.HashMap;
-
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 
 public class User {
@@ -27,14 +25,11 @@ public class User {
 	
 	private SessionContext sessionContext;
 	
-	private HashMap<String, Object> attachments;
-	
 	public User(long id, String username) {
 		super();
 		
 		this.id = id;
 		this.username = username;
-		this.attachments = new HashMap<String, Object>();
 	}
 	
 	public long getId() {

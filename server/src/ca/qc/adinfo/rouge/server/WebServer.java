@@ -16,7 +16,6 @@
 
 package ca.qc.adinfo.rouge.server;
 
-import java.net.URL;
 import java.util.Properties;
 
 import org.mortbay.jetty.Server;
@@ -41,11 +40,7 @@ public class WebServer {
 		
 		server = new Server(port);
 
-		String CONTEXTPATH = "/admin";
-
 		// for localhost:port/admin/index.html and whatever else is in the webapp directory
-		URL warUrl = this.getClass().getClassLoader().getResource(WEBAPPDIR);
-		//String warUrlString = warUrl.toExternalForm();
 		server.setHandler(new WebAppContext(WEBAPPDIR, "/"));
 
 		// for localhost:port/servlets/cust, etc.

@@ -247,7 +247,7 @@ public class RougeServer {
 		resourceMonitorThread.setName("Resource Monitor");
 		resourceMonitorThread.start();
 
-		CoreServer coreServer = new CoreServer(serverProperties, commandProcessor, sessionManager, userManager);
+		CoreServer coreServer = new CoreServer(serverProperties, commandProcessor, sessionManager);
 		WebServer webServer = new WebServer(serverProperties);
 
 		coreServer.start();

@@ -37,7 +37,6 @@ import ca.qc.adinfo.rouge.server.core.SessionManager;
 import ca.qc.adinfo.rouge.server.core.bencode.BEncodeChannelHandler;
 import ca.qc.adinfo.rouge.server.core.json.JsonChannelHandler;
 import ca.qc.adinfo.rouge.server.core.json.JsonPipelineFactory;
-import ca.qc.adinfo.rouge.user.UserManager;
 
 public class CoreServer {
 
@@ -48,19 +47,17 @@ public class CoreServer {
 
 	private Properties properties;
 	private RougeCommandProcessor commandProcessor;
-	private UserManager userManager;
 	private SessionManager sessionManager;
 
 	private ChannelFactory factory;
 	private Channel channelJSon;
 	private Channel channelBinary;
 
-	public CoreServer(Properties properties, RougeCommandProcessor commandProcessor, SessionManager sessionManager, UserManager userManager) {
+	public CoreServer(Properties properties, RougeCommandProcessor commandProcessor, SessionManager sessionManager) {
 
 		this.properties = properties;
 		
 		this.commandProcessor = commandProcessor;
-		this.userManager = userManager;
 		this.sessionManager = sessionManager;
 	}
 

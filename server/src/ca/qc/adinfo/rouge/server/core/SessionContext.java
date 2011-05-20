@@ -117,4 +117,9 @@ public class SessionContext {
 			}
 		}
 	}
+	
+	public long getStartTime() {
+		
+		return this.startTime;
+	}
 }

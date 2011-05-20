@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.monitor.ResourceTimePoint;
-import ca.qc.adinfo.rouge.room.Room;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.core.SessionManager;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
-import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 
 public class DashboardPage extends RougePage {

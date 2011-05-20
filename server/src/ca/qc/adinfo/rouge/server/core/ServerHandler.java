@@ -16,8 +16,6 @@
 
 package ca.qc.adinfo.rouge.server.core;
 
-import java.util.Hashtable;
-
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.SimpleChannelHandler;
@@ -32,8 +30,6 @@ public abstract class ServerHandler extends SimpleChannelHandler {
 
 	private RougeCommandProcessor commandProcessor;
 	private SessionManager sessionManager;
-	
-	private Hashtable<Channel, SessionContext> sessions;
 	
 	public ServerHandler(RougeCommandProcessor commandProcessor, SessionManager sessionManager) {
 		

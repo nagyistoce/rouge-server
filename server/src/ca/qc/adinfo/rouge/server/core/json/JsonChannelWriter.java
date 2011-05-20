@@ -20,7 +20,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
-import org.jboss.netty.channel.ChannelFuture;
 
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.core.ChannelWriter;
@@ -42,7 +41,7 @@ public class JsonChannelWriter implements ChannelWriter {
 			jsonObj.put("command", command);
 			jsonObj.put("payload", payload.toJSON());
 
-			ChannelFuture future = channel.write(jsonObj.toString() + "|\n");
+			channel.write(jsonObj.toString() + "|\n");
 			
 			log.trace("Sent " + jsonObj.toString());					
 	}

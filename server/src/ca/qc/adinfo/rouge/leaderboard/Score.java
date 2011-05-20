@@ -2,7 +2,7 @@ package ca.qc.adinfo.rouge.leaderboard;
 
 import ca.qc.adinfo.rouge.user.User;
 
-public class Score implements Comparable {
+public class Score implements Comparable<Score> {
 	
 	private long score;
 	private User user;
@@ -21,7 +21,7 @@ public class Score implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Score o) {
 		
 		Score other = (Score)o;
 		

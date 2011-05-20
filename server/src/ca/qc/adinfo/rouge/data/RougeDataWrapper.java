@@ -22,15 +22,14 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.log4j.Logger;
-
 public class RougeDataWrapper {
 	
-	private final static Logger log = Logger.getLogger(RougeDataWrapper.class);
+	//private final static Logger log = Logger.getLogger(RougeDataWrapper.class);
 	
 	private Object value;
 	private RougeType type;
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public RougeDataWrapper(Object value) {
 		this.value = value;
 		

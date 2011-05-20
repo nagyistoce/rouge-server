@@ -16,8 +16,6 @@
 
 package ca.qc.adinfo.rouge.room.command;
 
-import org.apache.log4j.Logger;
-
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.data.RougeObject;
@@ -28,7 +26,7 @@ import ca.qc.adinfo.rouge.user.User;
 
 public class SayInRoom extends RougeCommand {
 	
-	private final static Logger log = Logger.getLogger(SayInRoom.class);
+	//private final static Logger log = Logger.getLogger(SayInRoom.class);
 
 	public SayInRoom() {
 		

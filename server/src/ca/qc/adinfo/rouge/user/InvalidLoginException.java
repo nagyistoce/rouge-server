@@ -18,4 +18,6 @@ package ca.qc.adinfo.rouge.user;
 
 public class InvalidLoginException extends RuntimeException {
 
+	private static final long serialVersionUID = -1093595700024566824L;
+
 }

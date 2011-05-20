@@ -13,7 +13,6 @@ import ca.qc.adinfo.rouge.room.Room;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.servlet.RougePage;
 import ca.qc.adinfo.rouge.user.User;
-import ca.qc.adinfo.rouge.user.UserManager;
 
 public class RoomsPage extends RougePage {
 

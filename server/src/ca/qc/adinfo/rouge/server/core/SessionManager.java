@@ -19,12 +19,11 @@ package ca.qc.adinfo.rouge.server.core;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 
 public class SessionManager {
 	
-	private static final Logger log = Logger.getLogger(SessionManager.class);
+	//private static final Logger log = Logger.getLogger(SessionManager.class);
 	
 	private HashMap<Integer, SessionContext> sessions;
 	

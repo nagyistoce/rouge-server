@@ -43,7 +43,7 @@ public class RougeArray {
 		}
 	}
 	
-	public RougeArray(Collection col) {
+	public RougeArray(Collection<Object> col) {
 		
 		this.content = new LinkedList<RougeDataWrapper>();
 		
