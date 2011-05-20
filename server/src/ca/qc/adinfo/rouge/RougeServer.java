@@ -169,7 +169,7 @@ public class RougeServer {
 			try {
 				Class<?> cls = Class.forName(commandClass);
 				RougeCommand command = (RougeCommand) cls.newInstance();
-				command.setKey(commandClass);
+				command.setKey(commandName.trim());
 				commandProcessor.registerCommand(command);
 			} catch(Exception e) {
 				log.error("Could not load command " + commandName + " " + commandClass);

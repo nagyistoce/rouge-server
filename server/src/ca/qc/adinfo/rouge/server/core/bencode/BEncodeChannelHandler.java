@@ -68,14 +68,17 @@ public class BEncodeChannelHandler extends ServerHandler {
 		try {
 			
 			ChannelBuffer channelBuffer = (ChannelBuffer)e.getMessage();
-			ByteArrayInputStream in = new ByteArrayInputStream(channelBuffer.array());
+			byte[] bytes = channelBuffer.array();
+			
+			ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+			
+			System.out.println("Raw data is  " + new String(bytes));
 			
 			while(in.available() > 0) {
 
-				RougeObject resp = (RougeObject)BDecoder.bdecode(in).getValue();
-
+				RougeObject resp = BDecoder.bDecode(in);
 				String command = resp.getString("command"); 
-				RougeObject payload = resp.getRougeObject("payload");
+				RougeObject payload = resp.getNovaObject("payload");
 
 				this.onMessageReceived(e.getChannel(), command, payload);
 			}

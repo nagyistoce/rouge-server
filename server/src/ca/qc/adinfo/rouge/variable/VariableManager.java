@@ -41,6 +41,13 @@ public class VariableManager extends RougeModule {
 			}
 		}
 	}
+	
+	public boolean isVariableExist(String key) {
+		
+		synchronized (this.variables) {
+			return this.variables.containsKey(key);
+		}
+	}
 
 	@Override
 	public void tick(long time) {

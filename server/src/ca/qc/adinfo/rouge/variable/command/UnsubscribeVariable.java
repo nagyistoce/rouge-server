@@ -21,12 +21,13 @@ import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.user.User;
+import ca.qc.adinfo.rouge.variable.Variable;
 import ca.qc.adinfo.rouge.variable.VariableManager;
 
 public class UnsubscribeVariable extends RougeCommand {
 	
 	public UnsubscribeVariable() {
-		super("var.unsub");
+		
 	}
 
 	@Override
@@ -34,8 +35,17 @@ public class UnsubscribeVariable extends RougeCommand {
 
 		VariableManager variableManager = (VariableManager)RougeServer.getInstance().getModule("variable.manager");
 		
+		String key = data.getString("key");
 		
-		sendSuccess(session);
+		if(variableManager.isVariableExist(key)) {
+			
+			Variable var = variableManager.getVariable(key);
+			var.unsubscribe(user);
+			
+			sendSuccess(session);
+		} else {
+			sendFailure(session);
+		}
 	}
 
 }

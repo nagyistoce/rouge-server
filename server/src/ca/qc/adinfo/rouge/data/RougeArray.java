@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sf.json.JSONArray;
+import ca.qc.adinfo.rouge.server.core.bencode.BConstant;
+import ca.qc.adinfo.rouge.server.core.bencode.BEncoder;
 
 public class RougeArray {
 
@@ -145,9 +147,22 @@ public class RougeArray {
 		return jArray;
 	}
 	
-	public List toList() {
+	public String toBEncode() {
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		 stringBuffer.append(BConstant.LIST_START);
+		 
+		 for(RougeDataWrapper value: content) {
+			 stringBuffer.append(BEncoder.bencodeSomething(value.getValue()));
+		 }
+		 stringBuffer.append(BConstant.LIST_END);
+		 
+		 return stringBuffer.toString();
+	}
 	
-		List list = new ArrayList();
+	public List<Object> toList() {
+	
+		List<Object> list = new ArrayList<Object>();
 		
 		for(RougeDataWrapper data: this.content) {
 

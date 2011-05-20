@@ -60,6 +60,8 @@ public class RougeCommandProcessor {
 				log.error(e.getMessage());
 				e.printStackTrace();
 			}
+		} else {
+			log.debug("Unknown command: " + key);
 		}
 
 		return;

@@ -45,6 +45,10 @@ public class Room {
 		synchronized (this.usersAdmin) {
 			this.usersAdmin.put(creator.getId(), creator);
 		}
+		
+		synchronized (this.usersInRoom) {
+			this.usersInRoom.put(creator.getId(), creator);
+		}
 	}
 	
 	public void addToRoom(User user) {

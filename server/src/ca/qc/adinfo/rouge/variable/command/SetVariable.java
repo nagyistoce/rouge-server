@@ -27,7 +27,7 @@ import ca.qc.adinfo.rouge.variable.VariableManager;
 public class SetVariable extends RougeCommand {
 	
 	public SetVariable() {
-		super("var.set");
+		
 	}
 
 	@Override
