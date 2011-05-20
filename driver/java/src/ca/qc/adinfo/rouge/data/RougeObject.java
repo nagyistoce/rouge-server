@@ -23,6 +23,7 @@ import java.util.Set;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+import ca.qc.adinfo.rouge.bencode.BConstant;
 import ca.qc.adinfo.rouge.bencode.BEncoder;
 
 public class RougeObject {
@@ -166,14 +167,14 @@ public class RougeObject {
 	public String toBEncode() {
 		
 		StringBuffer stringBuffer = new StringBuffer();
-		 stringBuffer.append('d');
+		 stringBuffer.append(BConstant.DICTIONARY_START);
 		 
 		 for(String key: content.keySet()) {
 			 RougeDataWrapper value = content.get(key);
 			 stringBuffer.append(BEncoder.bencodeString(key));
 			 stringBuffer.append(BEncoder.bencodeSomething(value.getValue()));
 		 }
-		 stringBuffer.append('e');
+		 stringBuffer.append(BConstant.DICTIONARY_END);
 		 
 		 return stringBuffer.toString();
 	}

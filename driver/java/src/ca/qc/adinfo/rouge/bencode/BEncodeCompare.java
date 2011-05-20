@@ -1,6 +1,8 @@
 package ca.qc.adinfo.rouge.bencode;
 
+import java.beans.XMLEncoder;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import ca.qc.adinfo.rouge.data.RougeArray;
 import ca.qc.adinfo.rouge.data.RougeObject;
@@ -43,13 +45,10 @@ public class BEncodeCompare {
 		
 		byte[] bCode = BEncoder.bencode(ro);
 		String jSon = ro.toJSON().toString();
-		System.out.println("BEncode : " + new String(bCode));
-		System.out.println("JSon    : " + jSon);
-		//System.out.println(BDecoder.bDecode(new ByteArrayInputStream(bCode)).toJSON().toString());
 		
+		System.out.println(new String(bCode));
+	
 		System.out.println("JSon length " + jSon.length() + " BEncode length " + bCode.length + " reduction of " + (float)bCode.length/(float)jSon.length() );
-		
-		
 		
 	}
 

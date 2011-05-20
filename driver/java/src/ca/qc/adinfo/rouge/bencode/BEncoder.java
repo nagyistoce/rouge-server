@@ -46,7 +46,7 @@ public class BEncoder {
 	 }
 	 
 	 public static String bencodeString(String toEncode) {
-		 return toEncode.length() + BConstant.STRING_SEPERATOR + toEncode;
+		 return toEncode.length() + (BConstant.STRING_SEPERATOR + toEncode);
 	 }
 	 
 	 public static String bencodeNumber(Long l) {

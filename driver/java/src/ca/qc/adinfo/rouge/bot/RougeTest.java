@@ -31,7 +31,7 @@ public class RougeTest implements RougeListener {
 	public RougeTest() {
 		
 		log.trace("Starting test program ...");
-		this.driver = new RougeDriver("localhost", 6611, this, false);
+		this.driver = new RougeDriver("localhost", 6612, this, true);
 		log.trace("Connecting ...");
 		this.driver.connect();		
 		
@@ -55,6 +55,8 @@ public class RougeTest implements RougeListener {
 			RougeObject newPayload = new RougeObject();
 			newPayload.putString("name", "testRoom");
 			this.driver.send("room.create", newPayload);
+			
+			
 			
 			newPayload.putString("message", "hello");
 			this.driver.send("room.say", newPayload);

@@ -43,7 +43,7 @@ public class BEncodeChannelWriter implements ChannelWriter {
 		
 		ChannelFuture future = channel.write(buffer);
 		
-		//log.debug ("Sent: " + new String(msg));
+		log.debug ("Sent: " + new String(msg));
 					
 	}
 }
