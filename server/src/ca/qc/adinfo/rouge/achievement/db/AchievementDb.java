@@ -16,10 +16,31 @@
 
 package ca.qc.adinfo.rouge.achievement.db;
 
+import java.util.Collection;
+
+import ca.qc.adinfo.rouge.achievement.Achievement;
+import ca.qc.adinfo.rouge.server.DBManager;
+
 public class AchievementDb {
 	
-	//private static Logger log = Logger.getLogger(MailDb.class);
+	// TODO: Implement Achievement DB
 	
-	// TODO Implement AchievementDb
+	public static Achievement getAchievement(DBManager bdManager, String key) {
+		
+		return null;
+	}
+	
+	public static Collection<Achievement> getAchievements(DBManager bdManager) {
+		
+		return null;
+	}
+	
+	public static void createAchievement(DBManager bdManager, String key, double max) {
+		
+	}
+	
+	public static void updateAchievement(DBManager bdManager, String key, double value) {
+		
+	}
 
 }
