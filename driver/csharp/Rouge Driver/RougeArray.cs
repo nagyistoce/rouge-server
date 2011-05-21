@@ -14,6 +14,14 @@ namespace Rouge
 
             this.content = new List<RougeDataWrapper>();
         }
+		
+		public RougeArray(IList<object> list) {
+			
+            foreach (object value in list)
+            {
+                this.content.Add(new RougeDataWrapper(value));
+            }
+        }
 
         public int getInt(int index)
         {
@@ -107,6 +115,31 @@ namespace Rouge
         public void addRougeObject(RougeObject value)
         {
             this.content.Add(new RougeDataWrapper(value));
+        }
+		
+		public List<Object> toList()
+        {
+
+            List<Object> toJson = new List<Object>();
+
+            foreach(RougeDataWrapper wrapper in this.content) {
+				
+				Object value = wrapper.getValue();
+				
+				if (value is RougeObject) {
+					toJson.Add(((RougeObject)value).toDictionary());
+				} else if (value is RougeArray) {
+					toJson.Add(((RougeArray)value).toList());
+				} else {
+					toJson.Add(value);
+				}
+				
+                
+            }
+			
+			return toJson;
+			
+            //return JsonConvert.SerializeObject(toJson);
         }
     }
 }

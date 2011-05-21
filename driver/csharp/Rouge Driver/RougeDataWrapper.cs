@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Rouge
 {
@@ -13,49 +14,41 @@ namespace Rouge
         public RougeDataWrapper(Object value)
         {
 
-            this.value = value;
-
-        /*
-        if (value instanceof Map) {
-            this.value = new RougeObject((Map) value);
-            this.type = RougeType.NovaObject;
-        } else if (value instanceof Collection) {
-            this.value = new RougeArray((Collection)value);
-            this.type = RougeType.NovaArray;
-        } if (value instanceof JSONObject) {
-            this.value = new RougeObject((JSONObject) value);
-            this.type = RougeType.NovaObject;
-        } else if (value instanceof JSONArray) {
-            this.value = new RougeArray((JSONArray)value);
-            this.type = RougeType.NovaArray;
-        } else if (value instanceof RougeObject) {
-            this.value = value;
-            this.type = RougeType.NovaObject;
-        } else if (value instanceof RougeArray) {
-            this.value = value;
-            this.type = RougeType.NovaArray;
-        } else if (value instanceof Integer) {
-            this.value = value;
-            this.type = RougeType.Integer;
-        } else if (value instanceof Long) {
-            this.value = value;
-            this.type = RougeType.Long;
-        } else if (value instanceof String) {
-            this.value = value;
-            this.type = RougeType.String;
-        } else if (value instanceof Float) {
-            this.value = value;
-            this.type = RougeType.Float;
-        } else if (value instanceof Double) {
-            this.value = value;
-            this.type = RougeType.Double;
-        } else if (value instanceof Boolean) {
-            this.value = value;
-            this.type = RougeType.Boolean;
-        } else {
-            //throw new NovaUnsupportedType()
-        }
-        */
+	        if (value is IDictionary<object, object>) 
+			{
+	            this.value = new RougeObject((IDictionary<object, object>) value);	
+	        }
+			else if (value is List<object> || value is JArray) 
+			{
+	            this.value = new RougeArray((IList<object>)value);
+	        }
+			else if (value is JObject) 
+			{
+				RougeObject rougeObject = new RougeObject();
+				
+				foreach ( KeyValuePair<string, JToken> keyPair in ((JObject)value) ) 
+				{
+					rougeObject.put(keyPair.Key, keyPair.Value);
+				}
+				
+				this.value = rougeObject;
+			}
+			else if (value is JArray)
+			{
+				RougeArray rougeArray = new RougeArray();
+				
+				foreach (JToken jToken in ((JArray)value))
+				{
+					rougeArray.add(value);	
+				}
+				
+				this.value = rougeArray;
+			}
+			else 
+			{
+				this.value = value;
+	        }
+        
         }
 
 

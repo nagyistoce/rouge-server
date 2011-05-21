@@ -16,15 +16,25 @@ namespace Rouge
             this.content = new Dictionary<String, RougeDataWrapper>();
         }
 
-        public RougeObject(String jSon)
-        {
+        public RougeObject(String jSon) {
+			
             this.content = new Dictionary<String, RougeDataWrapper>();
 
-            Dictionary<string, object> fromJson = JsonConvert.DeserializeObject<Dictionary<string, object>>(jSon);
-
-            foreach (KeyValuePair<String, object> keyValue in fromJson)
+			IDictionary<object, object> o = JsonConvert.DeserializeObject<IDictionary<object, object>>(jSon, new JsonSerializerSettings{
+					TypeNameHandling = TypeNameHandling.All,
+					TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple});
+			
+            foreach (KeyValuePair<object, object> keyValue in o)
             {
-                this.content.Add(keyValue.Key, new RougeDataWrapper(keyValue.Value));
+                this.content.Add((string)keyValue.Key, new RougeDataWrapper(keyValue.Value));
+            }
+        }
+		
+		public RougeObject(IDictionary<object, object> dict) {
+			
+            foreach (KeyValuePair<object, object> keyValue in dict)
+            {
+                this.content.Add((String)keyValue.Key, new RougeDataWrapper(keyValue.Value));
             }
         }
 
@@ -121,17 +131,32 @@ namespace Rouge
             this.content.Add(key, new RougeDataWrapper(value));
         }
 
-        public String toJSon()
+        public Dictionary<String, Object> toDictionary()
         {
 
             Dictionary<String, Object> toJson = new Dictionary<String, Object>();
 
             foreach(KeyValuePair<String, RougeDataWrapper> keyValue in this.content) {
-                toJson.Add(keyValue.Key, keyValue.Value.getValue());
+				
+				Object value = keyValue.Value.getValue();
+				
+				if (value is RougeObject) {
+					toJson.Add(keyValue.Key, ((RougeObject)value).toDictionary());
+				} else if (value is RougeArray) {
+					toJson.Add(keyValue.Key, ((RougeArray)value).toList());
+				} else {
+					toJson.Add(keyValue.Key, keyValue.Value.getValue());
+				}
             }
-
-            return JsonConvert.SerializeObject(toJson);
+			
+			return toJson;
+			
         }
+		
+		public String toJson() {
+			
+			return JsonConvert.SerializeObject(this.toDictionary());
+		}
 
     }
 }

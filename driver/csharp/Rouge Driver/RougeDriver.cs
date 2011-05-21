@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Rouge
 {
@@ -15,6 +17,10 @@ namespace Rouge
         private IPEndPoint hostep;
 
         private RougeListener listener;
+		
+		private Thread driverThread;
+		
+		private String unProcessed;
 
         public RougeDriver(String host, int port, RougeListener listener, bool bEncode)
         {
@@ -23,8 +29,46 @@ namespace Rouge
 
             this.hosta = IPAddress.Parse("127.0.0.1");
             this.hostep = new IPEndPoint(this.hosta, 6611);
-            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);            
+            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); 
+			
+			this.driverThread = new Thread(new ThreadStart(ThreadProc));
+			
+			this.unProcessed = "";
         }
+		
+		protected void ThreadProc()
+    	{
+			System.Text.Encoding enc = System.Text.Encoding.ASCII;
+     		
+			while(true) {
+			
+				byte[] receiveBuffer = new byte[this.socket.Available];
+				int recv = this.socket.Receive(receiveBuffer);
+				
+				if(recv > 0) {
+					String stringBuffer =  Regex.Replace( unProcessed + enc.GetString(receiveBuffer), @"\s", "" );
+					String[] splitBuffer = stringBuffer.Split('|');
+					
+					for(int i = 0; i < splitBuffer.Length-1; i++) {
+						
+						RougeObject rougeObject = new RougeObject(splitBuffer[i]);
+						
+						if (this.listener != null) {
+							this.listener.onMessage(rougeObject.getString("command"),
+						                        rougeObject.getRougeObject("payload"));
+						}
+					}
+					
+					if (splitBuffer[splitBuffer.Length-1].Length > 0) {
+						this.unProcessed = splitBuffer[splitBuffer.Length-1];
+					} else {
+						this.unProcessed = "";
+					}
+					
+					Thread.Sleep(50);
+				}
+			}
+    	}
 
         public void connect()
         {
@@ -39,18 +83,28 @@ namespace Rouge
                 socket.Close();
                 return;
             }
+			
+			driverThread.Start();
+			
+			if (this.listener != null) {
+				this.listener.onConnect();
+			}
         }
 
         public void disconnect()
         {
             socket.Close();
+			
+			if (this.listener != null) {
+				this.listener.onDisconnect();
+			}
         }
 
         public void send(String command, RougeObject payload)
         {
             Dictionary<string, object> toSend = new Dictionary<string, object>();
             toSend.Add("command", command);
-            toSend.Add("payload", payload.toJSon());
+            toSend.Add("payload", payload.toDictionary());
 
             string stringToSend = JsonConvert.SerializeObject(toSend) + "|" + "\n";
 

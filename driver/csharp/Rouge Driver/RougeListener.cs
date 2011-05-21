@@ -7,9 +7,10 @@ namespace Rouge
 {
     public interface RougeListener
     {
-        /*public void onMessage(String command, RougeObject payload);
-        public void onConnect();
-        public void onDisconnect();*/
+  
+		void onMessage(String command, RougeObject payload);
+        void onConnect();
+        void onDisconnect();
 
     }
 }
