@@ -11,7 +11,7 @@
  Target Server Version : 50512
  File Encoding         : utf-8
 
- Date: 05/17/2011 08:21:02 AM
+ Date: 05/23/2011 10:55:41 AM
 */
 
 SET NAMES utf8;
@@ -22,11 +22,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_achievement_progress`;
 CREATE TABLE `rouge_achievement_progress` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_key` varchar(50) NOT NULL,
   `user_id` bigint(20) NOT NULL,
   `progress` float NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`achievement_key`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -36,19 +35,18 @@ DROP TABLE IF EXISTS `rouge_achievements`;
 CREATE TABLE `rouge_achievements` (
   `key` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `point_value` bigint(20) NOT NULL
+  `point_value` bigint(20) NOT NULL,
+  `total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_leaderboard_key`
+--  Table structure for `rouge_leaderboard_score`
 -- ----------------------------
-DROP TABLE IF EXISTS `rouge_leaderboard_key`;
-CREATE TABLE `rouge_leaderboard_key` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `leaderboard_key` varchar(50) NOT NULL,
+DROP TABLE IF EXISTS `rouge_leaderboard_score`;
+CREATE TABLE `rouge_leaderboard_score` (
+  `leaderboard_key` varchar(50) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `score` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`id`),
   KEY `user_id_idx` (`user_id`),
   KEY `total_scores_idx` (`leaderboard_key`,`score`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -60,7 +58,7 @@ DROP TABLE IF EXISTS `rouge_leaderboards`;
 CREATE TABLE `rouge_leaderboards` (
   `key` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `type` varchar(10) NOT NULL,
+  `type` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
