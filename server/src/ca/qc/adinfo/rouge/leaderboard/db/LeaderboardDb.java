@@ -74,7 +74,7 @@ public class LeaderboardDb {
 		String sql = null;
 		
 		sql = "INSERT INTO rouge_leaderboard_score (`leaderboard_key`, `user_id`, `score`) " +
-				"VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE score = MAX(?, score);";
+				"VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE score = GREATEST(?, score);";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -109,7 +109,7 @@ public class LeaderboardDb {
 		ResultSet rs = null;
 		
 		String sql = "SELECT score, user_id FROM rouge_leaderboard_score " +
-				"WHERE `leaderboard_key` = 'TEST_LB' ORDER BY `score` DESC LIMIT 5;";
+				"WHERE `leaderboard_key` = ? ORDER BY `score` DESC LIMIT 5;";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -122,7 +122,7 @@ public class LeaderboardDb {
 			rs = stmt.executeQuery();
 			
 			while(rs.next()) {
-				Score score = new Score(rs.getLong("userId"), rs.getLong("score"));
+				Score score = new Score(rs.getLong("user_id"), rs.getLong("score"));
 				leaderboard.addScore(score);
 			}
 			
@@ -148,7 +148,7 @@ public class LeaderboardDb {
 		ResultSet rs = null;
 		HashMap<String, Leaderboard> returnValue = new HashMap<String, Leaderboard>();
 		
-		String sql = "SELECT key FROM rouge_leaderboards;";
+		String sql = "SELECT `key` FROM rouge_leaderboards;";
 		
 		try {
 			connection = dbManager.getConnection();

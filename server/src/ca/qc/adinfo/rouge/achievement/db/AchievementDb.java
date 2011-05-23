@@ -126,7 +126,7 @@ public class AchievementDb {
 		String sql = null;
 		
 		sql = "INSERT INTO rouge_achievement_progress (`achievement_key`, `user_id`, `progress`) " +
-				"VALUES (?, ?, ?)"; // ON DUPLICATE KEY UPDATE progress = MAX(?, progress);";
+				"VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE progress = GREATEST(progress, ?)";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -135,7 +135,7 @@ public class AchievementDb {
 			stmt.setString(1, key);
 			stmt.setLong(2, userId);
 			stmt.setDouble(3, progress);
-			//stmt.setDouble(4, progress);
+			stmt.setDouble(4, progress);			
 						
 			int ret = stmt.executeUpdate();
 			

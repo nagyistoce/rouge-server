@@ -24,7 +24,7 @@ public class DbTest {
 		dbManager = new DBManager(serverProperties);
 		dbManager.connect();
 		
-		user  = new User(-1, "unittest");
+		user  = new User(-9999, "unittest");
 	}
 	
 	public void quickUpdate(String sql) throws Exception {

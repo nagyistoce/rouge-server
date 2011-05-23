@@ -26,19 +26,21 @@ public class AchievementDbTest extends DbTest {
 	
 	@Test public void testAchievementDbTest() {
 
-		final long USERID = -999;
+		final String ACHIEVEMENT_NAME = "UNITTEST";
 
 		boolean ret = AchievementDb.createAchievement(dbManager, 
-				"UNITTEST", "Achievement for unit test", 20, 100);
+				ACHIEVEMENT_NAME, "Achievement for unit test", 20, 100);
 		
 		Assert.assertTrue(ret);
 		
 		ret = AchievementDb.updateAchievement(dbManager, 
-				"UNITTEST", USERID, 10);
+				ACHIEVEMENT_NAME, this.user.getId(), 10);
 		
 		Assert.assertTrue(ret);
 		
-		HashMap<String, Achievement> achievements = AchievementDb.getAchievements(dbManager, USERID);
+		// Test the first insert
+		
+		HashMap<String, Achievement> achievements = AchievementDb.getAchievements(dbManager, this.user.getId());
 		
 		Assert.assertNotNull(achievements);
 		
@@ -48,19 +50,36 @@ public class AchievementDbTest extends DbTest {
 		Assert.assertEquals(20, testAchievement.getPointValue());
 		Assert.assertEquals(100.0, testAchievement.getTotal());
 		
-
+		// Test the update
+		
 		ret = AchievementDb.updateAchievement(dbManager, 
-				"UNITTEST", USERID, 20);
+				ACHIEVEMENT_NAME, this.user.getId(), 20);
 		
 		Assert.assertTrue(ret);
 		
-		achievements = AchievementDb.getAchievements(dbManager, USERID);
+		achievements = AchievementDb.getAchievements(dbManager, this.user.getId());
+		
+		Assert.assertNotNull(achievements);
+		Assert.assertTrue(achievements.containsKey(ACHIEVEMENT_NAME));
+		
+		testAchievement = achievements.get(ACHIEVEMENT_NAME);
+		
+		Assert.assertEquals(20.0, testAchievement.getProgress());
+		
+		// Updating with a lower value should not update the progress
+		
+		ret = AchievementDb.updateAchievement(dbManager, 
+				ACHIEVEMENT_NAME, this.user.getId(), 15);
+		
+		Assert.assertTrue(ret);
+		
+		achievements = AchievementDb.getAchievements(dbManager, this.user.getId());
 		
 		Assert.assertNotNull(achievements);
 		
-		testAchievement = achievements.get("UNITTEST");
+		testAchievement = achievements.get(ACHIEVEMENT_NAME);
 		
-		Assert.assertEquals(20.0, testAchievement.getProgress());
+		Assert.assertEquals(20.0, testAchievement.getProgress());		
 	}
 
 }
