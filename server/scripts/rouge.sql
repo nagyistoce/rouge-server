@@ -1,24 +1,38 @@
 /*
- Navicat Premium Data Transfer
+Navicat MySQL Data Transfer
 
- Source Server         : Localhost
- Source Server Type    : MySQL
- Source Server Version : 50512
- Source Host           : localhost
- Source Database       : rouge
+Source Server         : Kavu MySQL
+Source Server Version : 50512
+Source Host           : localhost:3306
+Source Database       : rouge
 
- Target Server Type    : MySQL
- Target Server Version : 50512
- File Encoding         : utf-8
+Target Server Type    : MYSQL
+Target Server Version : 50512
+File Encoding         : 65001
 
- Date: 05/23/2011 10:55:41 AM
+Date: 2011-05-23 14:46:08
 */
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
---  Table structure for `rouge_achievement_progress`
+-- Table structure for `rouge_achievements`
+-- ----------------------------
+DROP TABLE IF EXISTS `rouge_achievements`;
+CREATE TABLE `rouge_achievements` (
+  `key` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `point_value` bigint(20) NOT NULL,
+  `total` float NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of rouge_achievements
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_achievement_progress`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_achievement_progress`;
 CREATE TABLE `rouge_achievement_progress` (
@@ -29,30 +43,11 @@ CREATE TABLE `rouge_achievement_progress` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_achievements`
+-- Records of rouge_achievement_progress
 -- ----------------------------
-DROP TABLE IF EXISTS `rouge_achievements`;
-CREATE TABLE `rouge_achievements` (
-  `key` varchar(50) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `point_value` bigint(20) NOT NULL,
-  `total` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_leaderboard_score`
--- ----------------------------
-DROP TABLE IF EXISTS `rouge_leaderboard_score`;
-CREATE TABLE `rouge_leaderboard_score` (
-  `leaderboard_key` varchar(50) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `score` bigint(20) NOT NULL,
-  KEY `user_id_idx` (`user_id`),
-  KEY `total_scores_idx` (`leaderboard_key`,`score`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- ----------------------------
---  Table structure for `rouge_leaderboards`
+-- Table structure for `rouge_leaderboards`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_leaderboards`;
 CREATE TABLE `rouge_leaderboards` (
@@ -63,7 +58,46 @@ CREATE TABLE `rouge_leaderboards` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_persistant_variable`
+-- Records of rouge_leaderboards
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_leaderboard_score`
+-- ----------------------------
+DROP TABLE IF EXISTS `rouge_leaderboard_score`;
+CREATE TABLE `rouge_leaderboard_score` (
+  `leaderboard_key` varchar(50) NOT NULL DEFAULT '',
+  `user_id` bigint(20) NOT NULL DEFAULT '0',
+  `score` bigint(20) NOT NULL,
+  PRIMARY KEY (`leaderboard_key`,`user_id`),
+  KEY `user_id_idx` (`user_id`),
+  KEY `total_scores_idx` (`leaderboard_key`,`score`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of rouge_leaderboard_score
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_mail`
+-- ----------------------------
+DROP TABLE IF EXISTS `rouge_mail`;
+CREATE TABLE `rouge_mail` (
+  `id` bigint(20) NOT NULL,
+  `from` bigint(20) DEFAULT NULL,
+  `to` bigint(20) NOT NULL,
+  `status` char(3) NOT NULL,
+  `content` text NOT NULL,
+  `time_sent` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of rouge_mail
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_persistant_variable`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_persistant_variable`;
 CREATE TABLE `rouge_persistant_variable` (
@@ -77,20 +111,11 @@ CREATE TABLE `rouge_persistant_variable` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_server_commands`
+-- Records of rouge_persistant_variable
 -- ----------------------------
-DROP TABLE IF EXISTS `rouge_server_commands`;
-CREATE TABLE `rouge_server_commands` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `instance` varchar(50) NOT NULL,
-  `command` varchar(50) NOT NULL,
-  `payload` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `instance_idx` (`instance`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_servers`
+-- Table structure for `rouge_servers`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_servers`;
 CREATE TABLE `rouge_servers` (
@@ -103,7 +128,28 @@ CREATE TABLE `rouge_servers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_sessions`
+-- Records of rouge_servers
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_server_commands`
+-- ----------------------------
+DROP TABLE IF EXISTS `rouge_server_commands`;
+CREATE TABLE `rouge_server_commands` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `instance` varchar(50) NOT NULL,
+  `command` varchar(50) NOT NULL,
+  `payload` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `instance_idx` (`instance`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of rouge_server_commands
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_sessions`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_sessions`;
 CREATE TABLE `rouge_sessions` (
@@ -120,7 +166,11 @@ CREATE TABLE `rouge_sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_social_friends`
+-- Records of rouge_sessions
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_social_friends`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_social_friends`;
 CREATE TABLE `rouge_social_friends` (
@@ -133,7 +183,11 @@ CREATE TABLE `rouge_social_friends` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
---  Table structure for `rouge_users`
+-- Records of rouge_social_friends
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `rouge_users`
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_users`;
 CREATE TABLE `rouge_users` (
@@ -148,4 +202,6 @@ CREATE TABLE `rouge_users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-SET FOREIGN_KEY_CHECKS = 1;
+-- ----------------------------
+-- Records of rouge_users
+-- ----------------------------
