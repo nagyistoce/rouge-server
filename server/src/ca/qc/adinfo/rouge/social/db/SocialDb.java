@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ca.qc.adinfo.rouge.mail.db;
+package ca.qc.adinfo.rouge.social.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,30 +33,72 @@ import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.mail.Mail;
 import ca.qc.adinfo.rouge.server.DBManager;
 
-public class MailDb {
+public class SocialDb {
 	
-	private static Logger log = Logger.getLogger(MailDb.class);
+	private static Logger log = Logger.getLogger(SocialDb.class);
 	
-	public static boolean sendMail(DBManager dbManager, long fromId, long toId, RougeObject content) {
+	public static boolean addFriend(DBManager dbManager, long userId, long friendId) {
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		
-		sql = "INSERT INTO rouge_mail (`from`, `to`, `content`, `status`, `time_sent`) " +
-				"VALUES (?, ?, ?, ?, ?)";
+		sql = "INSERT INTO rouge_social_friends (`user_id`, `friend_user_id`) VALUES (?, ?)";
 		
 		try {
 			connection = dbManager.getConnection();
 			stmt = connection.prepareStatement(sql);
 			
-			stmt.setLong(1, fromId);
-			stmt.setLong(2, toId);
-			stmt.setString(3, content.toJSON().toString());
-			stmt.setString(4, "unr");
-			stmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-						
+			stmt.setLong(1, userId);
+			stmt.setLong(2, friendId);
+									
+			int ret = stmt.executeUpdate();
+			
+			if (ret < 1) {
+				return false;
+			}
+			
+			stmt.setLong(1, friendId);
+			stmt.setLong(2, userId);
+												
+			ret = stmt.executeUpdate();
+			
+			return (ret > 0);
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return false;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
+	}
+	
+	public static boolean deleteFriend(DBManager dbManager, long userId, long friendId) { 
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		sql = "DELETE FROM rouge_social_friends " +
+				"WHERE (`user_id` = ? AND `friend_user_id` = ?) " +
+				"OR (`user_id` = ? AND `friend_user_id` = ?)";
+		
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setLong(1, userId);
+			stmt.setLong(2, friendId);
+			stmt.setLong(3, friendId);
+			stmt.setLong(4, userId);
+									
 			int ret = stmt.executeUpdate();
 			
 			return (ret > 0);
@@ -74,88 +116,15 @@ public class MailDb {
 		}
 	}
 	
-	public static boolean setMailAsRead(DBManager dbManager, long mailId) {
+	public static Collection<Long> getFriends(DBManager dbManager, long userId) {
 		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		
-		sql = "UPDATE rouge_mail SET `status` = ? WHERE `id` = ? ";
-		
-		try {
-			connection = dbManager.getConnection();
-			stmt = connection.prepareStatement(sql);
-			
-			stmt.setString(1, "rea");
-			stmt.setLong(2, mailId);
-						
-			int ret = stmt.executeUpdate();
-			
-			return (ret > 0);
-			
-		} catch (SQLException e) {
-			log.error(stmt);
-			log.error(e);
-			return false;
-			
-		} finally {
-		
-			DbUtils.closeQuietly(rs);
-			DbUtils.closeQuietly(stmt);
-			DbUtils.closeQuietly(connection);
-		}
-	}
-	
-	public static boolean deleteMail(DBManager dbManager, long mailId) {
-		
-		Connection connection = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		
-		sql = "UPDATE rouge_mail SET `status` = ? WHERE `id` = ? ";
-		
-		try {
-			connection = dbManager.getConnection();
-			stmt = connection.prepareStatement(sql);
-			
-			stmt.setString(1, "del");
-			stmt.setLong(2, mailId);
-						
-			int ret = stmt.executeUpdate();
-			
-			return (ret > 0);
-			
-		} catch (SQLException e) {
-			log.error(stmt);
-			log.error(e);
-			return false;
-			
-		} finally {
-		
-			DbUtils.closeQuietly(rs);
-			DbUtils.closeQuietly(stmt);
-			DbUtils.closeQuietly(connection);
-		}
-	}
-
-	public static Collection<Mail> getMails(DBManager dbManager, long userId, boolean unreadOnly) {
-		
-		Collection<Mail> mailbox = new ArrayList<Mail>();
+		Collection<Long> friends = new ArrayList<Long>();
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT `id`, `from`, `to`, `content`, `status`, `time_sent` " +
-				"FROM rouge_mail WHERE `to` = ? ";
-		
-		if (unreadOnly) {
-			sql += " AND `status` = 'unr'";
-		} else {
-			sql += " AND NOT `status` = 'del'";
-		}
+		String sql = "SELECT `friend_user_id` FROM rouge_social_friends WHERE `user_id` = ? ";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -165,11 +134,10 @@ public class MailDb {
 			rs = stmt.executeQuery();
 			
 			while(rs.next()) {
-				mailbox.add(new Mail(rs.getLong("id"), rs.getLong("from"), rs.getLong("to"), 
-						new RougeObject(JSONObject.fromObject(rs.getString("content")))));
+				friends.add(rs.getLong("friend_user_id"));				
 			}
 			
-			return mailbox;
+			return friends;
 			
 		} catch (SQLException e) {
 			log.error(stmt);
@@ -183,4 +151,7 @@ public class MailDb {
 			DbUtils.closeQuietly(connection);
 		}
 	}
+
+	
+	
 }

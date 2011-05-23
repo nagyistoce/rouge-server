@@ -1,4 +1,4 @@
-package ca.qc.adinfo.rouge.achievement.db;
+package ca.qc.adinfo.rouge.mail.db;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public class MailDbTest extends DbTest {
 		
 		Assert.assertTrue(ret);
 		
-		Collection<Mail> mailbox = MailDb.getLeaderboard(dbManager, this.user.getId(), false);
+		Collection<Mail> mailbox = MailDb.getMails(dbManager, this.user.getId(), false);
 		
 		Assert.assertEquals(1, mailbox.size());
 		
@@ -59,11 +59,11 @@ public class MailDbTest extends DbTest {
 		
 		Assert.assertTrue(ret);
 		
-		mailbox = MailDb.getLeaderboard(dbManager, this.user.getId(), false);
+		mailbox = MailDb.getMails(dbManager, this.user.getId(), false);
 		
 		Assert.assertEquals(1, mailbox.size());
 		
-		mailbox = MailDb.getLeaderboard(dbManager, this.user.getId(), true);
+		mailbox = MailDb.getMails(dbManager, this.user.getId(), true);
 		
 		Assert.assertEquals(0, mailbox.size());
 		
@@ -73,11 +73,11 @@ public class MailDbTest extends DbTest {
 		
 		Assert.assertTrue(ret);
 		
-		mailbox = MailDb.getLeaderboard(dbManager, this.user.getId(), false);
+		mailbox = MailDb.getMails(dbManager, this.user.getId(), false);
 		
 		Assert.assertEquals(0, mailbox.size());
 		
-		mailbox = MailDb.getLeaderboard(dbManager, this.user.getId(), true);
+		mailbox = MailDb.getMails(dbManager, this.user.getId(), true);
 		
 		Assert.assertEquals(0, mailbox.size());
 		
