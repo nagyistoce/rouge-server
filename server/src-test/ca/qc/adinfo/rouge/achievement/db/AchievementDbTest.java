@@ -1,15 +1,15 @@
 package ca.qc.adinfo.rouge.achievement.db;
 
+import java.util.HashMap;
+
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.qc.adinfo.rouge.data.RougeObject;
+import ca.qc.adinfo.rouge.achievement.Achievement;
 import ca.qc.adinfo.rouge.db.DbTest;
-import ca.qc.adinfo.rouge.variable.Variable;
-import ca.qc.adinfo.rouge.variable.db.PersistentVariableDb;
 
 public class AchievementDbTest extends DbTest {
 	
@@ -26,6 +26,7 @@ public class AchievementDbTest extends DbTest {
 	
 	@Test public void testAchievementDbTest() {
 
+		final long USERID = -999;
 
 		boolean ret = AchievementDb.createAchievement(dbManager, 
 				"UNITTEST", "Achievement for unit test", 20, 100);
@@ -33,10 +34,33 @@ public class AchievementDbTest extends DbTest {
 		Assert.assertTrue(ret);
 		
 		ret = AchievementDb.updateAchievement(dbManager, 
-				"UNITTEST", -999, 10);
+				"UNITTEST", USERID, 10);
 		
 		Assert.assertTrue(ret);
 		
+		HashMap<String, Achievement> achievements = AchievementDb.getAchievements(dbManager, USERID);
+		
+		Assert.assertNotNull(achievements);
+		
+		Achievement testAchievement = achievements.get("UNITTEST");
+		
+		Assert.assertEquals(10.0, testAchievement.getProgress());
+		Assert.assertEquals(20, testAchievement.getPointValue());
+		Assert.assertEquals(100.0, testAchievement.getTotal());
+		
+
+		ret = AchievementDb.updateAchievement(dbManager, 
+				"UNITTEST", USERID, 20);
+		
+		Assert.assertTrue(ret);
+		
+		achievements = AchievementDb.getAchievements(dbManager, USERID);
+		
+		Assert.assertNotNull(achievements);
+		
+		testAchievement = achievements.get("UNITTEST");
+		
+		Assert.assertEquals(20.0, testAchievement.getProgress());
 	}
 
 }

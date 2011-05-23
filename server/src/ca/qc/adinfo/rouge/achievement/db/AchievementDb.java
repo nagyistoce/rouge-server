@@ -42,14 +42,16 @@ public class AchievementDb {
 		String sql = "SELECT ach.`key` as `key`, " +
 				"ach.point_value as point_value, " +
 				"prg.progress as progress, ach.total as total " +
-				"FROM rouge_achievement_progress as prg, rouge_achievements as ach W" +
-				"HERE ach.key = prg.achievement_key and prg.user_id = ?; ";
+				"FROM rouge_achievement_progress as prg, rouge_achievements as ach " +
+				"WHERE ach.key = prg.achievement_key and prg.user_id = ?; ";
 		
 		try {
 			connection = dbManager.getConnection();
 			stmt = connection.prepareStatement(sql);
+			stmt.setLong(1, userId);
 			
 			rs = stmt.executeQuery();
+			
 			
 			while(rs.next()) {
 				
@@ -124,7 +126,7 @@ public class AchievementDb {
 		String sql = null;
 		
 		sql = "INSERT INTO rouge_achievement_progress (`achievement_key`, `user_id`, `progress`) " +
-				"VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE progress = MAX(?, progress);";
+				"VALUES (?, ?, ?)"; // ON DUPLICATE KEY UPDATE progress = MAX(?, progress);";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -133,7 +135,7 @@ public class AchievementDb {
 			stmt.setString(1, key);
 			stmt.setLong(2, userId);
 			stmt.setDouble(3, progress);
-			stmt.setDouble(4, progress);
+			//stmt.setDouble(4, progress);
 						
 			int ret = stmt.executeUpdate();
 			
