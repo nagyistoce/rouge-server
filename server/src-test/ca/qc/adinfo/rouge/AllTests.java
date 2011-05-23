@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import ca.qc.adinfo.rouge.achievement.db.AchievementDbTest;
+import ca.qc.adinfo.rouge.achievement.db.MailDbTest;
 import ca.qc.adinfo.rouge.leaderboard.db.LeaderboardDbTest;
 import ca.qc.adinfo.rouge.variable.db.PersistentVariableDbTest;
 
@@ -11,7 +12,8 @@ import ca.qc.adinfo.rouge.variable.db.PersistentVariableDbTest;
 @Suite.SuiteClasses({
     AchievementDbTest.class,
     LeaderboardDbTest.class,
-    PersistentVariableDbTest.class
+    PersistentVariableDbTest.class,
+    MailDbTest.class
 })
 
 public class AllTests {

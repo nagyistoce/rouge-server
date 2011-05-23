@@ -16,9 +16,38 @@
 
 package ca.qc.adinfo.rouge.mail;
 
+import ca.qc.adinfo.rouge.data.RougeObject;
+
 
 public class Mail {
 	
-	// TODO Implement Mail Object
+	private long id;
+	private long fromId;
+	private long toId;
+	private RougeObject content;
+	
+	public Mail(long id, long fromId, long toId, RougeObject content) {
+		super();
+		this.id = id;
+		this.fromId = fromId;
+		this.toId = toId;
+		this.content = content;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	public long getFromId() {
+		return fromId;
+	}
+	
+	public long getToId() {
+		return toId;
+	}
+	
+	public RougeObject getContent() {
+		return content;
+	}	
 
 }

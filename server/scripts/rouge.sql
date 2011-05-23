@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50512
 File Encoding         : 65001
 
-Date: 2011-05-23 14:46:08
+Date: 2011-05-23 17:15:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,14 +83,14 @@ CREATE TABLE `rouge_leaderboard_score` (
 -- ----------------------------
 DROP TABLE IF EXISTS `rouge_mail`;
 CREATE TABLE `rouge_mail` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `from` bigint(20) DEFAULT NULL,
   `to` bigint(20) NOT NULL,
   `status` char(3) NOT NULL,
   `content` text NOT NULL,
   `time_sent` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of rouge_mail
