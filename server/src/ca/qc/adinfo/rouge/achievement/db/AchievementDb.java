@@ -16,31 +16,140 @@
 
 package ca.qc.adinfo.rouge.achievement.db;
 
-import java.util.Collection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+
+import org.apache.commons.dbutils.DbUtils;
+import org.apache.log4j.Logger;
 
 import ca.qc.adinfo.rouge.achievement.Achievement;
 import ca.qc.adinfo.rouge.server.DBManager;
 
 public class AchievementDb {
 	
-	// TODO: Implement Achievement DB
+	private static Logger log = Logger.getLogger(AchievementDbTest.class);
 	
-	public static Achievement getAchievement(DBManager bdManager, String key) {
+	public static HashMap<String, Achievement> getAchievements(DBManager dbManager, long userId) {
 		
-		return null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		HashMap<String, Achievement> returnValue = new HashMap<String, Achievement>();
+		
+		String sql = "SELECT ach.`key` as `key`, " +
+				"ach.point_value as point_value, " +
+				"prg.progress as progress, ach.total as total " +
+				"FROM rouge_achievement_progress as prg, rouge_achievements as ach W" +
+				"HERE ach.key = prg.achievement_key and prg.user_id = ?; ";
+		
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				String key = rs.getString("key");
+				
+				Achievement achievement = new Achievement(key, 
+						rs.getInt("point_value"), 
+						rs.getDouble("total"), 
+						rs.getDouble("progress"));
+				
+
+				returnValue.put(key, achievement);
+			}
+			
+			return returnValue;
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return null;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
 	}
 	
-	public static Collection<Achievement> getAchievements(DBManager bdManager) {
+	public static boolean createAchievement(DBManager dbManager, String key, String name, int pointValue, double total) {
 		
-		return null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		sql = "INSERT INTO rouge_achievements (`key`, `name`, `point_value`, `total`) " +
+				" VALUES (?, ?, ?, ?);";
+		
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setString(1, key);
+			stmt.setString(2, name);
+			stmt.setInt(3, pointValue);
+			stmt.setDouble(4, total);
+						
+			int ret = stmt.executeUpdate();
+			
+			return (ret > 0);
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return false;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
+		
 	}
 	
-	public static void createAchievement(DBManager bdManager, String key, double max) {
+	public static boolean updateAchievement(DBManager dbManager, String key, long userId, double progress) {
 		
-	}
-	
-	public static void updateAchievement(DBManager bdManager, String key, double value) {
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
 		
+		sql = "INSERT INTO rouge_achievement_progress (`achievement_key`, `user_id`, `progress`) " +
+				"VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE progress = MAX(?, progress);";
+		
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setString(1, key);
+			stmt.setLong(2, userId);
+			stmt.setDouble(3, progress);
+			stmt.setDouble(4, progress);
+						
+			int ret = stmt.executeUpdate();
+			
+			return (ret > 0);
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return false;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
 	}
 
 }

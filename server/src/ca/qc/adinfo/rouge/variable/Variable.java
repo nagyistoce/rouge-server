@@ -34,6 +34,7 @@ public class Variable {
 		
 		this.key = key;
 		this.subscribers = new ArrayList<User>();
+		this.version = 0;
 	}
 	
 	public Variable(String key, RougeObject value, long version) {
@@ -41,6 +42,7 @@ public class Variable {
 		this.key = key;
 		this.subscribers = new ArrayList<User>();
 		this.version = version;
+		this.value = value;
 	}
 	
 	public void subscribe(User user) {
@@ -58,6 +60,8 @@ public class Variable {
 	}
 	
 	public void setValue(RougeObject value) {
+		
+		this.value = value;
 		
 		synchronized (this.subscribers) {
 			RougeObject rougeObject = new RougeObject();
@@ -83,6 +87,11 @@ public class Variable {
 	public void setVersion(long value) {
 		
 		this.version = value;
+	}
+	
+	public String getKey() {
+		
+		return this.key;
 	}
 
 }

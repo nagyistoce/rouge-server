@@ -1,20 +1,19 @@
 package ca.qc.adinfo.rouge.leaderboard;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.TreeSet;
+import java.util.LinkedList;
 
 public class Leaderboard {
 	
 	// TODO Add Persistence to Scores
 	 
-	private TreeSet<Score> scores;
-	private int maxCapacity;
+	private LinkedList<Score> scores;
+	private String key;
 	
-	public Leaderboard(int maxCapacity) {
+	public Leaderboard(String key) {
 		
-		this.scores = new TreeSet<Score>();
-		this.maxCapacity = maxCapacity;
+		this.key = key;
+		this.scores = new LinkedList<Score>();
 	}
 	
 	
@@ -22,16 +21,12 @@ public class Leaderboard {
 		
 		synchronized (this.scores) {
 			this.scores.add(score);
-			
-			if (this.scores.size() > maxCapacity) {
-				this.scores.remove(this.scores.last());
-			}
 		}
 	}
 	
 	public Collection<Score> getScore() {
 		
-		Collection<Score> toReturn = new ArrayList<Score>();
+		Collection<Score> toReturn = new LinkedList<Score>();
 		
 		synchronized (this.scores) {
 			toReturn.addAll(this.scores);

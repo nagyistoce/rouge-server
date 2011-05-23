@@ -2,13 +2,13 @@ package ca.qc.adinfo.rouge.leaderboard;
 
 import ca.qc.adinfo.rouge.user.User;
 
-public class Score implements Comparable<Score> {
+public class Score {
 	
 	private long score;
-	private User user;
+	private long userId;
 	
-	public Score(User user, long score) {
-		this.user = user;
+	public Score(long userId, long score) {
+		this.userId = userId;
 		this.score = score;
 	}
 
@@ -16,18 +16,8 @@ public class Score implements Comparable<Score> {
 		return score;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	@Override
-	public int compareTo(Score o) {
-		
-		Score other = (Score)o;
-		
-		if (this.score > other.score) return 1;
-		if (this.score == other.score) return 0;
-		return -1;
+	public long getUser() {
+		return userId;
 	}
 
 }

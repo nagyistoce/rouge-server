@@ -28,22 +28,72 @@ import org.apache.log4j.Logger;
 
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.DBManager;
+import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.variable.Variable;
 
 public class PersistentVariableDb {
 	
 	private static Logger log = Logger.getLogger(PersistentVariableDb.class);
 	
-	public static void updatePersitentVariable(DBManager dbManager, Variable variable) {
+	public static boolean updatePersitentVariable(DBManager dbManager, User user, Variable variable) {
 		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		if (variable.getVersion() == 0) {
+			sql = "INSERT INTO rouge_persistant_variable (`key`, `value`, `version`, `creator_user_id`) " +
+					" VALUES (?, ?, ?, ?);";
+		} else {
+			sql = "UPDATE rouge_persistant_variable SET `value` = ?, `version` = ? " +
+				" WHERE `key` = ? AND `version` = ?";
+		}
+		
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			if (variable.getVersion() == 0) {
+				stmt.setString(1, variable.getKey());
+				stmt.setString(2, variable.getValue().toJSON().toString());
+				stmt.setLong(3, 1);
+				stmt.setLong(4, user.getId());
+				
+				variable.setVersion(1);
+			} else {
+				stmt.setString(1, variable.getValue().toJSON().toString());
+				stmt.setLong(2, variable.getVersion()+1);
+				stmt.setString(3, variable.getKey());
+				stmt.setLong(4, variable.getVersion());
+				
+				variable.setVersion(variable.getVersion()+1);
+			}
+			
+			int ret = stmt.executeUpdate();
+			
+			return (ret > 0);
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return false;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
 	}
 	
 	public static Variable getPersitentVariable(DBManager dbManager, String key) {
 	
 		Connection connection = null;
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		
-		String sql = "SELECT value, version FROM rouge_persistant_variable WHERE key = ?";
+		String sql = "SELECT value, version FROM rouge_persistant_variable WHERE `key` = ?";
 		
 		try {
 			connection = dbManager.getConnection();
@@ -51,15 +101,16 @@ public class PersistentVariableDb {
 			
 			stmt.setString(1, key);
 			
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery();
 			
-			rs.next();
+			if (rs.next()) {
+				JSONObject jSonObject = JSONObject.fromObject(rs.getString("value"));
 			
-			JSONObject jSonObject = JSONObject.fromObject(rs.getString("value"));
-			
-			return new Variable(key, 
+				return new Variable(key, 
 					new RougeObject(jSonObject), rs.getLong("version"));
-			
+			} else {
+				return null;
+			}
 			
 		} catch (SQLException e) {
 			
@@ -68,9 +119,10 @@ public class PersistentVariableDb {
 			
 		} finally {
 		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
 			DbUtils.closeQuietly(connection);
 		}
-		
 	}
 
 }

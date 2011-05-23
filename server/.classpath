@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="conf"/>
 	<classpathentry kind="src" path="src-extension"/>
+	<classpathentry kind="src" path="src-test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/apache/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="lib" path="lib/apache/commons-beanutils-bean-collections-1.8.3.jar"/>
@@ -28,5 +29,6 @@
 	<classpathentry kind="lib" path="lib/jetty/jsp-api-2.1-glassfish-2.1.v20091210.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jsp-2.1-glassfish-2.1.v20091210.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/core-3.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
