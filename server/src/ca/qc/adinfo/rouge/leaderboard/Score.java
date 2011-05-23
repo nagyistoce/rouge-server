@@ -1,6 +1,5 @@
 package ca.qc.adinfo.rouge.leaderboard;
 
-import ca.qc.adinfo.rouge.user.User;
 
 public class Score {
 	

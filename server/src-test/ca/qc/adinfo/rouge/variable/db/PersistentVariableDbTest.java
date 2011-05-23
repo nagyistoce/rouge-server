@@ -1,11 +1,7 @@
 package ca.qc.adinfo.rouge.variable.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 import junit.framework.Assert;
 
-import org.apache.commons.dbutils.DbUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -22,17 +22,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 
-import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.leaderboard.Leaderboard;
 import ca.qc.adinfo.rouge.leaderboard.Score;
 import ca.qc.adinfo.rouge.server.DBManager;
-import ca.qc.adinfo.rouge.user.User;
-import ca.qc.adinfo.rouge.variable.Variable;
 
 public class LeaderboardDb {
 	

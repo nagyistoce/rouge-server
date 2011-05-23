@@ -35,4 +35,8 @@ public class Leaderboard {
 		return toReturn;
 	}
 
+	public String getKey() {
+	
+		return this.key;
+	}
 }
