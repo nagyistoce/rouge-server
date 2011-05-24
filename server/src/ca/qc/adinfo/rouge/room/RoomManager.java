@@ -72,11 +72,11 @@ public class RoomManager extends RougeModule {
 			if (room != null && room.isAdmin(user)) {
 				this.rooms.remove(name);
 				
-				RougeObject novaObject = new RougeObject();
-				novaObject.putString("name", name);
+				RougeObject rougeObject = new RougeObject();
+				rougeObject.putString("name", name);
 				
 				// Send a message to everyone announcing the room was destroyed.
-				room.sendToUsersInRool("room.destroy", novaObject, user);
+				room.sendToUsersInRool("room.destroy", rougeObject, user);
 			}			
 		}
 	}

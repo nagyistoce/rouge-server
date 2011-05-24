@@ -20,7 +20,7 @@ public class SetPersistentVariable extends RougeCommand {
 
 		DBManager dbManager = RougeServer.getInstance().getDbManager();
 		
-		RougeObject value = data.getNovaObject("value");
+		RougeObject value = data.getRougeObject("value");
 		String key = data.getString("key");
 		long version = data.getLong("version");
 		

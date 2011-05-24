@@ -36,7 +36,7 @@ public class SetVariable extends RougeCommand {
 		VariableManager variableManager = (VariableManager)RougeServer.getInstance().getModule("variable.manager");
 		
 		String key = data.getString("key");
-		RougeObject value = data.getNovaObject("value");
+		RougeObject value = data.getRougeObject("value");
 		
 		Variable variable = variableManager.getVariable(key);
 

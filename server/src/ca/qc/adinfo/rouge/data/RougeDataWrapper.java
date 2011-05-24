@@ -35,22 +35,22 @@ public class RougeDataWrapper {
 		
 		if (value instanceof Map) {
 			this.value = new RougeObject((Map) value);
-			this.type = RougeType.NovaObject;
+			this.type = RougeType.RougeObject;
 		} else if (value instanceof Collection) {
 			this.value = new RougeArray((Collection)value);
-			this.type = RougeType.NovaArray;
+			this.type = RougeType.RougeArray;
 		} if (value instanceof JSONObject) {
 			this.value = new RougeObject((JSONObject) value);
-			this.type = RougeType.NovaObject;
+			this.type = RougeType.RougeObject;
 		} else if (value instanceof JSONArray) {
 			this.value = new RougeArray((JSONArray)value);
-			this.type = RougeType.NovaArray;
+			this.type = RougeType.RougeArray;
 		} else if (value instanceof RougeObject) {
 			this.value = value;
-			this.type = RougeType.NovaObject;
+			this.type = RougeType.RougeObject;
 		} else if (value instanceof RougeArray) {
 			this.value = value;
-			this.type = RougeType.NovaArray;
+			this.type = RougeType.RougeArray;
 		} else if (value instanceof Integer) {
 			this.value = value;
 			this.type = RougeType.Integer;

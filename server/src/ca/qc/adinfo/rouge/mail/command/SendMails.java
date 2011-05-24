@@ -17,7 +17,7 @@ public class SendMails extends RougeCommand {
 		
 		long fromId = data.getLong("from");
 		long toId = data.getLong("to");
-		RougeObject content = data.getNovaObject("content");
+		RougeObject content = data.getRougeObject("content");
 		
 		boolean ret = MailDb.sendMail(dbManager, fromId, toId, content);
 		

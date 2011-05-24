@@ -78,7 +78,7 @@ public class BEncodeChannelHandler extends ServerHandler {
 
 				RougeObject resp = BDecoder.bDecode(in);
 				String command = resp.getString("command"); 
-				RougeObject payload = resp.getNovaObject("payload");
+				RougeObject payload = resp.getRougeObject("payload");
 
 				this.onMessageReceived(e.getChannel(), command, payload);
 			}

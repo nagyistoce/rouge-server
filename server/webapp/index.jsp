@@ -17,7 +17,7 @@
 <html>
 	<head>
 		<title>
-			Nova Server
+			Rouge Server
 		</title>
 		<link rel="stylesheet" href="/css/screen.css" type="text/css" />
 		<link rel="stylesheet" href="/css/ie.css" type="text/css" />
@@ -35,7 +35,7 @@
 
 				<div class="prepend-8 span-8 append-8">
 
-					<h1>Nova Server</h1>
+					<h1>Rouge Server</h1>
 					
 					<form action="/secure" method="POST">
 					<div class="Section">

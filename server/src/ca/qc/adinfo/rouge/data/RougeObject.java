@@ -27,8 +27,6 @@ import ca.qc.adinfo.rouge.server.core.bencode.BConstant;
 import ca.qc.adinfo.rouge.server.core.bencode.BEncoder;
 
 public class RougeObject {
-
-	// Boolean, String, Integer, Long, Float, Double, NovaObject, NovaArray
 	
 	public HashMap<String, RougeDataWrapper> content;
 	
@@ -101,7 +99,7 @@ public class RougeObject {
 		return (RougeArray)this.content.get(key).getValue();
 	}
 	
-	public RougeObject getNovaObject(String key) {
+	public RougeObject getRougeObject(String key) {
 		return (RougeObject)this.content.get(key).getValue();
 	}
 	

@@ -43,7 +43,7 @@ public class CoreServer {
 	private static Logger log = Logger.getLogger(CoreServer.class);
 	
 	static final ChannelGroup allChannels = new DefaultChannelGroup(
-			"Nova-Server");
+			"Rouge-Server");
 
 	private Properties properties;
 	private RougeCommandProcessor commandProcessor;

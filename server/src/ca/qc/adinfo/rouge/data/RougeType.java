@@ -17,5 +17,5 @@
 package ca.qc.adinfo.rouge.data;
 
 public enum RougeType {
-	Boolean, String, Integer, Long, Float, Double, NovaObject, NovaArray
+	Boolean, String, Integer, Long, Float, Double, RougeObject, RougeArray
 }

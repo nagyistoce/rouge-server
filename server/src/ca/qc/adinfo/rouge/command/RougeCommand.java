@@ -29,12 +29,12 @@ public abstract class RougeCommand {
 	private RougeCommandProcessor commandProcessor;
 	private String key;
 	
-	private final static RougeObject successNovaObject = new RougeObject();
-	private final static RougeObject failureNovaObject = new RougeObject();
+	private final static RougeObject successRougeObject = new RougeObject();
+	private final static RougeObject failureRougeObject = new RougeObject();
 	
 	static {
-		successNovaObject.putBoolean("ret", true);
-		failureNovaObject.putBoolean("ret", false);
+		successRougeObject.putBoolean("ret", true);
+		failureRougeObject.putBoolean("ret", false);
 	}
 	
 	public RougeCommand() {
