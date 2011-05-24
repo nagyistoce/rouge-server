@@ -31,7 +31,7 @@ public class RougeTest implements RougeListener {
 	public RougeTest() {
 		
 		log.trace("Starting test program ...");
-		this.driver = new RougeDriver("localhost", 6612, this, true);
+		this.driver = new RougeDriver("localhost", 6611, this, false);
 		log.trace("Connecting ...");
 		this.driver.connect();		
 		
@@ -39,8 +39,7 @@ public class RougeTest implements RougeListener {
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Nothing to do
 			}
 		}
 	}
@@ -79,12 +78,13 @@ public class RougeTest implements RougeListener {
 	@Override
 	public void onDisconnect() {
 		
-		log.trace("Disconnected ...");
+		log.debug("Disconnected ...");
 	}
 	
 	@Override
 	public void onError(int seq, String command, RougeObject error) {
-		// TODO Auto-generated method stub
+		
+		log.error("Error on " + command + " " + error.toJSON().toString());
 		
 	}
 

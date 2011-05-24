@@ -66,7 +66,7 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 			RougeObject resp = BDecoder.bDecode(in);
 
 			String command = resp.getString("command");
-			RougeObject payload = resp.getNovaObject("payload");
+			RougeObject payload = resp.getRougeObject("payload");
 
 			if (this.driver.listener != null) {
 				this.driver.listener.onOtherMessage(command, payload);

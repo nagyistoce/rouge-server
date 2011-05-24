@@ -22,8 +22,7 @@ public class DemoRouge implements RougeListener {
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Nothing to do
 			}
 		}
 	}
@@ -65,12 +64,12 @@ public class DemoRouge implements RougeListener {
 	
 	@Override
 	public void onError(int seq, String command, RougeObject error) {
-		// TODO Auto-generated method stub
+		
+		System.err.println("Error on " + command + " " + error.toJSON().toString());
 		
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

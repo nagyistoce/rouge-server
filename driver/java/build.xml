@@ -14,7 +14,7 @@
    limitations under the License.
  -->
 
-<project name="NovaDriver" default="dist" basedir=".">
+<project name="RougeDriver" default="dist" basedir=".">
 
 	<description>
         simple example build file
@@ -52,7 +52,7 @@
 		<mkdir dir="${dist}/demo" />
 
 		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-		<jar jarfile="${dist}/lib/NovaDriver.jar" basedir="${build}" />
+		<jar jarfile="${dist}/lib/RougeDriver.jar" basedir="${build}" />
 
 		<copy todir="${dist}/demo">
 			<fileset dir="src-demo" includes="**/*.java" />

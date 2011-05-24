@@ -49,9 +49,8 @@ public interface RougeListener {
 //	public void onFriendAdded(long seq, String friend);
 //	public void onFriendRemoved(long seq, String friend);
 //	public void onFriendListReceived(long seq, Collection<RougeFriend> friends);
-//	public void onFriendsSaidTo(long seq);
-//	
-//	public void onFriendSay(String from, RougeObject message);
+
+//	public void onIM(String from, String message);
 //	
 //	public void onSentMail(long seq);
 //	public void onGetAllMail(long seq,  Collection<RougeObject> mails);

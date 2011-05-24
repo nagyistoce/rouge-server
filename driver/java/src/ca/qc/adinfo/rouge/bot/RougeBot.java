@@ -141,7 +141,8 @@ public class RougeBot implements RougeListener, Runnable  {
 
 	@Override
 	public void onError(int seq, String command, RougeObject error) {
-		// TODO Auto-generated method stub
+		
+		log.error("Error on " + command + " " + error.toJSON().toString());
 		
 	}
 
