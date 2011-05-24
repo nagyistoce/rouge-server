@@ -34,15 +34,6 @@ public class RougeArray {
 		this.content = new LinkedList<RougeDataWrapper>();
 	}
 	
-	public RougeArray(JSONArray jArray) {
-		
-		this.content = new LinkedList<RougeDataWrapper>();
-		
-		for (int i = 0; i < jArray.size(); i++) {
-			this.content.add(new RougeDataWrapper(jArray.get(i)));
-		}
-	}
-	
 	public RougeArray(Collection<Object> col) {
 		
 		this.content = new LinkedList<RougeDataWrapper>();

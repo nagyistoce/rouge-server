@@ -30,7 +30,7 @@ import ca.qc.adinfo.rouge.server.DBManager;
 
 public class AchievementDb {
 	
-	private static Logger log = Logger.getLogger(AchievementDbTest.class);
+	private static Logger log = Logger.getLogger(AchievementDb.class);
 	
 	public static HashMap<String, Achievement> getAchievements(DBManager dbManager, long userId) {
 		

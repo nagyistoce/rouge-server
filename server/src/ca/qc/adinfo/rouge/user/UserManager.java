@@ -29,6 +29,7 @@ public class UserManager extends RougeModule {
 	public UserManager() {
 		
 		this.usersByName = new HashMap<String, User>();
+		this.usersById = new HashMap<Long, User>();
 	}
 	
 	public void registerUser(User user) {
