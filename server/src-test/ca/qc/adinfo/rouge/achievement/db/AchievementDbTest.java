@@ -33,6 +33,13 @@ public class AchievementDbTest extends DbTest {
 		
 		Assert.assertTrue(ret);
 		
+		// Check if the achievement exists
+		
+		HashMap<String, Achievement> achievements = AchievementDb.getAchievementList(dbManager);
+		
+		Assert.assertNotNull(achievements);
+		Assert.assertTrue(achievements.containsKey("UNITTEST"));		
+		
 		ret = AchievementDb.updateAchievement(dbManager, 
 				ACHIEVEMENT_NAME, this.user.getId(), 10);
 		
@@ -40,7 +47,7 @@ public class AchievementDbTest extends DbTest {
 		
 		// Test the first insert
 		
-		HashMap<String, Achievement> achievements = AchievementDb.getAchievements(dbManager, this.user.getId());
+		achievements = AchievementDb.getAchievements(dbManager, this.user.getId());
 		
 		Assert.assertNotNull(achievements);
 		

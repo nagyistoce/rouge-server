@@ -66,6 +66,7 @@ public class IndexServlet extends HttpServlet {
 
 		if(session.getAttribute("auth") == null) {
 			response.sendRedirect(response.encodeRedirectURL("/"));
+			return;
 		}
 
 		String action = request.getParameter("action");

@@ -32,6 +32,49 @@ public class AchievementDb {
 	
 	private static Logger log = Logger.getLogger(AchievementDb.class);
 	
+public static HashMap<String, Achievement> getAchievementList(DBManager dbManager) {
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		HashMap<String, Achievement> returnValue = new HashMap<String, Achievement>();
+		
+		String sql = "SELECT `key`, `name`, `point_value`, `total` FROM rouge_achievements";
+		try {
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				String key = rs.getString("key");
+				
+				Achievement achievement = new Achievement(key,
+						rs.getString("name"),
+						rs.getInt("point_value"), 
+						rs.getDouble("total"), 
+						0);
+				
+				returnValue.put(key, achievement);
+			}
+			
+			return returnValue;
+			
+		} catch (SQLException e) {
+			log.error(stmt);
+			log.error(e);
+			return null;
+			
+		} finally {
+		
+			DbUtils.closeQuietly(rs);
+			DbUtils.closeQuietly(stmt);
+			DbUtils.closeQuietly(connection);
+		}
+	}
+	
 	public static HashMap<String, Achievement> getAchievements(DBManager dbManager, long userId) {
 		
 		Connection connection = null;
@@ -39,7 +82,7 @@ public class AchievementDb {
 		ResultSet rs = null;
 		HashMap<String, Achievement> returnValue = new HashMap<String, Achievement>();
 		
-		String sql = "SELECT ach.`key` as `key`, " +
+		String sql = "SELECT ach.`key` as `key`, ach.`name` as name, " +
 				"ach.point_value as point_value, " +
 				"prg.progress as progress, ach.total as total " +
 				"FROM rouge_achievement_progress as prg, rouge_achievements as ach " +
@@ -58,6 +101,7 @@ public class AchievementDb {
 				String key = rs.getString("key");
 				
 				Achievement achievement = new Achievement(key, 
+						rs.getString("name"),
 						rs.getInt("point_value"), 
 						rs.getDouble("total"), 
 						rs.getDouble("progress"));
