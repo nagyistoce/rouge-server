@@ -82,7 +82,8 @@ public class JSonChannelHandler extends SimpleChannelUpstreamHandler {
 			
 			JSONObject jsonObject = JSONObject.fromObject(message);
 			String command = jsonObject.getString("command");
-			RougeObject payload = new RougeObject(jsonObject.getJSONObject("payload"));
+			JSONObject jSonPayload = jsonObject.getJSONObject("payload");
+			RougeObject payload = new RougeObject(jSonPayload);
 
 			if (this.driver.listener != null) {
 				this.driver.listener.onOtherMessage(command, payload);

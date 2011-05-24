@@ -38,28 +38,10 @@ public class RougeObject {
 		this.content = new HashMap<String, RougeDataWrapper>();
 	}
 	
-	public RougeObject(JSONObject jSonObject) {
-		
-		this.content = new HashMap<String, RougeDataWrapper>();
-		
-		Iterator<?> iterator = jSonObject.keys();
-		
-		while(iterator.hasNext()) {
-			
-			String key = (String)iterator.next();
-			
-			try {
-				this.content.put(key, new RougeDataWrapper(jSonObject.get(key)));
-			} catch(JSONException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public RougeObject(Map<String,?> map) {
 		
 		this.content = new HashMap<String, RougeDataWrapper>();
-		
+				
 		for(String key: (Set<String>)map.keySet()) {
 			
 			try {

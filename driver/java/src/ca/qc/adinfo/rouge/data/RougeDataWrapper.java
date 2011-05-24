@@ -40,10 +40,12 @@ public class RougeDataWrapper {
 			this.value = new RougeArray((Collection)value);
 			this.type = RougeType.RougeArray;
 		} if (value instanceof JSONObject) {
-			this.value = new RougeObject((JSONObject) value);
+			JSONObject jSonObject = (JSONObject) value;
+			this.value = new RougeObject(jSonObject);
 			this.type = RougeType.RougeObject;
 		} else if (value instanceof JSONArray) {
-			this.value = new RougeArray((JSONArray)value);
+			JSONArray jSonArray = (JSONArray)value;
+			this.value = new RougeArray(jSonArray);
 			this.type = RougeType.RougeArray;
 		} else if (value instanceof RougeObject) {
 			this.value = value;
