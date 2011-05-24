@@ -23,38 +23,55 @@ import ca.qc.adinfo.rouge.module.RougeModule;
 
 public class UserManager extends RougeModule {
 	
-	private HashMap<String, User> users;
+	private HashMap<String, User> usersByName;
+	private HashMap<Long, User> usersById;
 	
 	public UserManager() {
 		
-		this.users = new HashMap<String, User>();
+		this.usersByName = new HashMap<String, User>();
 	}
 	
 	public void registerUser(User user) {
 		
-		synchronized (this.users) {
-			this.users.put(user.getUsername(), user);
+		synchronized (this.usersByName) {
+			this.usersByName.put(user.getUsername(), user);
+		}
+		
+		synchronized (this.usersById) {
+			this.usersById.put(user.getId(), user);
 		}
 	}
 	
 	public void unregisterUser(User user) {
 		
-		synchronized (this.users) {
-			this.users.remove(user.getUsername());
+		synchronized (this.usersByName) {
+			this.usersByName.remove(user.getUsername());
 		}
+		
+		synchronized (this.usersById) {
+			this.usersById.remove(user.getId());
+		}
+		
 	}
 	
 	public User getUser(String username) {
 		
-		synchronized (this.users) {
-			return this.users.get(username);
+		synchronized (this.usersByName) {
+			return this.usersByName.get(username);
+		}
+	}
+	
+	public User getUserById(long id) {
+		
+		synchronized (this.usersById) {
+			return this.usersById.get(id);
 		}
 	}
 	
 	public Collection<User> getUsers() {
 		
-		synchronized (users) {
-			return this.users.values();
+		synchronized (usersByName) {
+			return this.usersByName.values();
 		}
 	}
 

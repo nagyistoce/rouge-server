@@ -5,8 +5,6 @@ import java.util.LinkedList;
 
 public class Leaderboard {
 	
-	// TODO Add Persistence to Scores
-	 
 	private LinkedList<Score> scores;
 	private String key;
 	
