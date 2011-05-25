@@ -51,7 +51,7 @@ public abstract class ServerHandler extends SimpleChannelHandler {
     	
     	if(user != null) {
     		
-    		this.commandProcessor.processCommand("logoff", new RougeObject(), session, user);
+    		this.commandProcessor.processCommand(false, "logoff", new RougeObject(), session, user);
     	}
     	
     	this.sessionManager.unregisterSession(session);
@@ -64,30 +64,28 @@ public abstract class ServerHandler extends SimpleChannelHandler {
     	User user = session.getUser();
     	
     	session.received(command, payload);
-    	
+
     	if (user == null) {
-    	// User is not authenticated	
-    		
+    		// User is not authenticated	
+
     		log.debug("Received command " + command + " from anonymous connection.");
-    	
-    		if (command.equals("login")) {
-    			// Only login commands are allowed
-    			try {
-    				this.commandProcessor.processCommand("login", payload, session, session.getUser());
-    			
-    			} catch(Exception e) {
-    				// Any exception thrown for a login command results in a failure    		
-    				ch.disconnect();
-    			}
-    			
-    		} else {
-    			log.debug("Command not allowed, disconnecting.");
+
+    		try {
+    			this.commandProcessor.processCommand(true, "login", payload, session, session.getUser());
+
+    		} catch(Exception e) {
+    			log.error("Error executing anonymous command " + command + " : " + e);
+    			// Any exception thrown for an anonnymous command results in a failure    		
     			ch.disconnect();
     		}
-    		
-    	} else {
 
-    		this.commandProcessor.processCommand(command, payload, session, session.getUser());    		
+    	} else {
+    		
+    		try {
+    			this.commandProcessor.processCommand(false, command, payload, session, session.getUser());    		
+    		} catch(Exception e) {
+    	    	log.error("Error executing command " + command + " : " + e);
+    	    }
     	}    					
     }
 

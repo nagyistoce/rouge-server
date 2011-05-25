@@ -16,8 +16,6 @@ import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 
 public class LeaderboardAdminPage extends RougeServerPage {
-
-	// TODO Build LeaderboardAdmin Page
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

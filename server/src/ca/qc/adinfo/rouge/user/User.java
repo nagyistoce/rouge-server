@@ -22,6 +22,10 @@ public class User {
 	
 	private long id;
 	private String username;
+	private String passwordHash;
+	private String firstName;
+	private String lastName;
+	private String email;
 	
 	private SessionContext sessionContext;
 	
@@ -31,7 +35,21 @@ public class User {
 		this.id = id;
 		this.username = username;
 	}
+
 	
+	
+	public User(long id, String username, String passwordHash,
+			String firstName, String lastName, String email) {
+		super();
+		
+		this.id = id;
+		this.username = username;
+		this.passwordHash = passwordHash;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+	}
+
 	public long getId() {
 		
 		return this.id;
@@ -40,6 +58,22 @@ public class User {
 	public String getUsername() {
 		
 		return this.username;
+	}
+
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public SessionContext getSessionContext() {

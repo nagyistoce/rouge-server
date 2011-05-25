@@ -61,34 +61,34 @@ public class RougeServer {
 	private HashMap<String, Object> attachements;
 	private HashMap<String, RougeModule> modules;
 	private HashMap<String, RougeServerPage> pages;
-	
+
 	private ResourceMonitor resourceMonitor;
 
 	private long timeTick;
-	
+
 	private String gameName;
 	private String instanceName;
-	
+
 	private ServerDb serverDb;
-	
+
 	private RougeServer() throws Exception {
 
 		PropertyConfigurator.configure("./conf/log4j.properties");
-		
+
 		running = false;
 
 		attachements = new HashMap<String, Object>();
 		modules = new HashMap<String, RougeModule>();
 		pages = new HashMap<String, RougeServerPage>();
 		moduleProperties = new HashMap<String, Properties>();
-		
+
 	}
-	
+
 	public void init() throws Exception {
-		
+
 		serverProperties = new Properties();
 		serverProperties.load(new FileReader(new File("./conf/config.properties")));
-		
+
 		userManager = new UserManager();
 		roomManager = new RoomManager();
 		sessionManager = new SessionManager();
@@ -99,59 +99,59 @@ public class RougeServer {
 		resourceMonitor = new ResourceMonitor();
 
 		dbManager = new DBManager(serverProperties);
-		
+
 		instanceName = serverProperties.getProperty("server.name.instance").trim();
 		gameName = serverProperties.getProperty("server.name.game").trim();
 		timeTick = Long.parseLong(serverProperties.getProperty("server.time.tick").trim());
-		
+
 		loadPropertiesFile(this.serverProperties);
-		
+
 		File extensionDir = new File("extension");
-		
+
 		loadJars(extensionDir);
 		loadExtension(extensionDir);
-		
+
 		this.serverDb = new ServerDb(this.dbManager);
-		
+
 		log.trace("Everything loaded.");
 	}
-	
+
 	private void loadExtension(File extensionDir) throws Exception {
-		
+
 		File[] propertyFiles = extensionDir.listFiles(new FilenameFilter() {
-			
+
 			@Override
 			public boolean accept(File dir, String name) {
-				
+
 				return name.endsWith(".properties");
 			}
 		});
-		
+
 		for(File propertyFile: propertyFiles) {
 			log.debug("Loading property file: " + propertyFile.getAbsoluteFile());
-			
+
 			Properties props = new Properties();
 			props.load(new FileReader(propertyFile));
-			
+
 			String moduleName = props.getProperty("extension.name");
-			
+
 			moduleProperties.put(moduleName, props);
 			loadPropertiesFile(props);
 		}
-		
+
 	}
-	
+
 	private void loadJars(File extensionDir) throws Exception {
-		
+
 		File[] jarFiles = extensionDir.listFiles(new FilenameFilter() {
-			
+
 			@Override
 			public boolean accept(File dir, String name) {
-				
+
 				return name.endsWith(".jar");
 			}
 		});
-		
+
 		for(File jarFile: jarFiles) {
 			log.debug("Loading jar file: " + jarFile.getAbsoluteFile());
 			JarLoader.loadJar(jarFile);
@@ -159,57 +159,83 @@ public class RougeServer {
 	}
 
 	private void loadPropertiesFile(Properties props) throws Exception {
-		
+
 		String commandsFromConfig = props.getProperty("command.load");
-		String[] commandsToLoad = commandsFromConfig.split(",");
+		if (commandsFromConfig != null) {
+			String[] commandsToLoad = commandsFromConfig.split(",");
 
-		for(String commandName: commandsToLoad) {
+			for(String commandName: commandsToLoad) {
 
-			String commandClass = props.getProperty("command." + commandName.trim());
+				String commandClass = props.getProperty("command." + commandName.trim());
 
-			try {
-				Class<?> cls = Class.forName(commandClass);
-				RougeCommand command = (RougeCommand) cls.newInstance();
-				command.setKey(commandName.trim());
-				commandProcessor.registerCommand(command);
-			} catch(Exception e) {
-				log.error("Could not load command " + commandName + " " + commandClass);
-				throw e;
+				try {
+					Class<?> cls = Class.forName(commandClass);
+					RougeCommand command = (RougeCommand) cls.newInstance();
+					command.setKey(commandName.trim());
+					commandProcessor.registerCommand(command, false);
+				} catch(Exception e) {
+					log.error("Could not load command " + commandName + " " + commandClass);
+					throw e;
+				}
+			}
+		}
+
+		String anonymousCommandsFromConfig = props.getProperty("command.load.anonymous");
+		if (anonymousCommandsFromConfig != null) {
+			String[] anonymousCommandsToLoad = anonymousCommandsFromConfig.split(",");
+
+			for(String commandName: anonymousCommandsToLoad) {
+
+				String commandClass = props.getProperty("command." + commandName.trim());
+
+				try {
+					Class<?> cls = Class.forName(commandClass);
+					RougeCommand command = (RougeCommand) cls.newInstance();
+					command.setKey(commandName.trim());
+					commandProcessor.registerCommand(command, true);
+				} catch(Exception e) {
+					log.error("Could not load anonymous command " + commandName + " " + commandClass);
+					throw e;
+				}
 			}
 		}
 
 		String modulesFromConfig = props.getProperty("module.load");
-		String[] modulesToLoad = modulesFromConfig.split(",");
+		if (modulesFromConfig != null) {
+			String[] modulesToLoad = modulesFromConfig.split(",");
 
-		for(String moduleName: modulesToLoad) {
+			for(String moduleName: modulesToLoad) {
 
-			String moduleClass = props.getProperty("module." + moduleName.trim());
+				String moduleClass = props.getProperty("module." + moduleName.trim());
 
-			try {
-				Class<?> cls = Class.forName(moduleClass);
-				modules.put(moduleName.trim(), (RougeModule)cls.newInstance());
-			} catch(Exception e) {
-				log.error("Could not load module " + moduleName + " " + moduleClass);
-				throw e;
+				try {
+					Class<?> cls = Class.forName(moduleClass);
+					modules.put(moduleName.trim(), (RougeModule)cls.newInstance());
+				} catch(Exception e) {
+					log.error("Could not load module " + moduleName + " " + moduleClass);
+					throw e;
+				}
 			}
 		}
-		
+
 		String pagesFromConfig = props.getProperty("page.load");
-		String[] pagesToLoad = pagesFromConfig.split(",");
+		if (pagesFromConfig != null) {
+			String[] pagesToLoad = pagesFromConfig.split(",");
 
-		for(String pageName: pagesToLoad) {
+			for(String pageName: pagesToLoad) {
 
-			String pageClass = props.getProperty("page." + pageName.trim());
+				String pageClass = props.getProperty("page." + pageName.trim());
 
-			try {
-				Class<?> cls = Class.forName(pageClass);
-				pages.put(pageName.trim(), (RougeServerPage)cls.newInstance());
-			} catch(Exception e) {
-				log.error("Could not load page " + pageName + " " + pageClass);
-				throw e;
+				try {
+					Class<?> cls = Class.forName(pageClass);
+					pages.put(pageName.trim(), (RougeServerPage)cls.newInstance());
+				} catch(Exception e) {
+					log.error("Could not load page " + pageName + " " + pageClass);
+					throw e;
+				}
 			}
 		}
-		
+
 		String pagesForMenu = props.getProperty("page.menu");
 		String[] menuItems = pagesForMenu.split(",");
 
@@ -217,7 +243,7 @@ public class RougeServer {
 			RougeServerPage.addToMenu(menuItem.trim());
 		}
 	}
-	
+
 	public static RougeServer getInstance() {
 
 		if (instance == null) {
@@ -242,7 +268,7 @@ public class RougeServer {
 		if (running == true) return;
 
 		running = true;
-		
+
 		Thread resourceMonitorThread = new Thread(resourceMonitor);
 		resourceMonitorThread.setDaemon(true);
 		resourceMonitorThread.setName("Resource Monitor");
@@ -257,9 +283,9 @@ public class RougeServer {
 		dbManager.connect();
 
 		long timeStartLoop = System.currentTimeMillis();
-		
+
 		long serverUpdateIn = 0;
-		
+
 		while(this.running) {
 
 			try {
@@ -268,18 +294,18 @@ public class RougeServer {
 			} catch (InterruptedException e) {
 				// Nothing to do
 			}
-			
+
 			long currentTime = System.currentTimeMillis();
 			long interval = currentTime - timeStartLoop;
 			timeStartLoop = currentTime;
-			
+
 			serverUpdateIn = serverUpdateIn - interval;
 			if (serverUpdateIn < 0) {
 				serverDb.updateServerInfo(instanceName, gameName, 
 						NetUtils.getHostname(), this.sessionManager.getNumberSession());
 				serverUpdateIn = 60000;
 			}
-			
+
 			// I can loop over this safely since modules shouldn't be added
 			// at run time.
 			for (RougeModule module: this.modules.values()) {
@@ -306,14 +332,14 @@ public class RougeServer {
 			this.attachements.put(key, value);
 		}
 	}
-	
+
 	public void registerPage(String action, RougeServerPage page) {
-		
+
 		this.pages.put(action, page);
 	}
-	
+
 	public RougePage getPage(String action) {
-		
+
 		return this.pages.get(action);
 	}
 
@@ -328,7 +354,7 @@ public class RougeServer {
 	public Properties getServerProperties() {
 		return serverProperties;
 	}
-	
+
 	public Properties getModuleProperties(String key) {
 		return this.moduleProperties.get(key);
 	}
@@ -340,11 +366,11 @@ public class RougeServer {
 	public Object getModule(String key) {
 		return this.modules.get(key);
 	}
-	
+
 	public Properties getProperties() {
 		return this.serverProperties;
 	}
-	
+
 	public String getGameName() {
 		return gameName;
 	}

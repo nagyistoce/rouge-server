@@ -28,28 +28,36 @@ import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 
 public class RougeCommandProcessor {
-	
+
 	private static Logger log = Logger.getLogger(RougeCommandProcessor.class);
-	
+
 	private HashMap<String, RougeCommand> commands;
+	private HashMap<String, RougeCommand> anonymousCommands;
 	private DBManager dbManager;
 	private UserManager userManager;
 	private RoomManager roomManager;
-	
+
 	public RougeCommandProcessor(DBManager dbManager, UserManager userManager, RoomManager roomManager) {
-		
+
 		this.commands = new HashMap<String, RougeCommand>();
+		this.anonymousCommands = new HashMap<String, RougeCommand>();
 		this.dbManager = dbManager;
 		this.userManager = userManager;
 		this.roomManager = roomManager;
 	}
-	
-	public void processCommand(String key, RougeObject data, SessionContext session, User user) {
-		
+
+	public void processCommand(boolean anonymous, String key, RougeObject data, SessionContext session, User user) {
+
 		RougeCommand command = null;
-		
-		synchronized(this.commands) {
-			command = this.commands.get(key);
+
+		if (anonymous) {
+			synchronized (this.anonymousCommands) {
+				command = this.anonymousCommands.get(key);
+			}
+		} else {
+			synchronized (this.commands) {
+				command = this.commands.get(key);
+			}
 		}
 		
 		if (command != null) {
@@ -66,46 +74,58 @@ public class RougeCommandProcessor {
 
 		return;
 	}
-	
-	public void registerCommand(RougeCommand command) {
-		
-		synchronized (this.commands) {
-			this.commands.put(command.getKey(), command);
+
+	public void registerCommand(RougeCommand command, boolean anonymous) {
+
+		if (anonymous) {
+			synchronized (this.anonymousCommands) {
+				this.anonymousCommands.put(command.getKey(), command);
+			}
+		} else {
+			synchronized (this.commands) {
+				this.commands.put(command.getKey(), command);
+			}
 		}
-		
+
 		command.setCommandProcessor(this);
-		
+
 		log.trace("Registered command: " + command.getKey());
-		
+
 	}
-	
-	public void unregisterCommand(RougeCommand command) {
-		
-		synchronized (this.commands) {
-			this.commands.remove(command.getKey());
+
+	public void unregisterCommand(RougeCommand command, boolean anonymous) {
+
+		if (anonymous) {
+			synchronized (this.anonymousCommands) {
+				this.anonymousCommands.remove(command.getKey());
+			}
+		} else {
+			synchronized (this.commands) {
+				this.commands.remove(command.getKey());
+			}
 		}
-		
+
 		log.trace("Unregistered command: " + command.getKey());
 	}
 
 	public void send(String key, RougeObject object) {
-		
-		
+
+
 		log.trace("Send method not implemented yet.");
 	}
-	
+
 	public DBManager getDBManager() {
-		
+
 		return this.dbManager;
 	}
-	
+
 	public UserManager userManager() {
-		
+
 		return this.userManager;
 	}
-	
+
 	public RoomManager roomManager() {
-		
+
 		return this.roomManager;
 	}
 }

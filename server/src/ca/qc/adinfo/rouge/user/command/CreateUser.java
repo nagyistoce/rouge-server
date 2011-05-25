@@ -28,13 +28,13 @@ import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 import ca.qc.adinfo.rouge.user.db.UserDb;
 
-public class Login extends RougeCommand {
+public class CreateUser extends RougeCommand {
 	
-	private static final Logger log = Logger.getLogger(Login.class);
+	private static final Logger log = Logger.getLogger(CreateUser.class);
 
 	private static long count = 0;
 	
-	public Login() {
+	public CreateUser() {
 		
 	}
 
@@ -46,30 +46,51 @@ public class Login extends RougeCommand {
 		
 		String username = data.getString("username");
 		String password = data.getString("password");
+		String firstname = data.getString("firstname");
+		String lastname = data.getString("lastname");
+		String email = data.getString("email");
 		
-		log.debug("Received login request for u: " + username);
+		RougeObject payload = new RougeObject();
 		
-		User user = UserDb.getUser(dbManager, username);
+		log.debug("Received create user request for u: " + username);
 		
-		if (user == null) {
-			sendFailure(session);
-			throw new InvalidLoginException();
+		if (UserDb.isEmailInUse(dbManager, email)) {
+			
+			log.debug("Duplicate email detected!");
+			
+			payload.putString("error", "DUPLICATE_EMAIL");
+			sendFailure(session, payload);
+			return;
 		}
 		
-		if (password.equals(user.getPasswordHash())) {
+		if (UserDb.isUsernameInUse(dbManager, username)) {
+			
+			log.debug("Duplicate username detected!");
+			
+			payload.putString("error", "DUPLICATE_USERNAME");
+			sendFailure(session, payload);
+			return;
+		}
 		
-			log.debug("Login for " + username + " is good.");
+		User user = UserDb.createUser(dbManager, username, password, firstname, lastname, email);
+		
+		if (user != null) {
+
+			log.debug("User successfully created!");
 			
 			userManager.registerUser(user);
 			session.setUser(user);
 			user.setSessionContext(session);
-		
-			sendSuccess(session);
+			
+			payload.putLong("id", user.getId());
+			sendSuccess(session, payload);
 			
 		} else {
 		
-			sendFailure(session);
-			throw new InvalidLoginException();	
+			payload.putString("error", "CANT_CREATE");
+			sendFailure(session, payload);
 		}
+		
+		
 	}
 }

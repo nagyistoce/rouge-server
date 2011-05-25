@@ -7,6 +7,7 @@ import ca.qc.adinfo.rouge.achievement.db.AchievementDbTest;
 import ca.qc.adinfo.rouge.leaderboard.db.LeaderboardDbTest;
 import ca.qc.adinfo.rouge.mail.db.MailDbTest;
 import ca.qc.adinfo.rouge.social.db.SocialDbTest;
+import ca.qc.adinfo.rouge.user.db.UserDbTest;
 import ca.qc.adinfo.rouge.variable.db.PersistentVariableDbTest;
 
 @RunWith(Suite.class)
@@ -15,7 +16,8 @@ import ca.qc.adinfo.rouge.variable.db.PersistentVariableDbTest;
     LeaderboardDbTest.class,
     PersistentVariableDbTest.class,
     MailDbTest.class,
-    SocialDbTest.class
+    SocialDbTest.class,
+    UserDbTest.class
 })
 
 public class AllTests {

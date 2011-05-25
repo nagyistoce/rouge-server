@@ -18,8 +18,6 @@ import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 
 public class AchievementAdminPage extends RougeServerPage {
-
-	// TODO Build Achievement Admin Page
 	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
