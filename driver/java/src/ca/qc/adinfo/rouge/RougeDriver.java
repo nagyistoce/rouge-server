@@ -85,17 +85,19 @@ public class RougeDriver {
 
 	}
 
-	public void connect() {
+	public void connect() throws RougeConnectionFailure {
 		// Start the connection attempt.
 		ChannelFuture future = bootstrap.connect(new InetSocketAddress(host,
 				port));
 
-
 		this.channel = future.awaitUninterruptibly().getChannel();
 
-		if (!future.isSuccess()) {
-			future.getCause().printStackTrace();
-			System.exit(0);
+		if (!future.isSuccess()) {			
+			throw new RougeConnectionFailure(future.getCause());
+		} else {
+			if (this.listener != null) {
+				this.listener.onConnect();
+			}	
 		}
 	}
 

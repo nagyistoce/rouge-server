@@ -52,6 +52,11 @@ public class RougeObject {
 		}
 	}
 	
+	public boolean hasKey(String key) {
+		
+		return this.content.containsKey(key);
+	}
+	
 	public int getInt(String key) {
 		return (Integer)this.content.get(key).getValue();
 	}

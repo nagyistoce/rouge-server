@@ -28,6 +28,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import ca.qc.adinfo.rouge.RougeDriver;
+import ca.qc.adinfo.rouge.RougeHandler;
 import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class JSonChannelHandler extends SimpleChannelUpstreamHandler {
@@ -38,12 +39,14 @@ public class JSonChannelHandler extends SimpleChannelUpstreamHandler {
 	private final AtomicLong transferredBytes = new AtomicLong();
 
 	private RougeDriver driver;
+	private RougeHandler handler;
 	
 	private String msgBuffer;
 	
 	public JSonChannelHandler(RougeDriver driver) {
 		this.driver = driver;
 		this.msgBuffer = "";
+		this.handler = new RougeHandler();
 	}
 	
 	public long getTransferredBytes() {
@@ -85,9 +88,7 @@ public class JSonChannelHandler extends SimpleChannelUpstreamHandler {
 			JSONObject jSonPayload = jsonObject.getJSONObject("payload");
 			RougeObject payload = new RougeObject(jSonPayload);
 
-			if (this.driver.listener != null) {
-				this.driver.listener.onOtherMessage(command, payload);
-			}
+			this.handler.handle(command, payload, this.driver.listener);				
 		}
 		
 	}

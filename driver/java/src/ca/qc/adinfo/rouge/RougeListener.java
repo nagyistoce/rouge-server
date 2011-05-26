@@ -16,57 +16,56 @@
 
 package ca.qc.adinfo.rouge;
 
+import java.util.Collection;
+
+import ca.qc.adinfo.rouge.data.RougeAchievement;
+import ca.qc.adinfo.rouge.data.RougeLeaderboard;
+import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
+import ca.qc.adinfo.rouge.data.RougeVariable;
 
 public interface RougeListener {
 	
 	public void onConnect();
 	public void onDisconnect();
 	
-	public void onError(int seq, String command, RougeObject error);
+	public void onLogin();
+	public void onUserCreated(long id);
+	
+	public void onError(String command, RougeObject error);
 	public void onOtherMessage(String command, RougeObject payload);
 	
-//	public void onSay(String from, RougeObject message);
-//	
-//	public void onRoomCreated(long seq, String name);
-//	public void onRoomDestroyed(long seq, String name);
-//	public void onRoomJoined(long seq, String name);
-//	public void onRoomLeft(long seq, String name);
-//	public void onRoomSaid(long seq, String name);
-//	
-//	public void onRoomSay(String from, RougeObject message);
-//	
-//	public void onVariableGot(long seq, String key, RougeObject variable);
-//	public void onVariableSet(long seq, String key);
-//	public void onVariableSubcribed(long seq, String key);
-//	public void onVariableUnsubscribed(long seq, String key);
-//	
-//	public void onVariableUpdated(String key, RougeVariable variable);
-//
-//	public void onPersistentVariableGot(long seq, String key, RougeObject variable, long version);
-//	public void onPersistentVariableSet(long seq, String key);
-//	
-//	public void onFriendAdded(long seq, String friend);
-//	public void onFriendRemoved(long seq, String friend);
-//	public void onFriendListReceived(long seq, Collection<RougeFriend> friends);
+	public void onRoomCreated(String name);
+	public void onRoomDestroyed(String name);
+	public void onRoomJoined(String name);
+	public void onRoomLeft(String name);
+	public void onRoomSaid(String name);
+	
+	public void onRoomSay(String name, String from, RougeObject message);
+	
+	public void onVariableGot(RougeVariable variable);
+	public void onVariableSet(String key);
+	public void onVariableSubcribed(String key);
+	public void onVariableUnsubscribed(String key);
+	
+	public void onVariableUpdated(String key, RougeVariable variable);
 
-//	public void onIM(String from, String message);
-//	
-//	public void onSentMail(long seq);
-//	public void onGetAllMail(long seq,  Collection<RougeObject> mails);
-//	public void onGetUnreadMail(long seq,  Collection<RougeObject> mails);
-//	public void onMailIsMarkedRead(long seq);
-//	public void onDeleteMail(long seq);
-//	
-//	public void onGetLeaderboard(String key, RougeLeaderboard leaderboard);
-//	public void onSubmitScore(String key);
-//	
-//	public void onGotAchievements(long seq, Collection<RougeAchievement> achievements);
-//	public void onUpdateAchivementProgress(String key);
+	public void onPersistentVariableGot(RougeVariable variable);
+	public void onPersistentVariableSet(String key);
 	
+	public void onIM(String from, String message);
 	
+	public void onSentMail();
+	public void onGetAllMail(Collection<RougeMail> mails);
+	public void onGetUnreadMail(Collection<RougeMail> mails);
+	public void onMailIsMarkedRead();
+	public void onDeleteMail();
 	
-
+	public void onGetLeaderboard(RougeLeaderboard leaderboard);
+	public void onGetLeaderboards(Collection<RougeLeaderboard> leaderboard);
+	public void onSubmitScore(String key);
 	
+	public void onGotAchievements(Collection<RougeAchievement> achievements);
+	public void onUpdateAchivementProgress(String key);
 	
 }

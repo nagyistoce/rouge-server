@@ -27,6 +27,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import ca.qc.adinfo.rouge.RougeDriver;
+import ca.qc.adinfo.rouge.RougeHandler;
 import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
@@ -34,10 +35,11 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 	private static Logger log = Logger.getLogger(BEncodeChannelHandler.class);
 
 	private RougeDriver driver;
+	private RougeHandler handler;
 
 	public BEncodeChannelHandler(RougeDriver driver) {
 		this.driver = driver;
-
+		this.handler = new RougeHandler();
 	}
 
 	@Override
@@ -68,9 +70,7 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 			String command = resp.getString("command");
 			RougeObject payload = resp.getRougeObject("payload");
 
-			if (this.driver.listener != null) {
-				this.driver.listener.onOtherMessage(command, payload);
-			}
+			this.handler.handle(command, payload, this.driver.listener);			
 		}
 	}
 
