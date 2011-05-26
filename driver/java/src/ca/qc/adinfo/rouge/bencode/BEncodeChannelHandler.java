@@ -34,20 +34,17 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 
 	private static Logger log = Logger.getLogger(BEncodeChannelHandler.class);
 
-	private RougeDriver driver;
-	private RougeHandler handler;
+	private RougeDriver driver;	
 
 	public BEncodeChannelHandler(RougeDriver driver) {
-		this.driver = driver;
-		this.handler = new RougeHandler();
+		this.driver = driver;		
 	}
 
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 
 		log.trace("Channel connected " + e.getChannel().getId());
-
-		driver.channel = e.getChannel();
+		
 		if (this.driver.listener != null) {
 			driver.listener.onConnect();
 		}
@@ -70,7 +67,7 @@ public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {
 			String command = resp.getString("command");
 			RougeObject payload = resp.getRougeObject("payload");
 
-			this.handler.handle(command, payload, this.driver.listener);			
+			this.driver.handle(command, payload);			
 		}
 	}
 

@@ -18,6 +18,7 @@ package ca.qc.adinfo.rouge;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
@@ -36,6 +37,7 @@ import ca.qc.adinfo.rouge.data.RougeLeaderboard;
 import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.data.RougeVariable;
+import ca.qc.adinfo.rouge.handler.LoginHandler;
 import ca.qc.adinfo.rouge.json.JSonChannelHandler;
 import ca.qc.adinfo.rouge.json.JSonPipelineFactory;
 import ca.qc.adinfo.rouge.json.JsonChannelWriter;
@@ -53,12 +55,14 @@ public class RougeDriver {
 	private SimpleChannelUpstreamHandler handler;
 
 	public RougeListener listener;
-	public Channel channel;
+	private Channel channel;
 	
-	public ChannelWriter channelWriter;
+	private ChannelWriter channelWriter;
 	
 	private boolean bEncode;
 
+	private HashMap<String, RougeHandler> handlers;
+	
 	public RougeDriver(String host, int port, RougeListener listener, boolean bEncode) {
 		super();
 		this.host = host;
@@ -83,6 +87,9 @@ public class RougeDriver {
 			bootstrap.setPipelineFactory(new JSonPipelineFactory(handler));	
 		}
 
+		this.handlers = new HashMap<String, RougeHandler>();
+		
+		this.handlers.put("login", new LoginHandler(this));
 	}
 
 	public void connect() throws RougeConnectionFailure {
@@ -249,7 +256,57 @@ public class RougeDriver {
 			log.trace("Sent " + command);			
 		}
 	}
+	
+	public void registerHandler(String key, RougeHandler handler) {
+		
+		synchronized (this.handlers) {
+			this.handlers.put(key, handler);
+		}		
+	}
 
+	public void handle(String command, RougeObject payload) {
+		
+		RougeHandler rougeHandler = null;
+		
+		try {
+			
+			if (payload.hasKey("ret")) {
+				boolean ret = payload.getBoolean("ret");
+				if (ret == false) {
+					if (this.listener != null) {
+						this.listener.onError(command, payload);
+					}
+				}			
+			}
+
+			synchronized (this.handlers) {
+				rougeHandler = this.handlers.get(command);
+			}
+
+			if (rougeHandler == null) {
+				if (this.listener != null) {
+					this.listener.onOtherMessage(command, payload);
+				}			
+			} else {
+				rougeHandler.handle(command, payload);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+				
+//		if (command.equals("login")) {
+//			rougeListener.onLogin();
+//		} else if(command.equals("user.create")) {
+//			rougeListener.onUserCreated(payload.getLong("id"));
+//		} else if(command.equals("im.msg")) {
+//			rougeListener.onIM(payload.getString("from"), payload.getString("msg"));
+//		}
+//		else {
+//			
+//		}		
+	}
 
 
 }
