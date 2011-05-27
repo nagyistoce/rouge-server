@@ -14,10 +14,10 @@ public class MsgUser extends RougeCommand {
 
 		UserManager userManager = (UserManager)RougeServer.getInstance().getModule("user.manager");
 
-		long targetId = data.getLong("target");
+		String target = data.getString("username");
 		String message = data.getString("msg");
 
-		User targetUser = userManager.getUserById(targetId);
+		User targetUser = userManager.getUser(target);
 
 		if (targetUser == null) {
 			

@@ -14,38 +14,46 @@
  * limitations under the License.
  */
 
-package ca.qc.adinfo.rouge.user.command;
-
-import org.apache.log4j.Logger;
+package ca.qc.adinfo.rouge.room.command;
 
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.command.RougeCommand;
+import ca.qc.adinfo.rouge.data.RougeArray;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.room.Room;
 import ca.qc.adinfo.rouge.room.RoomManager;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
 import ca.qc.adinfo.rouge.user.User;
-import ca.qc.adinfo.rouge.user.UserManager;
 
-public class Logoff extends RougeCommand {
+public class WhoIsInRoom extends RougeCommand {
 	
-	private static final Logger log = Logger.getLogger(Logoff.class);
-	
-	public Logoff() {
+	//private final static Logger log = Logger.getLogger(SayInRoom.class);
+
+	public WhoIsInRoom() {
 		
 	}
 
 	@Override
 	public void execute(RougeObject data, SessionContext session, User user) {
-		
-		UserManager userManager = (UserManager)RougeServer.getInstance().getModule("user.manager");
-		
-		userManager.unregisterUser(user);
-		
+
 		RoomManager roomManager = (RoomManager)RougeServer.getInstance().getModule("room.manager");
+		String roomName = data.getString("name");
 		
-		for(Room room: roomManager.getRooms()) {
-			room.removeFromRoom(user);
+		Room room = roomManager.getRoom(roomName);
+	
+		if (room != null) {
+			
+			RougeArray whois = new RougeArray();
+			
+			for(User userRoom: room.getPeopleInRoom()) {
+				whois.addString(userRoom.getUsername());
+			}
+			
+			sendSuccess(session);
+		} else {
+			sendFailure(session);
 		}
+
 	}
+
 }
