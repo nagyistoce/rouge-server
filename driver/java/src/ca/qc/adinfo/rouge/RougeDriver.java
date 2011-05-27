@@ -37,7 +37,15 @@ import ca.qc.adinfo.rouge.data.RougeLeaderboard;
 import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.data.RougeVariable;
+import ca.qc.adinfo.rouge.handler.CreateUserHandler;
+import ca.qc.adinfo.rouge.handler.ImMessageHandler;
 import ca.qc.adinfo.rouge.handler.LoginHandler;
+import ca.qc.adinfo.rouge.handler.RoomCreated;
+import ca.qc.adinfo.rouge.handler.RoomDestroyed;
+import ca.qc.adinfo.rouge.handler.RoomJoined;
+import ca.qc.adinfo.rouge.handler.RoomLeft;
+import ca.qc.adinfo.rouge.handler.RoomSaid;
+import ca.qc.adinfo.rouge.handler.RoomSay;
 import ca.qc.adinfo.rouge.json.JSonChannelHandler;
 import ca.qc.adinfo.rouge.json.JSonPipelineFactory;
 import ca.qc.adinfo.rouge.json.JsonChannelWriter;
@@ -90,6 +98,18 @@ public class RougeDriver {
 		this.handlers = new HashMap<String, RougeHandler>();
 		
 		this.handlers.put("login", new LoginHandler(this));
+		this.handlers.put("user.create", new CreateUserHandler(this));
+		this.handlers.put("im.recv", new ImMessageHandler(this));
+		
+		this.handlers.put("room.create", new RoomCreated(this));
+		this.handlers.put("room.delete", new RoomDestroyed(this));
+		this.handlers.put("room.join", new RoomJoined(this));
+		this.handlers.put("room.leave", new RoomLeft(this));
+		this.handlers.put("room.say", new RoomSay(this));
+		this.handlers.put("room.recv", new RoomSaid(this));
+		
+		
+		
 	}
 
 	public void connect() throws RougeConnectionFailure {
@@ -163,47 +183,43 @@ public class RougeDriver {
 		this.send("room.say", payload);
 	}
 	
-	public RougeVariable getVariable(String key) {
+	public void getVariable(String key) {
 		
-		return null;
+		RougeObject payload = new RougeObject();
+		payload.putString("key", key);
+		
+		this.send("var.get", payload);
 	}
 	
-	public void setVariable(String key, RougeVariable variable) {
+	public void setVariable(RougeVariable variable) {
+		
+		RougeObject payload = new RougeObject();
+		payload.putString("key", variable.getKey());
+		payload.putRougeObject("value", variable.getValue());
+		
+		this.send("var.set", payload);
 		
 	}
 	
-	public RougeVariable getPersistentVariable(String key) {
+	public void getPersistentVariable(String key) {
 		
-		return null;
+		RougeObject payload = new RougeObject();
+		payload.putString("key", key);
+		
+		this.send("pvar.get", payload);
 	}
 	
 	public void setPersistentVariable(String key, RougeVariable variable) {
 		
-	}
-	
-	public void addFriend(String username) {
+		RougeObject payload = new RougeObject();
+		payload.putString("key", variable.getKey());
+		payload.putRougeObject("value", variable.getValue());
+		payload.putLong("version", variable.getVersion());
 		
+		this.send("pvar.get", payload);
 	}
-	
-	public void removeFriend(String username) {
 		
-	}
-	
-	public Collection<RougeFriend> getFriendList() {
-		
-		return null;
-	}
-	
-	public String getFriendStatus(String username) {
-		
-		return null;
-	}
-	
-	public void sayToFriends(RougeObject message) {
-		
-	}
-	
-	public void sayToUser(String username, RougeObject message) {
+	public void imUser(String username, RougeObject message) {
 		
 	}
 	
@@ -293,19 +309,7 @@ public class RougeDriver {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-		}
-		
-				
-//		if (command.equals("login")) {
-//			rougeListener.onLogin();
-//		} else if(command.equals("user.create")) {
-//			rougeListener.onUserCreated(payload.getLong("id"));
-//		} else if(command.equals("im.msg")) {
-//			rougeListener.onIM(payload.getString("from"), payload.getString("msg"));
-//		}
-//		else {
-//			
-//		}		
+		}		
 	}
 
 

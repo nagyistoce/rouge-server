@@ -29,7 +29,7 @@ import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.data.RougeVariable;
 
-public class RougeTest implements RougeListener {
+public class RougeTest extends RougeListener {
 
 	private final static Logger log = Logger.getLogger(RougeTest.class);
 	
@@ -61,18 +61,34 @@ public class RougeTest implements RougeListener {
 		
 		System.out.println(command + " " + payload.toJSON().toString());
 		
-		if (command.equals("login")) {
-			
-			RougeObject newPayload = new RougeObject();
-			newPayload.putString("name", "testRoom");
-			this.driver.send("room.create", newPayload);
-			
-			
-			
-			newPayload.putString("message", "hello");
-			this.driver.send("room.say", newPayload);
-			
-		}
+	}
+	
+	@Override
+	public void onLogin() {
+		
+		
+		this.driver.joinRoom("testRoom");
+		RougeObject newPayload = new RougeObject();
+		newPayload.putString("name", "testRoom");
+		this.driver.send("room.create", newPayload);
+		
+		newPayload.putString("message", "hello");
+		this.driver.send("room.say", newPayload);
+	}
+	
+	@Override
+	public void onRoomJoined(String name) {
+		
+		RougeObject msg = new RougeObject();
+		msg.put("content", "hello!");
+		this.driver.sayInRoom("testRoom", msg);
+	}
+	
+	@Override
+	public void onRoomSay(String name, String from, RougeObject msg) {
+		
+		System.out.println(
+				"Received from room " + name + " : " + msg.toJSON().toString());
 	}
 
 	@Override
@@ -109,160 +125,5 @@ public class RougeTest implements RougeListener {
 
 	}
 
-	@Override
-	public void onRoomCreated(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomDestroyed(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomJoined(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomLeft(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomSaid(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomSay(String name, String from, RougeObject message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableGot(RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableSet(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableSubcribed(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableUnsubscribed(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableUpdated(String key, RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPersistentVariableGot(RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPersistentVariableSet(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onIM(String from, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSentMail() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetAllMail(Collection<RougeMail> mails) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetUnreadMail(Collection<RougeMail> mails) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onMailIsMarkedRead() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDeleteMail() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetLeaderboard(RougeLeaderboard leaderboard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetLeaderboards(Collection<RougeLeaderboard> leaderboard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSubmitScore(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGotAchievements(Collection<RougeAchievement> achievements) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUpdateAchivementProgress(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onLogin() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUserCreated(long id) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

@@ -18,7 +18,6 @@ package ca.qc.adinfo.rouge.bot;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Collection;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -26,13 +25,9 @@ import org.apache.log4j.Logger;
 import ca.qc.adinfo.rouge.RougeConnectionFailure;
 import ca.qc.adinfo.rouge.RougeDriver;
 import ca.qc.adinfo.rouge.RougeListener;
-import ca.qc.adinfo.rouge.data.RougeAchievement;
-import ca.qc.adinfo.rouge.data.RougeLeaderboard;
-import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.data.RougeVariable;
 
-public class RougeBot implements RougeListener, Runnable  {
+public class RougeBot extends RougeListener implements Runnable  {
 
 	private final static Logger log = Logger.getLogger(RougeTest.class);
 
@@ -154,162 +149,6 @@ public class RougeBot implements RougeListener, Runnable  {
 	public void onError(String command, RougeObject error) {
 		
 		log.error("Error on " + command + " " + error.toJSON().toString());
-		
-	}
-
-	@Override
-	public void onRoomCreated(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomDestroyed(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomJoined(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomLeft(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomSaid(String name) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onRoomSay(String name, String from, RougeObject message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableGot(RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableSet(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableSubcribed(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableUnsubscribed(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onVariableUpdated(String key, RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPersistentVariableGot(RougeVariable variable) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onPersistentVariableSet(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onIM(String from, String message) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSentMail() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetAllMail(Collection<RougeMail> mails) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetUnreadMail(Collection<RougeMail> mails) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onMailIsMarkedRead() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onDeleteMail() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetLeaderboard(RougeLeaderboard leaderboard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGetLeaderboards(Collection<RougeLeaderboard> leaderboard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSubmitScore(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGotAchievements(Collection<RougeAchievement> achievements) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUpdateAchivementProgress(String key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onLogin() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onUserCreated(long id) {
-		// TODO Auto-generated method stub
 		
 	}
 
