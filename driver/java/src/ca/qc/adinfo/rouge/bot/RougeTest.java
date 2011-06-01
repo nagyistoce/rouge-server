@@ -16,18 +16,12 @@
 
 package ca.qc.adinfo.rouge.bot;
 
-import java.util.Collection;
-
 import org.apache.log4j.Logger;
 
 import ca.qc.adinfo.rouge.RougeConnectionFailure;
 import ca.qc.adinfo.rouge.RougeDriver;
 import ca.qc.adinfo.rouge.RougeListener;
-import ca.qc.adinfo.rouge.data.RougeAchievement;
-import ca.qc.adinfo.rouge.data.RougeLeaderboard;
-import ca.qc.adinfo.rouge.data.RougeMail;
 import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.data.RougeVariable;
 
 public class RougeTest extends RougeListener {
 
@@ -57,38 +51,10 @@ public class RougeTest extends RougeListener {
 	}
 	
 	@Override
-	public void onOtherMessage(String command, RougeObject payload) {
+	public void onMessage(String command, RougeObject payload) {
 		
 		System.out.println(command + " " + payload.toJSON().toString());
 		
-	}
-	
-	@Override
-	public void onLogin() {
-		
-		
-		this.driver.joinRoom("testRoom");
-		RougeObject newPayload = new RougeObject();
-		newPayload.putString("name", "testRoom");
-		this.driver.send("room.create", newPayload);
-		
-		newPayload.putString("message", "hello");
-		this.driver.send("room.say", newPayload);
-	}
-	
-	@Override
-	public void onRoomJoined(String name) {
-		
-		RougeObject msg = new RougeObject();
-		msg.put("content", "hello!");
-		this.driver.sayInRoom("testRoom", msg);
-	}
-	
-	@Override
-	public void onRoomSay(String name, String from, RougeObject msg) {
-		
-		System.out.println(
-				"Received from room " + name + " : " + msg.toJSON().toString());
 	}
 
 	@Override
@@ -97,23 +63,25 @@ public class RougeTest extends RougeListener {
 		log.trace("Connected ...");
 		
 		RougeObject payload = new RougeObject();
-		payload.putString("username", "bob" + System.currentTimeMillis());
+		payload.putString("username", "bob");
 		payload.putString("password", "password");
 				
 		this.driver.send("login", payload);
+		
+		RougeObject newPayload = new RougeObject();
+		newPayload.putString("name", "testRoom");
+		this.driver.send("room.create", newPayload);
+		
+		newPayload.putString("message", "hello");
+		this.driver.send("room.say", newPayload);
+		
+		
 	}
 
 	@Override
 	public void onDisconnect() {
 		
 		log.debug("Disconnected ...");
-	}
-	
-	@Override
-	public void onError(String command, RougeObject error) {
-		
-		log.error("Error on " + command + " " + error.toJSON().toString());
-		
 	}
 
 	/**
@@ -124,6 +92,4 @@ public class RougeTest extends RougeListener {
 		 new RougeTest();
 
 	}
-
-	
 }

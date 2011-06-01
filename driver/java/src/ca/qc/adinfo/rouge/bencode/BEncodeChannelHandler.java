@@ -27,7 +27,6 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
 import ca.qc.adinfo.rouge.RougeDriver;
-import ca.qc.adinfo.rouge.RougeHandler;
 import ca.qc.adinfo.rouge.data.RougeObject;
 
 public class BEncodeChannelHandler extends SimpleChannelUpstreamHandler {

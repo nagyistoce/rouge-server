@@ -50,7 +50,7 @@ public class RougeBot extends RougeListener implements Runnable  {
 	}
 
 	@Override
-	public void onOtherMessage(String command, RougeObject payload) {
+	public void onMessage(String command, RougeObject payload) {
 
 		System.out.println(command + " " + payload.toJSON().toString());
 
@@ -144,14 +144,5 @@ public class RougeBot extends RougeListener implements Runnable  {
 		}
 
 	}
-
-	@Override
-	public void onError(String command, RougeObject error) {
-		
-		log.error("Error on " + command + " " + error.toJSON().toString());
-		
-	}
-
-
 
 }
