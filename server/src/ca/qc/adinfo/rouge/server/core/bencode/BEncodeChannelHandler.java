@@ -45,7 +45,7 @@ public class BEncodeChannelHandler extends ServerHandler {
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 
-		log.trace("Channel connected from " + e.getChannel().getRemoteAddress() + " is channel " + e.getChannel().getId());
+		log.debug("Channel connected from " + e.getChannel().getRemoteAddress() + " is channel " + e.getChannel().getId());
 		
 		SessionContext session = new SessionContext(e.getChannel(), new BEncodeChannelWriter(e.getChannel()));
 		
@@ -55,7 +55,7 @@ public class BEncodeChannelHandler extends ServerHandler {
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		
-		log.trace("Channel disconnected from " + e.getChannel().getRemoteAddress() + " is channel " + e.getChannel().getId());
+		log.debug("Channel disconnected from " + e.getChannel().getRemoteAddress() + " is channel " + e.getChannel().getId());
 		
 		this.onChannelDisconnected(e.getChannel());
 	}
@@ -63,7 +63,7 @@ public class BEncodeChannelHandler extends ServerHandler {
 	@Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
 		
-		log.trace("Received message from " + e.getChannel().getId());
+		log.debug("Received message from " + e.getChannel().getId());
 
 		try {
 			
@@ -72,15 +72,18 @@ public class BEncodeChannelHandler extends ServerHandler {
 			
 			ByteArrayInputStream in = new ByteArrayInputStream(bytes);
 			
-			System.out.println("Raw data is  " + new String(bytes));
-			
-			while(in.available() > 0) {
+			while(in.available() > 1) {
 
 				RougeObject resp = BDecoder.bDecode(in);
-				String command = resp.getString("command"); 
-				RougeObject payload = resp.getRougeObject("payload");
-
-				this.onMessageReceived(e.getChannel(), command, payload);
+				
+				if (resp.hasKey("command") | resp.hasKey("payload")) {
+					String command = resp.getString("command"); 
+					RougeObject payload = resp.getRougeObject("payload");
+					
+					this.onMessageReceived(e.getChannel(), command, payload);
+				} else {
+					log.error("Missing command or payload in " + new String(bytes));
+				}	
 			}
 			
 		} catch (Exception ex) {
