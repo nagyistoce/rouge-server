@@ -16,8 +16,6 @@
 
 package ca.qc.adinfo.rouge.user.command;
 
-import org.apache.log4j.Logger;
-
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.data.RougeObject;
@@ -29,7 +27,7 @@ import ca.qc.adinfo.rouge.user.UserManager;
 
 public class Logoff extends RougeCommand {
 	
-	private static final Logger log = Logger.getLogger(Logoff.class);
+	//private static final Logger log = Logger.getLogger(Logoff.class);
 	
 	public Logoff() {
 		

@@ -71,7 +71,7 @@ public abstract class ServerHandler extends SimpleChannelHandler {
     		log.debug("Received command " + command + " from anonymous connection.");
 
     		try {
-    			this.commandProcessor.processCommand(true, "login", payload, session, session.getUser());
+    			this.commandProcessor.processCommand(true, command, payload, session, session.getUser());
 
     		} catch(Exception e) {
     			log.error("Error executing anonymous command " + command + " : " + e);

@@ -1,20 +1,16 @@
 package ca.qc.adinfo.rouge.mail.db;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mortbay.log.Log;
 
-import ca.qc.adinfo.rouge.achievement.Achievement;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.db.DbTest;
 import ca.qc.adinfo.rouge.mail.Mail;
-import ca.qc.adinfo.rouge.mail.db.MailDb;
 import ca.qc.adinfo.rouge.user.User;
 
 public class MailDbTest extends DbTest {

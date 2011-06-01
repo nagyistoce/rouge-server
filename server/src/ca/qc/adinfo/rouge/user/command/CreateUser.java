@@ -23,7 +23,6 @@ import ca.qc.adinfo.rouge.command.RougeCommand;
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.core.SessionContext;
-import ca.qc.adinfo.rouge.user.InvalidLoginException;
 import ca.qc.adinfo.rouge.user.User;
 import ca.qc.adinfo.rouge.user.UserManager;
 import ca.qc.adinfo.rouge.user.db.UserDb;
@@ -31,8 +30,6 @@ import ca.qc.adinfo.rouge.user.db.UserDb;
 public class CreateUser extends RougeCommand {
 	
 	private static final Logger log = Logger.getLogger(CreateUser.class);
-
-	private static long count = 0;
 	
 	public CreateUser() {
 		

@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import ca.qc.adinfo.rouge.RougeServer;
 import ca.qc.adinfo.rouge.achievement.Achievement;
 import ca.qc.adinfo.rouge.achievement.db.AchievementDb;
-import ca.qc.adinfo.rouge.leaderboard.Leaderboard;
-import ca.qc.adinfo.rouge.leaderboard.Score;
-import ca.qc.adinfo.rouge.leaderboard.db.LeaderboardDb;
 import ca.qc.adinfo.rouge.server.DBManager;
 import ca.qc.adinfo.rouge.server.servlet.RougeServerPage;
 

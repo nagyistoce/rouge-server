@@ -20,17 +20,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 
-import ca.qc.adinfo.rouge.data.RougeObject;
-import ca.qc.adinfo.rouge.mail.Mail;
 import ca.qc.adinfo.rouge.server.DBManager;
 
 public class SocialDb {

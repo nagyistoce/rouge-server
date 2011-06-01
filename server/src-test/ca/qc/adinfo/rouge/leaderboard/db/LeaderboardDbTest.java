@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.qc.adinfo.rouge.achievement.Achievement;
 import ca.qc.adinfo.rouge.db.DbTest;
 import ca.qc.adinfo.rouge.leaderboard.Leaderboard;
 import ca.qc.adinfo.rouge.leaderboard.Score;

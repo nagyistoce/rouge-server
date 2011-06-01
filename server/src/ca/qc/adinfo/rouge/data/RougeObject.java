@@ -17,7 +17,6 @@
 package ca.qc.adinfo.rouge.data;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -50,6 +49,10 @@ public class RougeObject {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean hasKey(String key) {
+		return this.content.containsKey(key);
 	}
 	
 	public int getInt(String key) {

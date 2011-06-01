@@ -31,8 +31,6 @@ import ca.qc.adinfo.rouge.user.db.UserDb;
 public class Login extends RougeCommand {
 	
 	private static final Logger log = Logger.getLogger(Login.class);
-
-	private static long count = 0;
 	
 	public Login() {
 		
@@ -43,6 +41,13 @@ public class Login extends RougeCommand {
 		
 		DBManager dbManager = RougeServer.getInstance().getDbManager();
 		UserManager userManager = (UserManager)RougeServer.getInstance().getModule("user.manager");
+		
+		if (!data.hasKey("username") || !data.hasKey("password")) {
+			log.error("Missing parameters");
+			
+			// Fail silent, don't bother giving an error
+			return;
+		}
 		
 		String username = data.getString("username");
 		String password = data.getString("password");
