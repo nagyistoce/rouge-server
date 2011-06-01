@@ -50,6 +50,8 @@
     <Compile Include="RougeListener.cs" />
     <Compile Include="RougeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BEncode.cs" />
+    <Compile Include="BEncodeException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
