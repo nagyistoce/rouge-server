@@ -32,6 +32,7 @@
 
 	<property name="driver.java" location="../driver-java"/>
 	<property name="driver.objc" location="../driver-objc"/>
+	<property name="driver.cs" location="../driver-cs"/>
 
 	<path id="classpath">
 		<fileset dir="${lib}" includes="**/*.jar"/>
@@ -179,6 +180,10 @@
 
 		<copy todir="${dist}/driver/objc">
 			<fileset dir="${driver.objc}/RougeDriver" includes="**/*"/>
+		</copy>
+		
+		<copy todir="${dist}/driver/cs">
+			<fileset dir="${driver.cs}" includes="**/*"/>
 		</copy>
 		
 		<chmod file="${dist}/*.sh" perm="700"/>
