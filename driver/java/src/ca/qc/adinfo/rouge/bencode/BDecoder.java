@@ -29,7 +29,7 @@ public class BDecoder {
 		
 		Object o = bDecodeSomething(bytes);
 		
-		return (RougeObject)o;	
+		return (RougeObject)o;
 	}
 	
 	private static Object bDecodeSomething(ByteArrayInputStream bytes) {
