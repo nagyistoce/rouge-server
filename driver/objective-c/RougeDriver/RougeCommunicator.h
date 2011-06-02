@@ -20,15 +20,17 @@
 
 @class RougeObject;
 
-@protocol MsgHandler
+@protocol RougeListener
 
-- (void) handleMessage:(NSString *)command withPayLoad:(RougeObject *)RougeObject;
+- (void) onConnect;
+- (void) onDisconnect;
+- (void) onMessage:(NSString *)command withPayLoad:(RougeObject *)RougeObject;
 
 @end
 
 @interface RougeCommunicator : NSObject <NSStreamDelegate> {
 	
-	id<MsgHandler> msgHandler;
+	id<RougeListener> listener;
     
     NSString *host;
     int port;
@@ -49,7 +51,7 @@
 @property(nonatomic, retain) NSString *host;
 @property(nonatomic) int port;
 
-@property(nonatomic, retain) id<MsgHandler> msgHandler;
+@property(nonatomic, retain) id<RougeListener> listener;
 @property(nonatomic) unsigned long socketLoad;
 
 @property(nonatomic) bool bEncode;

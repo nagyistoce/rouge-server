@@ -26,7 +26,7 @@
 @synthesize host;
 @synthesize port;
 
-@synthesize msgHandler;
+@synthesize listener;
 @synthesize socketLoad;
 
 @synthesize bEncode;
@@ -68,8 +68,6 @@
 	[inputStream retain];
 	[outputStream retain];
 	
-	[self open]; 
-	
 	outputIdle=NO;
 }
 
@@ -82,6 +80,8 @@
 	[outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 	[inputStream open];
 	[outputStream open];
+    
+    [listener onConnect];
 }
 
 - (void) close{
@@ -96,6 +96,8 @@
 	[outputStream release];
 	inputStream = nil;
 	outputStream = nil;
+    
+    [listener onDisconnect];
 }
 
 - (void) writeToOutput:(NSString*)s {
@@ -122,19 +124,22 @@
     [toSend setObject:[RougeObject toDictionary]  forKey:@"payload"];
     
     if (bEncode) {
-        NSData* bEncodeData = [BEncoding encodedDataFromObject:toSend];
+        
+        NSData* bEncodeData = [BEncoding encodeObject:toSend];
         NSString *bEncodeString = [[NSString alloc] initWithData:bEncodeData encoding:NSASCIIStringEncoding];
         
-        //NSLog(@"%@", bEncodeString);
+        //NSLog(@"Sending %@", bEncodeString);
         
         [msgStack addObject:bEncodeString];
     } else {
         NSString *jsonData = [[CJSONSerializer serializer] serializeDictionary:toSend];
         jsonData = [jsonData stringByAppendingString:@"|\n"];
+        
+        //NSLog(@"json is %@", jsonData);
 	
         [msgStack addObject:jsonData];
     }
-    //NSLog(@"json is %@", jsonData);
+    
 	//NSLog(@"Message '%@' added, size of msgStack is %i",jsonData, [msgStack count]);
 	
 	[self tellAboutNewOutMsg];
@@ -162,18 +167,23 @@
             
             NSData* dataConverted =[fromNetwork dataUsingEncoding:NSASCIIStringEncoding];
             
-            NSDictionary *dictionary = [BEncoding objectFromEncodedData:dataConverted];
+            NSArray *array = [BEncoding decodeObject:dataConverted];
             
-            command = [dictionary valueForKey:@"command"];
-            [payload addNSDictionary:[dictionary valueForKey:@"payload"]];
+            for (id item in array) {
+                NSDictionary *dictionary = (NSDictionary *)item;
+                
+                command = [dictionary valueForKey:@"command"];
+                [payload addNSDictionary:[dictionary valueForKey:@"payload"]];
+                
+                //NSLog(@"Received command %@ %@" , command, error);
+                
+                [listener onMessage:command withPayLoad:payload];
+                
+            }
             
             [msgBuffer release];
             msgBuffer = [[NSMutableString alloc] init];
             [msgBuffer retain];
-
-            NSLog(@"Received command %@ %@" , command, error);
-            
-            [msgHandler handleMessage:command withPayLoad:payload];
             
         } else {
             
@@ -198,7 +208,7 @@
                 
                 NSLog(@"Received command %@ %@" , command, error);
                 
-                [msgHandler handleMessage:command withPayLoad:payload];
+                [listener onMessage:command withPayLoad:payload];
             }
             
             [msgBuffer release];

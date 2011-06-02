@@ -21,14 +21,14 @@
 
 
 
-- (id) initWithHandler:(id<MsgHandler>)msgHandler {
+- (id) initWithHandler:(id<RougeListener>)listener {
     
     self = [super init];
     if (self) {
         
         communicator = [[RougeCommunicator alloc] init];
         [communicator retain];
-        [communicator setMsgHandler:msgHandler];
+        [communicator setListener:listener];
     }
     
     return self;
@@ -49,59 +49,9 @@
     [communicator close];
 }
 
-- (void) login:(NSString *)username withPassword:(NSString *)password {
-    
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:username withKey:@"username"];
-    [rougeObject putString:password withKey:@"password"];
-    
-    [communicator send:@"login" withPayLoad:rougeObject];
-    
-}
-
-- (void) createRoom:(NSString *)name {
-    
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:name withKey:@"name"];
-    
-    [communicator send:@"room.create" withPayLoad:rougeObject];
-    
-}
-
-- (void) joinRoom:(NSString *)name {
-    
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:name withKey:@"name"];
-    
-    [communicator send:@"room.join" withPayLoad:rougeObject];
-    
-}
-
-- (void) leaveRoom:(NSString *)name {
-
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:name withKey:@"name"];
-    
-    [communicator send:@"room.leave" withPayLoad:rougeObject];
-    
-}
-
-- (void) destroyRoom:(NSString *)name {
-    
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:name withKey:@"name"];
-    
-    [communicator send:@"room.destroy" withPayLoad:rougeObject];
-    
-}
-
-- (void) sayInRoom:(NSString *)name withMessage:(RougeObject *)message {
-    
-    RougeObject* rougeObject = [[RougeObject alloc] init];
-    [rougeObject putString:name withKey:@"name"];
-    [rougeObject putRougeObject:message withKey:@"message"];
-    
-    [communicator send:@"room.say" withPayLoad:rougeObject];
+- (void) send:(NSString *)command withPayLoad:(RougeObject *)payload {
+        
+    [communicator send:command withPayLoad:payload];
 }
 
 - (unsigned long) getLoad {

@@ -22,25 +22,42 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    RougeDriver *driver = [[RougeDriver alloc] initWithHandler:self];
-    [driver connect:@"localhost" toPort:6611 withBEncoding:false];
-    [driver login:@"objective-c" withPassword:@"password"];
+    driver = [[RougeDriver alloc] initWithHandler:self];
     
-    [driver joinRoom:@"main"];
-    
-    RougeObject *obj = [[RougeObject alloc] init];
-    [obj retain];
-    [obj putString:@"message" withKey:@"hello!"];
-    
-    [driver sayInRoom:@"main" withMessage:obj];
-    
-    [obj release];
+    [driver connect:@"localhost" toPort:6612 withBEncoding:true];
     
 }
 
-- (void) handleMessage:(NSString *)command withPayLoad:(RougeObject *)RougeObject {
+
+- (void) onConnect {
+                    
+    NSLog(@"On Connect");
     
-    NSLog(@"Message received! %@ %i", command, [RougeObject getBoolean:@"ret"]);
+    RougeObject *payload = [[RougeObject alloc] init]; 
+    [payload putString:@"bob" withKey:@"username"];
+    [payload putString:@"password" withKey:@"password"];
+    
+    [driver send:@"login" withPayLoad:payload];
+    
+    payload = [[RougeObject alloc] init]; 
+    [payload putString:@"main" withKey:@"name"];
+    
+    [driver send:@"room.create" withPayLoad:payload];
+    
+    [payload putString:@"message" withKey:@"hello!"];
+    
+    [driver send:@"room.say" withPayLoad:payload];   
+}
+                    
+- (void) onDisconnect {
+
+    NSLog(@"On Disconnect");
+}
+                    
+
+- (void) onMessage:(NSString *)command withPayLoad:(RougeObject *)rougeObject {
+    
+    NSLog(@"Message received! %@ %@", command,  [rougeObject toDictionary]);
 }
 
 @end

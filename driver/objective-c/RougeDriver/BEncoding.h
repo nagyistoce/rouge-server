@@ -14,9 +14,21 @@
  * limitations under the License.
  */
 
+#import "BData.h"
+
 @interface BEncoding : NSObject { }
 
-+(NSData *)encodedDataFromObject:(id)object;
-+(id)objectFromEncodedData:(NSData *)sourceData;
++(NSData *)encodeObject:(NSDictionary *)dict;
++(NSArray *)decodeObject:(NSData *)sourceData;
+
++ (NSNumber *)bdecodeInt:(BData *)bData withSeperator:(char)seperator;
++ (NSNumber *)bdecodeInt:(BData *)bData;
++ (NSString *) bdecodeString:(BData *)bData;
++ (NSArray *) bdecodeArray:(BData *)bData;
++ (NSDictionary *) bdecodeDict:(BData *)bData;
++ (NSObject *)bdecode:(BData *) bData;
+
++(void)bencode:(NSObject *)obj toBuffer:(NSMutableString *)buffer;
+
 
 @end

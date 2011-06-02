@@ -25,18 +25,12 @@
     
 }
 
-- (id) initWithHandler:(id<MsgHandler>)msgHandler;
+- (id) initWithHandler:(id<RougeListener>)listener;
 
 - (void) connect:(NSString *)host toPort:(int)port withBEncoding:(bool)useBEncode;
 - (void) disconnect;
 
-- (void) login:(NSString *)username withPassword:(NSString *)password;
-
-- (void) createRoom:(NSString *)name;
-- (void) joinRoom:(NSString *)name;
-- (void) leaveRoom:(NSString *)name;
-- (void) destroyRoom:(NSString *)name;
-- (void) sayInRoom:(NSString *)name withMessage:(RougeObject *)message;
+- (void) send:(NSString *)command withPayLoad:(RougeObject *)payload;
 
 - (unsigned long) getLoad;
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE4E34E11397211D005506B5 /* BData.m in Sources */ = {isa = PBXBuildFile; fileRef = DE4E34E01397211D005506B5 /* BData.m */; };
 		DED8D1F6137A341B0099C98B /* RougeArray.m in Sources */ = {isa = PBXBuildFile; fileRef = DED8D1ED137A341B0099C98B /* RougeArray.m */; };
 		DED8D1F7137A341B0099C98B /* RougeCommunicator.m in Sources */ = {isa = PBXBuildFile; fileRef = DED8D1EF137A341B0099C98B /* RougeCommunicator.m */; };
 		DED8D1F8137A341B0099C98B /* RougeDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = DED8D1F1137A341B0099C98B /* RougeDriver.m */; };
@@ -30,15 +31,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DED8D1EC137A341B0099C98B /* RougeArray.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RougeArray.h; sourceTree = "<group>"; };
+		DE4E34DF1397211D005506B5 /* BData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BData.h; path = RougeDriver/BData.h; sourceTree = SOURCE_ROOT; };
+		DE4E34E01397211D005506B5 /* BData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BData.m; path = RougeDriver/BData.m; sourceTree = SOURCE_ROOT; };
+		DED8D1EC137A341B0099C98B /* RougeArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeArray.h; sourceTree = "<group>"; };
 		DED8D1ED137A341B0099C98B /* RougeArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeArray.m; sourceTree = "<group>"; };
-		DED8D1EE137A341B0099C98B /* RougeCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RougeCommunicator.h; sourceTree = "<group>"; };
+		DED8D1EE137A341B0099C98B /* RougeCommunicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeCommunicator.h; sourceTree = "<group>"; };
 		DED8D1EF137A341B0099C98B /* RougeCommunicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeCommunicator.m; sourceTree = "<group>"; };
-		DED8D1F0137A341B0099C98B /* RougeDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RougeDriver.h; sourceTree = "<group>"; };
+		DED8D1F0137A341B0099C98B /* RougeDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeDriver.h; sourceTree = "<group>"; };
 		DED8D1F1137A341B0099C98B /* RougeDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeDriver.m; sourceTree = "<group>"; };
-		DED8D1F2137A341B0099C98B /* RougeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RougeObject.h; sourceTree = "<group>"; };
+		DED8D1F2137A341B0099C98B /* RougeObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeObject.h; sourceTree = "<group>"; };
 		DED8D1F3137A341B0099C98B /* RougeObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeObject.m; sourceTree = "<group>"; };
-		DED8D1F4137A341B0099C98B /* RougeDataWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RougeDataWrapper.h; sourceTree = "<group>"; };
+		DED8D1F4137A341B0099C98B /* RougeDataWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RougeDataWrapper.h; sourceTree = "<group>"; };
 		DED8D1F5137A341B0099C98B /* RougeDataWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RougeDataWrapper.m; sourceTree = "<group>"; };
 		DED8D1FC137A34A90099C98B /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
 		DED8D1FD137A34A90099C98B /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				DED8D1F5137A341B0099C98B /* RougeDataWrapper.m */,
 				DED8D216137A34EB0099C98B /* BEncoding.h */,
 				DED8D217137A34EB0099C98B /* BEncoding.m */,
+				DE4E34DF1397211D005506B5 /* BData.h */,
+				DE4E34E01397211D005506B5 /* BData.m */,
 			);
 			name = Driver;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				DED8D214137A34A90099C98B /* CJSONScanner.m in Sources */,
 				DED8D215137A34A90099C98B /* CJSONSerializer.m in Sources */,
 				DED8D218137A34EB0099C98B /* BEncoding.m in Sources */,
+				DE4E34E11397211D005506B5 /* BData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

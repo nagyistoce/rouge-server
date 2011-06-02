@@ -17,9 +17,10 @@
 #import <Cocoa/Cocoa.h>
 #import "RougeDriver.h"
 
-@interface RougeDriverAppDelegate : NSObject <NSApplicationDelegate, MsgHandler> {
+@interface RougeDriverAppDelegate : NSObject <NSApplicationDelegate, RougeListener> {
 @private
     NSWindow *window;
+    RougeDriver* driver;
 }
 
 @property (assign) IBOutlet NSWindow *window;
