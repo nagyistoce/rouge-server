@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 
 import ca.qc.adinfo.rouge.server.DBManager;
@@ -22,6 +23,9 @@ public class ServerDb {
 	
 	public void updateServerInfo(String instance, String game, String hostname, int load) {
 		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		
 		String sql = "INSERT INTO rouge_servers " +
 				"(instance, game, hostname, current_load) " +
 				"VALUES (?,?,?,?) ON DUPLICATE KEY " +
@@ -29,8 +33,8 @@ public class ServerDb {
 		
 		
 		try {
-			Connection connection = dbManager.getConnection();
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			connection = dbManager.getConnection();
+			stmt = connection.prepareStatement(sql);
 			
 			stmt.setString(1, instance);
 			stmt.setString(2, game);
@@ -47,6 +51,10 @@ public class ServerDb {
  		} catch(SQLException e) {
  			
  			log.error("Could not update server info. " + e.getMessage());
+ 		} finally {
+ 			
+ 			DbUtils.closeQuietly(stmt);
+ 			DbUtils.closeQuietly(connection);
  		}
 		
 	}
