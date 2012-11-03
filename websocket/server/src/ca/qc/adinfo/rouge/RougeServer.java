@@ -152,6 +152,11 @@ public class RougeServer {
 			}
 		});
 
+		if (jarFiles == null) {
+			log.error("Extension directory not found");
+			return;
+		}
+		
 		for(File jarFile: jarFiles) {
 			log.debug("Loading jar file: " + jarFile.getAbsoluteFile());
 			JarLoader.loadJar(jarFile);
@@ -168,6 +173,11 @@ public class RougeServer {
 
 				String commandClass = props.getProperty("command." + commandName.trim());
 
+				if (commandClass == null) {
+					log.error("No command class found for command." + commandName.trim());
+					continue;
+				}
+				
 				try {
 					Class<?> cls = Class.forName(commandClass);
 					RougeCommand command = (RougeCommand) cls.newInstance();

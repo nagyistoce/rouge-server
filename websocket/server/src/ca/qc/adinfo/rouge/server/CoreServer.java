@@ -37,6 +37,8 @@ import ca.qc.adinfo.rouge.server.core.SessionManager;
 import ca.qc.adinfo.rouge.server.core.bencode.BEncodeChannelHandler;
 import ca.qc.adinfo.rouge.server.core.json.JsonChannelHandler;
 import ca.qc.adinfo.rouge.server.core.json.JsonPipelineFactory;
+import ca.qc.adinfo.rouge.server.core.websocket.WebSocketChannelHandler;
+import ca.qc.adinfo.rouge.server.core.websocket.WebSocketPipelineFactory;
 
 public class CoreServer {
 
@@ -52,6 +54,7 @@ public class CoreServer {
 	private ChannelFactory factory;
 	private Channel channelJSon;
 	private Channel channelBinary;
+	private Channel channelWebSocket;
 
 	public CoreServer(Properties properties, RougeCommandProcessor commandProcessor, SessionManager sessionManager) {
 
@@ -71,11 +74,15 @@ public class CoreServer {
 				.get("server.core.json.enabled"));
 		boolean binaryServerEnabled = Boolean.parseBoolean((String)this.properties
 				.get("server.core.binary.enabled"));
+		boolean webSocketServerEnabled = Boolean.parseBoolean((String)this.properties
+				.get("server.core.websocket.enabled"));
 
 		int jsonServerPort = Integer.parseInt((String)this.properties
 				.get("server.core.json.port"));
 		int binaryServerPort = Integer.parseInt((String)this.properties
 				.get("server.core.binary.port"));
+		int webSocketServerPort = Integer.parseInt((String)this.properties
+				.get("server.core.websocket.port"));
 
 		if (jsonServerEnabled) {
 			log.info("Starting JSon Listener on port " + jsonServerPort);
@@ -113,6 +120,23 @@ public class CoreServer {
 
 			allChannels.add(channelBinary);
 
+		}
+		
+		if (webSocketServerEnabled) {
+			log.info("Starting WebSocket Listener on port " + webSocketServerPort);
+			ServerBootstrap bootstrap = new ServerBootstrap(factory);
+
+			WebSocketChannelHandler handler = new WebSocketChannelHandler(
+					commandProcessor, sessionManager);
+			
+			bootstrap.setPipelineFactory(new WebSocketPipelineFactory(handler));
+			
+			bootstrap.setOption("child.tcpNoDelay", true);
+			bootstrap.setOption("child.keepAlive", true);
+			
+			channelWebSocket = bootstrap.bind(new InetSocketAddress(webSocketServerPort));
+
+			allChannels.add(channelWebSocket);
 		}
 	}
 

@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="lib/apache/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-6.1.26.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/servlet-api-2.5-20081211.jar"/>
-	<classpathentry kind="lib" path="lib/netty/netty-3.2.4.Final.jar"/>
 	<classpathentry kind="lib" path="lib/sigar/sigar.jar"/>
 	<classpathentry kind="lib" path="lib/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="lib/json-lib-2.4-jdk15.jar"/>
@@ -30,5 +29,6 @@
 	<classpathentry kind="lib" path="lib/jetty/jsp-2.1-glassfish-2.1.v20091210.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/core-3.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/netty/netty-3.5.9.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

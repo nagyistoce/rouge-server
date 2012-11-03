@@ -42,9 +42,9 @@ public class DashboardPage extends RougeServerPage {
 
 		this.endBox(out);
 		
-		out.println("<br/><br/>");
+		out.println("<div class=\"row\">");
 		
-		out.println("<div class=\"span-12\">\n");
+		out.println("<div class=\"span6\">\n");
 		
 		out.println("<h4>CPU Usage</h4>");
 		
@@ -52,7 +52,7 @@ public class DashboardPage extends RougeServerPage {
 		out.println("<div id=\"cpugraphlegend\" style=\"width:400px;height:100px;\"></div>");
 		
 		out.println("</div>");
-		out.println("<div class=\"span-12 last\">\n");
+		out.println("<div class=\"span6\">\n");
 		
 		out.println("<h4>Network Usage</h4>");
 		
@@ -60,7 +60,7 @@ public class DashboardPage extends RougeServerPage {
 		out.println("<div id=\"netgraphlegend\" style=\"width:400px;height:100px;\"></div>");
 		
 		out.println("</div>");
-
+		
 		out.println("<script type=\"text/javascript\">");
 		out.println("$(function () {");
 		out.println(plotResourceData());		    

@@ -1,73 +1,91 @@
 <!DOCTYPE html>
-<!--
-   Copyright [2011] [ADInfo, Alexandre Denault]
-  
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-  
-     http://www.apache.org/licenses/LICENSE-2.0
-  
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
- -->
-<html>
-	<head>
-		<title>
-			Rouge Server
-		</title>
-		<link rel="stylesheet" href="/css/screen.css" type="text/css" />
-		<link rel="stylesheet" href="/css/ie.css" type="text/css" />
-		<link rel="stylesheet" href="/css/BenevolentDictator.css" type="text/css" />
-		<link rel="stylesheet" href="/css/nova.css" type="text/css" />
-		<script src="/css/jquery-1.4.2.min.js">
-		</script>
-	</head>
-	<body>
-		<div class="container" id="BodyContainer">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign in &middot; Twitter Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-			<hr class="h100" />
+    <!-- Le styles -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
 
-			<div class="span-24 last">
+      .form-signin {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+      .form-signin .form-signin-heading,
+      .form-signin .checkbox {
+        margin-bottom: 10px;
+      }
+      .form-signin input[type="text"],
+      .form-signin input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
 
-				<div class="prepend-8 span-8 append-8">
+    </style>
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
 
-					<h1>Rouge Server</h1>
-					
-					<form action="/secure" method="POST">
-					<div class="Section">
-						<div class="SectionHeading">Administration</div>
-						<div class="SectionContent">
-	
-							<dl>
-								<dt>
-									<label>Username:</label>
-								</dt>
-								<dd>
-									<input type="text" name="username">
-									</dd>
-									<dt>
-										<label>Password:</label>
-									</dt>
-									<dd>
-										<input type="password" name="password">
-										</dd>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-										<dt>
-										</dt>
-										<dd>
-											<button>Submit</button>
-										</dd>
-									</dl>
-								</div>
-							</div>
-						</div>
-						</form>
-					</div>
-				</div>
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+  </head>
 
-			</body>
-		</html>
+  <body>
+
+    <div class="container">
+
+      <form class="form-signin" action="/secure" method="POST">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" class="input-block-level" placeholder="Email address" name="username">
+        <input type="password" class="input-block-level" placeholder="Password" name="password">
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap-transition.js"></script>
+    <script src="/js/bootstrap-alert.js"></script>
+    <script src="/js/bootstrap-modal.js"></script>
+    <script src="/js/bootstrap-dropdown.js"></script>
+    <script src="/js/bootstrap-scrollspy.js"></script>
+    <script src="/js/bootstrap-tab.js"></script>
+    <script src="/js/bootstrap-tooltip.js"></script>
+    <script src="/js/bootstrap-popover.js"></script>
+    <script src="/js/bootstrap-button.js"></script>
+    <script src="/js/bootstrap-collapse.js"></script>
+    <script src="/js/bootstrap-carousel.js"></script>
+    <script src="/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>

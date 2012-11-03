@@ -30,10 +30,6 @@
 	<property name="build.extension" location="build-extension"/>
 	<property name="dist"  location="dist"/>
 
-	<property name="driver.java" location="../driver-java"/>
-	<property name="driver.objc" location="../driver-objc"/>
-	<property name="driver.cs" location="../driver-cs"/>
-
 	<path id="classpath">
 		<fileset dir="${lib}" includes="**/*.jar"/>
 	</path>
@@ -136,9 +132,6 @@
 
 		<mkdir dir="${dist}/conf"/>
 		<mkdir dir="${dist}/extension"/>
-		<mkdir dir="${dist}/driver"/>
-		<mkdir dir="${dist}/driver/java"/>
-		<mkdir dir="${dist}/driver/objc"/>
 		<mkdir dir="${dist}/licenses"/>
 		<mkdir dir="${dist}/scripts"/>
 		<mkdir dir="${dist}/webapp"/>
@@ -172,18 +165,6 @@
 		<copy todir="${dist}/lib">
 			<flattenmapper />
 			<fileset dir="${lib}" includes="**/*"/>
-		</copy>
-
-		<copy todir="${dist}/driver/java">
-			<fileset dir="${driver.java}/dist" includes="**/*"/>
-		</copy>
-
-		<copy todir="${dist}/driver/objc">
-			<fileset dir="${driver.objc}/RougeDriver" includes="**/*"/>
-		</copy>
-		
-		<copy todir="${dist}/driver/cs">
-			<fileset dir="${driver.cs}" includes="**/*"/>
 		</copy>
 		
 		<chmod file="${dist}/*.sh" perm="700"/>

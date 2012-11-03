@@ -26,14 +26,12 @@ public abstract class RougePage {
 		
 		StringBuffer stringBuffer = new StringBuffer();
 	
-		stringBuffer.append("<div class=\"span-24 last\">\n");
-		stringBuffer.append("<div class=\"Section\">\n");
+		stringBuffer.append("<div class=\"row\">\n");
+		stringBuffer.append("<div class=\"span12\">\n");
 	
-		stringBuffer.append("<div class=\"SectionHeading\">\n");
+		stringBuffer.append("<h1>\n");
 		stringBuffer.append(header);
-		stringBuffer.append("</div>\n");
-	
-		stringBuffer.append("<div class=\"SectionContent\">\n");
+		stringBuffer.append("</h1>\n");
 	
 		out.println(stringBuffer.toString());
 	}
@@ -42,7 +40,6 @@ public abstract class RougePage {
 	
 		StringBuffer stringBuffer = new StringBuffer();
 	
-		stringBuffer.append("</div>\n");
 		stringBuffer.append("</div>\n");
 		stringBuffer.append("</div>\n");
 	
