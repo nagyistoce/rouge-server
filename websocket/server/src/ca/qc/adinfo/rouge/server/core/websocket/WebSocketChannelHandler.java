@@ -143,21 +143,10 @@ public class WebSocketChannelHandler extends ServerHandler {
 
 		// Send the demo page and favicon.ico
 		if (req.getUri().equals("/")) {
-			HttpResponse res = new DefaultHttpResponse(HTTP_1_1, OK);
 
-			ChannelBuffer content = WebSocketServerIndexPage
-					.getContent(getWebSocketLocation(req));
-
-			res.setHeader(CONTENT_TYPE, "text/html; charset=UTF-8");
-			setContentLength(res, content.readableBytes());
-
-			res.setContent(content);
+			HttpResponse res = new DefaultHttpResponse(HTTP_1_1, NOT_FOUND);
 			sendHttpResponse(ctx, req, res);
 			return;
-			
-			/*HttpResponse res = new DefaultHttpResponse(HTTP_1_1, NOT_FOUND);
-			sendHttpResponse(ctx, req, res);
-			return;*/
 			
 		} else if (req.getUri().equals("/favicon.ico")) {
 			HttpResponse res = new DefaultHttpResponse(HTTP_1_1, NOT_FOUND);
@@ -190,11 +179,8 @@ public class WebSocketChannelHandler extends ServerHandler {
 		}
 
 		String request = ((TextWebSocketFrame) frame).getText();
-		byte[] bytes = request.getBytes();
-		//int connectionId = ctx.getChannel().getId();
-		
-		String message = new String(bytes);
-		JSONObject jsonObject = JSONObject.fromObject(message);
+
+		JSONObject jsonObject = JSONObject.fromObject(request);
 		String command = jsonObject.getString("command");
 		RougeObject payload = new RougeObject(jsonObject.getJSONObject("payload"));
 
@@ -207,8 +193,8 @@ public class WebSocketChannelHandler extends ServerHandler {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
 
-		log.error("Caught exception " + e.getCause().getMessage());
-
+		log.error("Caught exception", e.getCause());
+			
 		this.onExceptionCaught(e.getChannel(), e.getCause());
 	}
 

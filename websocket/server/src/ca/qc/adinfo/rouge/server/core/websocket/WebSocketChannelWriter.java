@@ -20,6 +20,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
+import org.jboss.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 import ca.qc.adinfo.rouge.data.RougeObject;
 import ca.qc.adinfo.rouge.server.core.ChannelWriter;
@@ -41,7 +42,9 @@ public class WebSocketChannelWriter implements ChannelWriter {
 			jsonObj.put("command", command);
 			jsonObj.put("payload", payload.toJSON());
 
-			//channel.write(jsonObj.toString() + "|\n");
+			channel.write(new TextWebSocketFrame(jsonObj.toString()));
+			
+			
 			
 			log.trace("Sent " + jsonObj.toString());					
 	}
