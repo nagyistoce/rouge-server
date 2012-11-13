@@ -65,7 +65,8 @@ public class RougeCommandProcessor {
 				log.debug("Executing command: " + key);
 				command.execute(data, session, user);
 			} catch(Exception e) {
-				log.error("Error processing command: " + e.getClass());
+				log.error("Error processing command: " + key, e);				
+				
 				//e.printStackTrace();
 			}
 		} else {
