@@ -16,6 +16,8 @@
 
 package ca.qc.adinfo.rouge.server;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.mortbay.jetty.Server;
@@ -29,6 +31,7 @@ public class WebServer {
 	public WebServer(Properties properties) {
 		
 		this.properties = properties;
+		
 	}
 	
 	public void start() {
@@ -39,15 +42,10 @@ public class WebServer {
 		int port = Integer.parseInt(this.properties.getProperty("server.web.port"));
 		
 		server = new Server(port);
-
-		// for localhost:port/admin/index.html and whatever else is in the webapp directory
-		server.setHandler(new WebAppContext(WEBAPPDIR, "/"));
-
-		// for localhost:port/servlets/cust, etc.
-		//final Context context = new Context(server, "/servlets", Context.SESSIONS);
-		//context.addServlet(new ServletHolder(new CustomerServlet(whatever)), "/cust");
-		//context.addServlet(new ServletHolder(new UserServlet(whatever)), "/user");
-
+		
+		WebAppContext webAppContext = new WebAppContext(WEBAPPDIR, "/");
+		server.setHandler(webAppContext);
+	
 		try {
 			server.start();
 		} catch (Exception e) {
